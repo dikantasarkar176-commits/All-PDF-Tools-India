@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redact PDF | Remove Sensitive Information Securely | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(44, 62, 80, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .redact-badge {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .preview-card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        
+        .option-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .option-card.selected {
+            border-color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+        
+        .redaction-animation {
+            animation: redaction 2s ease-in-out infinite;
+        }
+        
+        @keyframes redaction {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+        
+        .redacted-area {
+            background-color: #000;
+            color: transparent;
+            user-select: none;
+            cursor: not-allowed;
+        }
+        
+        .redaction-tool {
+            width: 100%;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .redaction-tool:hover {
+            transform: translateY(-2px);
+        }
+        
+        .redaction-tool.selected {
+            border: 2px solid #2c3e50;
+        }
+        
+        .page-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .page-indicator.active {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+        
+        .page-indicator.has-redactions {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .document-preview {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .redaction-overlay {
+            position: absolute;
+            background-color: black;
+            cursor: move;
+        }
+        
+        .sensitive-info {
+            background-color: #ffebee;
+            border-left: 4px solid #e74c3c;
+            padding: 12px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-eye-slash text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Redact PDF</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-300 transition">Home</a>
+                    <a href="#" class="hover:text-gray-300 transition">Tools</a>
+                    <a href="#" class="hover:text-gray-300 transition">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Securely Redact Sensitive Information</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Permanently remove confidential data from PDF documents with our secure redaction tool.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-gray-800 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-100 transition">Redact Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-gray-800 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- PDF Redaction Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Redact Your PDF</h3>
+                        <span class="ml-3 redact-badge text-white text-xs font-semibold py-1 px-3 rounded-full">Secure</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop your PDF file here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf">
+                            <p class="text-gray-500 text-sm mt-4">Maximum file size: 50MB</p>
+                        </div>
+                        <div id="fileInfo" class="hidden mt-4 bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileName">confidential-document.pdf</p>
+                                        <p class="text-sm text-gray-500" id="fileSize">3.2 MB • <span id="pageCount">8 pages</span></p>
+                                    </div>
+                                </div>
+                                <button id="removeFile" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Redaction Tools -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Redaction Tools</h4>
+                        
+                        <!-- Tool Selection -->
+                        <div class="mb-6">
+                            <h5 class="font-medium mb-3">Redaction Method</h5>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div class="redaction-tool bg-gray-100 border border-gray-200 selected" data-tool="rectangle">
+                                    <div class="text-center">
+                                        <div class="w-6 h-6 bg-black mx-auto mb-1"></div>
+                                        <p class="text-xs font-medium">Rectangle</p>
+                                    </div>
+                                </div>
+                                <div class="redaction-tool bg-gray-100 border border-gray-200" data-tool="text">
+                                    <div class="text-center">
+                                        <div class="text-sm font-bold mx-auto mb-1">T</div>
+                                        <p class="text-xs font-medium">Text</p>
+                                    </div>
+                                </div>
+                                <div class="redaction-tool bg-gray-100 border border-gray-200" data-tool="freehand">
+                                    <div class="text-center">
+                                        <i class="fas fa-pencil-alt mx-auto mb-1"></i>
+                                        <p class="text-xs font-medium">Freehand</p>
+                                    </div>
+                                </div>
+                                <div class="redaction-tool bg-gray-100 border border-gray-200" data-tool="auto">
+                                    <div class="text-center">
+                                        <i class="fas fa-robot mx-auto mb-1"></i>
+                                        <p class="text-xs font-medium">Auto-Detect</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Redaction Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-medium mb-3">Redaction Style</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="radio" name="redactionStyle" id="black-box" class="text-gray-800 focus:ring-gray-500" checked>
+                                        <label for="black-box" class="ml-2 text-gray-700">Black Box</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="redactionStyle" id="white-box" class="text-gray-800 focus:ring-gray-500">
+                                        <label for="white-box" class="ml-2 text-gray-700">White Box</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="redactionStyle" id="custom-color" class="text-gray-800 focus:ring-gray-500">
+                                        <label for="custom-color" class="ml-2 text-gray-700">Custom Color</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-medium mb-3">Security Options</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="permanent-redaction" class="rounded border-gray-300 text-gray-800 shadow-sm focus:border-gray-300 focus:ring focus:ring-gray-200 focus:ring-opacity-50" checked>
+                                        <label for="permanent-redaction" class="ml-2 text-gray-700">Permanent redaction</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="remove-metadata" class="rounded border-gray-300 text-gray-800 shadow-sm focus:border-gray-300 focus:ring focus:ring-gray-200 focus:ring-opacity-50" checked>
+                                        <label for="remove-metadata" class="ml-2 text-gray-700">Remove metadata</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="secure-deletion" class="rounded border-gray-300 text-gray-800 shadow-sm focus:border-gray-300 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                                        <label for="secure-deletion" class="ml-2 text-gray-700">Secure deletion</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Preview -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Document Preview</h4>
+                        
+                        <!-- Page Navigation -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="font-medium">Page Navigation</h5>
+                            <div class="flex space-x-1">
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-sm text-gray-600 mx-2">Page 1 of 8</span>
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Page Indicators -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <div class="page-indicator active">1</div>
+                            <div class="page-indicator">2</div>
+                            <div class="page-indicator has-redactions">3</div>
+                            <div class="page-indicator">4</div>
+                            <div class="page-indicator">5</div>
+                            <div class="page-indicator has-redactions">6</div>
+                            <div class="page-indicator">7</div>
+                            <div class="page-indicator">8</div>
+                        </div>
+                        
+                        <!-- Document Content -->
+                        <div class="document-preview">
+                            <div class="sensitive-info">
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                                    <span class="font-medium">Sensitive information detected</span>
+                                </div>
+                                <p class="text-sm">This document contains confidential data that should be reviewed for redaction.</p>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold mb-4">Confidential Report</h3>
+                            
+                            <div class="mb-4">
+                                <h4 class="font-bold mb-2">Personal Information</h4>
+                                <p>Name: <span class="redacted-area">Johnathan Smith</span></p>
+                                <p>SSN: <span class="redacted-area">123-45-6789</span></p>
+                                <p>Date of Birth: <span class="redacted-area">05/15/1985</span></p>
+                                <p>Address: <span class="redacted-area">123 Main Street, Anytown, USA</span></p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h4 class="font-bold mb-2">Financial Information</h4>
+                                <p>Bank Account: <span class="redacted-area">XXXX-XXXX-XXXX-1234</span></p>
+                                <p>Credit Card: <span class="redacted-area">XXXX-XXXX-XXXX-5678</span></p>
+                                <p>Salary: <span class="redacted-area">$85,000</span></p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold mb-2">Medical Information</h4>
+                                <p>Medical Record #: <span class="redacted-area">MR-987654</span></p>
+                                <p>Diagnosis: <span class="redacted-area">Hypertension</span></p>
+                                <p>Treatment: <span class="redacted-area">Medication and lifestyle changes</span></p>
+                            </div>
+                            
+                            <!-- Redaction overlays would be positioned here in a real implementation -->
+                            <div class="redaction-overlay" style="top: 180px; left: 80px; width: 200px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 200px; left: 80px; width: 150px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 220px; left: 130px; width: 120px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 240px; left: 80px; width: 250px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 320px; left: 140px; width: 200px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 340px; left: 120px; width: 180px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 360px; left: 160px; width: 100px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 440px; left: 160px; width: 150px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 460px; left: 110px; width: 200px; height: 20px;"></div>
+                            <div class="redaction-overlay" style="top: 480px; left: 120px; width: 220px; height: 20px;"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="text-sm text-gray-600">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Click and drag to create redaction areas
+                            </div>
+                            <button class="text-sm text-red-600 font-medium hover:text-red-800">
+                                <i class="fas fa-trash-alt mr-1"></i>Clear All Redactions
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="redactBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-eye-slash mr-2"></i>Apply Redactions
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">Redaction Complete!</h4>
+                        <p class="text-gray-600 mb-4">Your PDF has been securely redacted. Sensitive information has been permanently removed.</p>
+                        <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg mb-4">
+                            <i class="fas fa-download mr-2"></i>Download Redacted PDF
+                        </button>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-shield-alt text-green-500 mr-2"></i>8 pages processed • 10 redactions applied • Metadata removed</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our PDF Redaction Tool?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Secure Redaction</h4>
+                            <p class="text-gray-600">Permanently remove sensitive data with secure, non-recoverable redaction technology.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Privacy Protection</h4>
+                            <p class="text-gray-600">Ensure compliance with privacy regulations by removing personal identifiers.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Easy to Use</h4>
+                            <p class="text-gray-600">Intuitive tools make it simple to identify and redact sensitive information quickly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How Redaction Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-gray-800 text-white rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload your PDF containing sensitive information</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-gray-800 text-white rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Use redaction tools to mark sensitive content</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-gray-800 text-white rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Apply redactions to permanently remove the content</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-gray-800 text-white rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Download your securely redacted PDF document</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Common Redaction Types -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Redaction Types</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-user text-gray-800 mr-2 mt-1"></i>
+                            <span>Personal Identifiers (Names, SSNs)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-credit-card text-gray-800 mr-2 mt-1"></i>
+                            <span>Financial Information</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-stethoscope text-gray-800 mr-2 mt-1"></i>
+                            <span>Medical Records</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-gavel text-gray-800 mr-2 mt-1"></i>
+                            <span>Legal Case Details</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-building text-gray-800 mr-2 mt-1"></i>
+                            <span>Proprietary Business Information</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-eye-slash text-2xl"></i>
+                        <h2 class="text-2xl font-bold">Redact PDF</h2>
+                    </div>
+                    <p class="text-gray-300">Securing your sensitive information with precision</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-300">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-gray-300 mt-2">© 2023 Redact PDF. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const pageCount = document.getElementById('pageCount');
+            const removeFile = document.getElementById('removeFile');
+            const redactBtn = document.getElementById('redactBtn');
+            const downloadSection = document.getElementById('downloadSection');
+            const redactionTools = document.querySelectorAll('.redaction-tool');
+            
+            // State variables
+            let selectedTool = 'rectangle';
+            let totalPages = 8;
+            
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.type === 'application/pdf') {
+                        fileName.textContent = file.name;
+                        fileSize.textContent = formatFileSize(file.size);
+                        
+                        // Simulate page count extraction
+                        totalPages = Math.min(Math.max(1, Math.floor(file.size / 50000)), 50);
+                        pageCount.textContent = `${totalPages} pages`;
+                        
+                        fileInfo.classList.remove('hidden');
+                        updateRedactButton();
+                    } else {
+                        alert('Please upload a PDF file.');
+                    }
+                }
+            }
+            
+            removeFile.addEventListener('click', function() {
+                fileInfo.classList.add('hidden');
+                fileInput.value = '';
+                updateRedactButton();
+            });
+            
+            // Redaction tool selection
+            redactionTools.forEach(tool => {
+                tool.addEventListener('click', function() {
+                    selectedTool = this.dataset.tool;
+                    
+                    // Update UI
+                    redactionTools.forEach(t => {
+                        t.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Update redact button state
+            function updateRedactButton() {
+                const hasFile = !fileInfo.classList.contains('hidden');
+                redactBtn.disabled = !hasFile;
+            }
+            
+            // Redact button click
+            redactBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show progress section
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Applying Redactions...';
+                    this.disabled = true;
+                    
+                    // Simulate redaction process
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        this.innerHTML = '<i class="fas fa-eye-slash mr-2"></i>Apply Redactions';
+                        this.disabled = false;
+                        
+                        // Scroll to download section
+                        downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                }
+            });
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>
