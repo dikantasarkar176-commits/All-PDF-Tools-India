@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop PDF | Resize & Adjust PDF Pages | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #8e44ad;
+            background-color: #f8f7ff;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(142, 68, 173, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #7d3c98 0%, #2980b9 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .crop-badge {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .preview-card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        
+        .option-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .option-card.selected {
+            border-color: #8e44ad;
+            background-color: #f8f7ff;
+        }
+        
+        .crop-animation {
+            animation: crop 2s ease-in-out infinite;
+        }
+        
+        @keyframes crop {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+        
+        .crop-area {
+            position: relative;
+            border: 2px dashed #8e44ad;
+            background-color: rgba(142, 68, 173, 0.1);
+            cursor: move;
+        }
+        
+        .crop-handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #8e44ad;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+        
+        .crop-handle.top-left {
+            top: -6px;
+            left: -6px;
+            cursor: nw-resize;
+        }
+        
+        .crop-handle.top-right {
+            top: -6px;
+            right: -6px;
+            cursor: ne-resize;
+        }
+        
+        .crop-handle.bottom-left {
+            bottom: -6px;
+            left: -6px;
+            cursor: sw-resize;
+        }
+        
+        .crop-handle.bottom-right {
+            bottom: -6px;
+            right: -6px;
+            cursor: se-resize;
+        }
+        
+        .page-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .page-indicator.active {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            color: white;
+        }
+        
+        .page-indicator.cropped {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .document-preview {
+            height: 400px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            position: relative;
+        }
+        
+        .margin-control {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            position: relative;
+        }
+        
+        .margin-thumb {
+            width: 16px;
+            height: 16px;
+            background: #8e44ad;
+            border-radius: 50%;
+            position: absolute;
+            top: -5px;
+            cursor: pointer;
+        }
+        
+        .preset-option {
+            transition: all 0.3s ease;
+        }
+        
+        .preset-option:hover {
+            transform: translateY(-2px);
+        }
+        
+        .preset-option.selected {
+            border-color: #8e44ad;
+            background-color: #f8f7ff;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-crop-alt text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Crop PDF</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-purple-200 transition">Home</a>
+                    <a href="#" class="hover:text-purple-200 transition">Tools</a>
+                    <a href="#" class="hover:text-purple-200 transition">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Crop PDF Pages with Precision</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Remove unwanted margins, resize pages, and focus on important content with our easy-to-use PDF cropper.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-purple-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-purple-50 transition">Crop Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-purple-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- PDF Cropping Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Crop Your PDF</h3>
+                        <span class="ml-3 crop-badge text-white text-xs font-semibold py-1 px-3 rounded-full">Precision Tools</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop your PDF file here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf">
+                            <p class="text-gray-500 text-sm mt-4">Maximum file size: 50MB</p>
+                        </div>
+                        <div id="fileInfo" class="hidden mt-4 bg-purple-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileName">document.pdf</p>
+                                        <p class="text-sm text-gray-500" id="fileSize">2.8 MB • <span id="pageCount">12 pages</span></p>
+                                    </div>
+                                </div>
+                                <button id="removeFile" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cropping Tools -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Cropping Tools</h4>
+                        
+                        <!-- Tool Selection -->
+                        <div class="mb-6">
+                            <h5 class="font-medium mb-3">Crop Method</h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected" data-method="visual">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-crop-alt"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Visual Crop</p>
+                                    <p class="text-xs text-gray-600">Drag to select area</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-method="margins">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-border-style"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Margin Control</p>
+                                    <p class="text-xs text-gray-600">Set precise margins</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-method="preset">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-th-large"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Preset Sizes</p>
+                                    <p class="text-xs text-gray-600">Standard page sizes</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Visual Crop Area -->
+                        <div id="visualCropSection" class="mb-6">
+                            <h5 class="font-medium mb-3">Visual Crop Area</h5>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-600 mb-3">Drag the handles to adjust the crop area. The area inside the dashed border will be kept.</p>
+                                <div class="document-preview mx-auto relative bg-gradient-to-br from-gray-100 to-gray-200" style="max-width: 400px;">
+                                    <!-- Document content -->
+                                    <div class="absolute inset-4 bg-white p-4 rounded shadow-sm">
+                                        <h4 class="font-bold mb-2">Sample Document</h4>
+                                        <p class="text-sm mb-2">This is the content of your PDF document. The area inside the crop box will be preserved.</p>
+                                        <p class="text-sm">You can adjust the crop area using the handles on the corners.</p>
+                                    </div>
+                                    
+                                    <!-- Crop area -->
+                                    <div class="crop-area" style="top: 40px; left: 40px; width: 320px; height: 320px;">
+                                        <div class="crop-handle top-left"></div>
+                                        <div class="crop-handle top-right"></div>
+                                        <div class="crop-handle bottom-left"></div>
+                                        <div class="crop-handle bottom-right"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Margin Controls -->
+                        <div id="marginControlSection" class="hidden mb-6">
+                            <h5 class="font-medium mb-3">Margin Controls</h5>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Top Margin</label>
+                                    <div class="margin-control">
+                                        <div class="margin-thumb" style="left: 20%;"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>0px</span>
+                                        <span>50px</span>
+                                        <span>100px</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Right Margin</label>
+                                    <div class="margin-control">
+                                        <div class="margin-thumb" style="left: 15%;"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>0px</span>
+                                        <span>50px</span>
+                                        <span>100px</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Bottom Margin</label>
+                                    <div class="margin-control">
+                                        <div class="margin-thumb" style="left: 25%;"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>0px</span>
+                                        <span>50px</span>
+                                        <span>100px</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Left Margin</label>
+                                    <div class="margin-control">
+                                        <div class="margin-thumb" style="left: 10%;"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>0px</span>
+                                        <span>50px</span>
+                                        <span>100px</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preset Sizes -->
+                        <div id="presetSection" class="hidden mb-6">
+                            <h5 class="font-medium mb-3">Preset Page Sizes</h5>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div class="preset-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-preset="letter">
+                                    <div class="text-lg font-bold mb-1">US Letter</div>
+                                    <p class="text-xs text-gray-600">8.5" × 11"</p>
+                                </div>
+                                <div class="preset-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-preset="a4">
+                                    <div class="text-lg font-bold mb-1">A4</div>
+                                    <p class="text-xs text-gray-600">210 × 297mm</p>
+                                </div>
+                                <div class="preset-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-preset="legal">
+                                    <div class="text-lg font-bold mb-1">Legal</div>
+                                    <p class="text-xs text-gray-600">8.5" × 14"</p>
+                                </div>
+                                <div class="preset-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected" data-preset="custom">
+                                    <div class="text-lg font-bold mb-1">Custom</div>
+                                    <p class="text-xs text-gray-600">Your dimensions</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-medium mb-3">Crop Options</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="apply-all" class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50" checked>
+                                        <label for="apply-all" class="ml-2 text-gray-700">Apply to all pages</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="maintain-ratio" class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50" checked>
+                                        <label for="maintain-ratio" class="ml-2 text-gray-700">Maintain aspect ratio</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="remove-whitespace" class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50">
+                                        <label for="remove-whitespace" class="ml-2 text-gray-700">Auto-remove whitespace</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-medium mb-3">Page Range</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="radio" name="pageRange" id="all-pages" class="text-purple-600 focus:ring-purple-500" checked>
+                                        <label for="all-pages" class="ml-2 text-gray-700">All pages</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="pageRange" id="current-page" class="text-purple-600 focus:ring-purple-500">
+                                        <label for="current-page" class="ml-2 text-gray-700">Current page only</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="pageRange" id="custom-range" class="text-purple-600 focus:ring-purple-500">
+                                        <label for="custom-range" class="ml-2 text-gray-700">Custom range</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Page Navigation -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Page Navigation</h4>
+                        
+                        <!-- Page Indicators -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <div class="page-indicator active">1</div>
+                            <div class="page-indicator">2</div>
+                            <div class="page-indicator">3</div>
+                            <div class="page-indicator">4</div>
+                            <div class="page-indicator">5</div>
+                            <div class="page-indicator">6</div>
+                            <div class="page-indicator">7</div>
+                            <div class="page-indicator">8</div>
+                            <div class="page-indicator">9</div>
+                            <div class="page-indicator">10</div>
+                            <div class="page-indicator">11</div>
+                            <div class="page-indicator">12</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-gray-600">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Page 1 of 12
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="cropBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-crop-alt mr-2"></i>Crop PDF
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">PDF Cropped Successfully!</h4>
+                        <p class="text-gray-600 mb-4">Your PDF has been cropped according to your specifications. Click below to download.</p>
+                        <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg mb-4">
+                            <i class="fas fa-download mr-2"></i>Download Cropped PDF
+                        </button>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-file-pdf text-green-500 mr-2"></i>12 pages processed • Margins adjusted • File size reduced by 15%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our PDF Cropping Tool?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-crop"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Precision Cropping</h4>
+                            <p class="text-gray-600">Remove unwanted margins and focus on important content with pixel-perfect accuracy.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-expand-alt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Multiple Methods</h4>
+                            <p class="text-gray-600">Choose from visual cropping, margin controls, or preset page sizes for different needs.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-file-export"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Batch Processing</h4>
+                            <p class="text-gray-600">Apply the same crop settings to multiple pages or the entire document with one click.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How PDF Cropping Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload your PDF file that needs cropping</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Choose your preferred cropping method and adjust the crop area</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Preview the result and apply to selected pages</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Download your perfectly cropped PDF document</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Use Cases</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-scanner text-purple-500 mr-2 mt-1"></i>
+                            <span>Removing scanner borders from digitized documents</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-mobile-alt text-purple-500 mr-2 mt-1"></i>
+                            <span>Optimizing PDFs for mobile viewing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-print text-purple-500 mr-2 mt-1"></i>
+                            <span>Preparing documents for printing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file-image text-purple-500 mr-2 mt-1"></i>
+                            <span>Focusing on specific content in presentations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file-contract text-purple-500 mr-2 mt-1"></i>
+                            <span>Removing headers/footers from legal documents</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-crop-alt text-2xl"></i>
+                        <h2 class="text-2xl font-bold">Crop PDF</h2>
+                    </div>
+                    <p class="text-purple-200">Perfecting your documents with precision cropping</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-purple-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-purple-200 mt-2">© 2023 Crop PDF. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const pageCount = document.getElementById('pageCount');
+            const removeFile = document.getElementById('removeFile');
+            const cropBtn = document.getElementById('cropBtn');
+            const downloadSection = document.getElementById('downloadSection');
+            const optionCards = document.querySelectorAll('.option-card');
+            const visualCropSection = document.getElementById('visualCropSection');
+            const marginControlSection = document.getElementById('marginControlSection');
+            const presetSection = document.getElementById('presetSection');
+            const presetOptions = document.querySelectorAll('.preset-option');
+            
+            // State variables
+            let selectedMethod = 'visual';
+            let totalPages = 12;
+            
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.type === 'application/pdf') {
+                        fileName.textContent = file.name;
+                        fileSize.textContent = formatFileSize(file.size);
+                        
+                        // Simulate page count extraction
+                        totalPages = Math.min(Math.max(1, Math.floor(file.size / 50000)), 50);
+                        pageCount.textContent = `${totalPages} pages`;
+                        
+                        fileInfo.classList.remove('hidden');
+                        updateCropButton();
+                    } else {
+                        alert('Please upload a PDF file.');
+                    }
+                }
+            }
+            
+            removeFile.addEventListener('click', function() {
+                fileInfo.classList.add('hidden');
+                fileInput.value = '';
+                updateCropButton();
+            });
+            
+            // Crop method selection
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    selectedMethod = this.dataset.method;
+                    
+                    // Update UI
+                    optionCards.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    
+                    // Show/hide relevant sections
+                    visualCropSection.classList.add('hidden');
+                    marginControlSection.classList.add('hidden');
+                    presetSection.classList.add('hidden');
+                    
+                    if (selectedMethod === 'visual') {
+                        visualCropSection.classList.remove('hidden');
+                    } else if (selectedMethod === 'margins') {
+                        marginControlSection.classList.remove('hidden');
+                    } else if (selectedMethod === 'preset') {
+                        presetSection.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            // Preset selection
+            presetOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Update UI
+                    presetOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Update crop button state
+            function updateCropButton() {
+                const hasFile = !fileInfo.classList.contains('hidden');
+                cropBtn.disabled = !hasFile;
+            }
+            
+            // Crop button click
+            cropBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show progress section
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Cropping PDF...';
+                    this.disabled = true;
+                    
+                    // Simulate cropping process
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        this.innerHTML = '<i class="fas fa-crop-alt mr-2"></i>Crop PDF';
+                        this.disabled = false;
+                        
+                        // Scroll to download section
+                        downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                }
+            });
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>
