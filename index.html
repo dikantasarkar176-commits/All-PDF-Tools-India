@@ -6,6 +6,7 @@
     <meta name="description" content="Free online PDF tools - Merge, Split, Compress, Convert PDF and more. No registration required. Fast and secure processing.">
     <meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, PDF to Word, PDF to PowerPoint, PDF to Excel, Word to PDF, PDF to JPG, edit PDF">
     <title>PDF Toolkit - Free Online PDF Tools | Merge, Split, Convert PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #2563eb;
@@ -154,9 +155,52 @@
             opacity: 0.9;
         }
         
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
+        }
+        
+        .tools-section {
+            margin: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             margin: 40px 0;
         }
@@ -172,6 +216,9 @@
             border: 1px solid rgba(226, 232, 240, 0.8);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         
         .tool-card::before {
@@ -212,135 +259,51 @@
         .tool-card p {
             color: var(--gray);
             font-size: 0.95rem;
+            flex-grow: 1;
         }
         
-        .main-content {
+        .tool-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .tool-link:hover {
+            color: var(--secondary);
+        }
+        
+        .features {
             display: flex;
+            justify-content: space-between;
             gap: 30px;
-            margin: 40px 0;
+            margin: 60px 0;
+            flex-wrap: wrap;
         }
         
-        .tool-interface {
-            flex: 1;
+        .feature-card {
             background-color: var(--card-bg);
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
             border: 1px solid rgba(226, 232, 240, 0.8);
         }
         
-        .tool-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-            font-weight: 700;
-        }
-        
-        .upload-area {
-            border: 2px dashed var(--light-gray);
-            border-radius: 12px;
-            padding: 50px 20px;
-            text-align: center;
-            margin-bottom: 25px;
-            transition: all 0.3s;
-            background-color: rgba(248, 250, 252, 0.5);
-        }
-        
-        .upload-area:hover {
-            border-color: var(--primary);
-            background-color: rgba(37, 99, 235, 0.05);
-        }
-        
-        .upload-area i {
-            font-size: 3.5rem;
+        .feature-icon {
+            font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 20px;
         }
         
-        .upload-area p {
-            margin-bottom: 20px;
-            color: var(--gray);
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
-        }
-        
-        .btn-secondary {
-            background: var(--light-gray);
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
             color: var(--dark);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .btn-secondary:hover {
-            background: #d1d5db;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .options {
-            margin: 25px 0;
-        }
-        
-        .option-group {
-            margin-bottom: 20px;
-        }
-        
-        .option-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        
-        .option-group select, .option-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            background-color: var(--light);
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .option-group select:focus, .option-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background-color: var(--light-gray);
-            border-radius: 5px;
-            margin: 25px 0;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            width: 0%;
-            transition: width 0.5s;
-            border-radius: 5px;
-        }
-        
-        .sidebar {
-            width: 300px;
         }
         
         .ad-container {
@@ -348,7 +311,7 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            margin-bottom: 20px;
+            margin: 40px 0;
             text-align: center;
             border: 1px solid rgba(226, 232, 240, 0.8);
         }
@@ -435,49 +398,7 @@
             font-size: 0.9rem;
         }
         
-        .file-list {
-            margin: 20px 0;
-        }
-        
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background-color: var(--light);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border: 1px solid var(--light-gray);
-        }
-        
-        .file-name {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .file-actions button {
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: color 0.3s;
-        }
-        
-        .file-actions button:hover {
-            color: var(--error);
-        }
-        
         @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-            }
-            
             .tools-grid {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
@@ -492,6 +413,10 @@
             
             .hero p {
                 font-size: 1.1rem;
+            }
+            
+            .features {
+                flex-direction: column;
             }
         }
         
@@ -549,252 +474,252 @@
     </section>
 
     <div class="container">
-        <div class="main-content">
-            <div class="tool-interface">
-                <h2 class="tool-title">Merge PDF</h2>
-                <p>Combine multiple PDF files into one document</p>
-                
-                <div class="upload-area" id="dropArea">
-                    <i>📄</i>
-                    <p>Drag & drop your PDF files here</p>
-                    <p>or</p>
-                    <button class="btn" id="browseBtn">Browse Files</button>
-                    <input type="file" id="fileInput" multiple accept=".pdf" style="display: none;">
-                </div>
-                
-                <div class="file-list" id="fileList">
-                    <!-- Files will be listed here -->
-                </div>
-                
-                <div class="options">
-                    <div class="option-group">
-                        <label for="compressionLevel">Compression Level</label>
-                        <select id="compressionLevel">
-                            <option value="low">Low (Best Quality)</option>
-                            <option value="medium" selected>Medium (Recommended)</option>
-                            <option value="high">High (Smallest Size)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label for="imageQuality">Image Quality Optimization</label>
-                        <select id="imageQuality">
-                            <option value="high">High Quality</option>
-                            <option value="medium" selected>Balanced</option>
-                            <option value="low">Maximum Compression</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="progress-bar">
-                    <div class="progress" id="progressBar"></div>
-                </div>
-                
-                <button class="btn" id="processBtn">Merge PDF Files</button>
-                <button class="btn btn-secondary" id="resetBtn">Reset</button>
-            </div>
-            
-            <div class="sidebar">
-                <div class="ad-container">
-                    <div class="ad-label">Advertisement</div>
-                    <div class="ad-placeholder">
-                        <!-- Google AdSense Ad Unit -->
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-4431035899447961"
-                             data-ad-slot="4471207019"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                             (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                </div>
-                
-                <div class="ad-container">
-                    <div class="ad-label">Advertisement</div>
-                    <div class="ad-placeholder">
-                        <!-- Additional Ad Space -->
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-format="fluid"
-                             data-ad-layout-key="-fb+5w+4e-db+86"
-                             data-ad-client="ca-pub-4431035899447961"
-                             data-ad-slot="4471207019"></ins>
-                        <script>
-                             (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                </div>
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <div class="ad-placeholder">
+                <!-- Google AdSense Ad Unit -->
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-4431035899447961"
+                     data-ad-slot="4471207019"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
         </div>
 
-        <section id="tools">
-            <h2 style="text-align: center; margin-bottom: 30px; font-size: 2.5rem; color: var(--dark);">All PDF Tools</h2>
+        <section class="tools-section" id="tools">
+            <h2 class="section-title">All PDF Tools</h2>
+            
             <div class="tools-grid">
-                <div class="tool-card" data-tool="merge">
-                    <div class="tool-icon">🔄</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-object-group"></i></div>
                     <h3>Merge PDF</h3>
-                    <p>Combine multiple PDFs into one</p>
+                    <p>Combine multiple PDFs into one document with ease</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="split">
-                    <div class="tool-icon">✂️</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-cut"></i></div>
                     <h3>Split PDF</h3>
-                    <p>Extract pages or split by ranges</p>
+                    <p>Extract pages or split PDF by page ranges</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="compress">
-                    <div class="tool-icon">📦</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-compress-alt"></i></div>
                     <h3>Compress PDF</h3>
-                    <p>Reduce file size while optimizing quality</p>
+                    <p>Reduce PDF file size while maintaining quality</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="pdf-to-word">
-                    <div class="tool-icon">📝</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-file-word"></i></div>
                     <h3>PDF to Word</h3>
                     <p>Convert PDF to editable Word document</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="pdf-to-ppt">
-                    <div class="tool-icon">📊</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-file-powerpoint"></i></div>
                     <h3>PDF to PowerPoint</h3>
                     <p>Convert PDF to editable presentation</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="pdf-to-excel">
-                    <div class="tool-icon">📈</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-file-excel"></i></div>
                     <h3>PDF to Excel</h3>
                     <p>Extract tables to editable spreadsheet</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="word-to-pdf">
-                    <div class="tool-icon">📄</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
                     <h3>Word to PDF</h3>
-                    <p>Convert Word documents to PDF</p>
+                    <p>Convert Word documents to PDF format</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="ppt-to-pdf">
-                    <div class="tool-icon">📋</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
                     <h3>PowerPoint to PDF</h3>
                     <p>Convert presentations to PDF</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="excel-to-pdf">
-                    <div class="tool-icon">📑</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
                     <h3>Excel to PDF</h3>
                     <p>Convert spreadsheets to PDF</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="pdf-to-jpg">
-                    <div class="tool-icon">🖼️</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-file-image"></i></div>
                     <h3>PDF to JPG</h3>
-                    <p>Convert PDF pages to images</p>
+                    <p>Convert PDF pages to high-quality images</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="edit-pdf">
-                    <div class="tool-icon">✏️</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-edit"></i></div>
                     <h3>Edit PDF</h3>
-                    <p>Add text, images, shapes to PDF</p>
+                    <p>Add text, images, shapes to your PDF</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="jpg-to-pdf">
-                    <div class="tool-icon">📸</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-images"></i></div>
                     <h3>JPG to PDF</h3>
-                    <p>Convert images to PDF documents</p>
+                    <p>Convert multiple images to PDF document</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="sign-pdf">
-                    <div class="tool-icon">🖋️</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-signature"></i></div>
                     <h3>Sign PDF</h3>
-                    <p>Add digital signatures to PDF</p>
+                    <p>Add digital signatures to PDF documents</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="watermark">
-                    <div class="tool-icon">💧</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-tint"></i></div>
                     <h3>Watermark</h3>
-                    <p>Add text or image watermarks</p>
+                    <p>Add text or image watermarks to PDF</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="rotate-pdf">
-                    <div class="tool-icon">🔄</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-redo"></i></div>
                     <h3>Rotate PDF</h3>
-                    <p>Rotate PDF pages as needed</p>
+                    <p>Rotate PDF pages in any direction</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="html-to-pdf">
-                    <div class="tool-icon">🌐</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-code"></i></div>
                     <h3>HTML to PDF</h3>
-                    <p>Convert web pages to PDF</p>
+                    <p>Convert web pages to PDF documents</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="unlock-pdf">
-                    <div class="tool-icon">🔓</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-unlock"></i></div>
                     <h3>Unlock PDF</h3>
-                    <p>Remove password protection</p>
+                    <p>Remove password protection from PDF</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="protect-pdf">
-                    <div class="tool-icon">🔒</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-lock"></i></div>
                     <h3>Protect PDF</h3>
-                    <p>Add password to PDF</p>
+                    <p>Add password to secure your PDF</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="organize-pdf">
-                    <div class="tool-icon">🗂️</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-folder-open"></i></div>
                     <h3>Organize PDF</h3>
                     <p>Reorder, delete, or rotate pages</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="pdf-to-pdfa">
-                    <div class="tool-icon">📋</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-archive"></i></div>
                     <h3>PDF to PDF/A</h3>
-                    <p>Convert to archival format</p>
+                    <p>Convert to archival PDF format</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="repair-pdf">
-                    <div class="tool-icon">🔧</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-tools"></i></div>
                     <h3>Repair PDF</h3>
                     <p>Fix corrupted PDF files</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="page-numbers">
-                    <div class="tool-icon">🔢</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-list-ol"></i></div>
                     <h3>Page Numbers</h3>
-                    <p>Add page numbers to PDF</p>
+                    <p>Add page numbers to PDF documents</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="scan-to-pdf">
-                    <div class="tool-icon">📷</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-scanner"></i></div>
                     <h3>Scan to PDF</h3>
-                    <p>Convert scanned documents</p>
+                    <p>Convert scanned documents to PDF</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="ocr-pdf">
-                    <div class="tool-icon">🔍</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-search"></i></div>
                     <h3>OCR PDF</h3>
                     <p>Extract text from scanned PDFs</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="compare-pdf">
-                    <div class="tool-icon">📊</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-columns"></i></div>
                     <h3>Compare PDF</h3>
-                    <p>Find differences between PDFs</p>
+                    <p>Find differences between two PDFs</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="redact-pdf">
-                    <div class="tool-icon">🚫</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-eye-slash"></i></div>
                     <h3>Redact PDF</h3>
-                    <p>Permanently remove sensitive info</p>
+                    <p>Permanently remove sensitive information</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
                 
-                <div class="tool-card" data-tool="crop-pdf">
-                    <div class="tool-icon">✂️</div>
+                <div class="tool-card">
+                    <div class="tool-icon"><i class="fas fa-crop"></i></div>
                     <h3>Crop PDF</h3>
                     <p>Adjust page margins and size</p>
+                    <a href="#" class="tool-link">Use Tool →</a>
                 </div>
+            </div>
+        </section>
+
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <div class="ad-placeholder">
+                <!-- Additional Ad Space -->
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-fb+5w+4e-db+86"
+                     data-ad-client="ca-pub-4431035899447961"
+                     data-ad-slot="4471207019"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Secure & Private</h3>
+                <p>All file processing happens in your browser. Your files never leave your computer.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Fast Processing</h3>
+                <p>Our tools work directly in your browser for lightning-fast processing.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-dollar-sign"></i></div>
+                <h3>Completely Free</h3>
+                <p>All our PDF tools are free to use with no hidden costs or subscriptions.</p>
             </div>
         </section>
     </div>
@@ -807,8 +732,8 @@
                     <p>Your all-in-one solution for PDF manipulation. Free, fast, and secure.</p>
                     <div class="contact-info">
                         <p><strong>CEO:</strong> Bikanta Sarkar</p>
-                        <p>📧 dikantasarkar176@gmail.com</p>
-                        <p>📞 +91 6001542020</p>
+                        <p><i class="fas fa-envelope"></i> dikantasarkar176@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> +91 6001542020</p>
                     </div>
                 </div>
                 
@@ -850,135 +775,49 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const fileInput = document.getElementById('fileInput');
-            const browseBtn = document.getElementById('browseBtn');
-            const dropArea = document.getElementById('dropArea');
-            const fileList = document.getElementById('fileList');
-            const processBtn = document.getElementById('processBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const progressBar = document.getElementById('progressBar');
-            const toolCards = document.querySelectorAll('.tool-card');
-            
-            let uploadedFiles = [];
-            
-            // Event listeners
-            browseBtn.addEventListener('click', () => fileInput.click());
-            
-            fileInput.addEventListener('change', handleFileSelect);
-            
-            dropArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropArea.style.borderColor = '#2563eb';
-                dropArea.style.backgroundColor = 'rgba(37, 99, 235, 0.1)';
-            });
-            
-            dropArea.addEventListener('dragleave', () => {
-                dropArea.style.borderColor = '#e2e8f0';
-                dropArea.style.backgroundColor = 'rgba(248, 250, 252, 0.5)';
-            });
-            
-            dropArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropArea.style.borderColor = '#e2e8f0';
-                dropArea.style.backgroundColor = 'rgba(248, 250, 252, 0.5)';
-                handleFiles(e.dataTransfer.files);
-            });
-            
-            processBtn.addEventListener('click', processFiles);
-            
-            resetBtn.addEventListener('click', resetTool);
-            
-            // Tool selection
-            toolCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const tool = this.getAttribute('data-tool');
-                    alert(`Selected tool: ${tool}. This would switch to the ${tool} interface in a full implementation.`);
-                    // In a real implementation, we would update the tool interface
-                    // based on the selected tool
-                });
-            });
-            
-            // Functions
-            function handleFileSelect(e) {
-                handleFiles(e.target.files);
-            }
-            
-            function handleFiles(files) {
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    if (file.type === 'application/pdf') {
-                        uploadedFiles.push(file);
-                        addFileToList(file);
-                    } else {
-                        alert('Please upload only PDF files.');
-                    }
-                }
-                
-                if (uploadedFiles.length > 0) {
-                    processBtn.disabled = false;
-                }
-            }
-            
-            function addFileToList(file) {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <div class="file-name">
-                        <span>📄</span>
-                        <span>${file.name}</span>
-                    </div>
-                    <div class="file-actions">
-                        <button class="remove-file" data-name="${file.name}">❌</button>
-                    </div>
-                `;
-                
-                fileList.appendChild(fileItem);
-                
-                // Add event listener to remove button
-                fileItem.querySelector('.remove-file').addEventListener('click', function() {
-                    const fileName = this.getAttribute('data-name');
-                    removeFile(fileName);
-                    fileItem.remove();
-                });
-            }
-            
-            function removeFile(fileName) {
-                uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
-                
-                if (uploadedFiles.length === 0) {
-                    processBtn.disabled = true;
-                }
-            }
-            
-            function processFiles() {
-                if (uploadedFiles.length === 0) {
-                    alert('Please upload at least one PDF file.');
-                    return;
-                }
-                
-                // Simulate processing
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 5;
-                    progressBar.style.width = `${progress}%`;
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
                     
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        setTimeout(() => {
-                            alert('PDF files merged successfully! In a real implementation, the merged file would be downloaded.');
-                            resetTool();
-                        }, 500);
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
                     }
-                }, 100);
-            }
+                });
+            });
             
-            function resetTool() {
-                uploadedFiles = [];
-                fileList.innerHTML = '';
-                progressBar.style.width = '0%';
-                fileInput.value = '';
-                processBtn.disabled = true;
-            }
+            // Add animation to tool cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Apply initial styles for animation
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // Initialize AdSense
+            (adsbygoogle = window.adsbygoogle || []).push({});
         });
     </script>
 </body>
