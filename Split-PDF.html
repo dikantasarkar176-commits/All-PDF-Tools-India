@@ -3,478 +3,819 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Split PDF | Extract Pages from PDF Files</title>
+    <title>Split PDF | Extract Pages from PDF Files | CEO Bikanta Sarkar</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#8b5cf6',
-                        secondary: '#7c3aed',
-                        accent: '#06b6d4',
-                        dark: '#1e293b',
-                        light: '#f8fafc'
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
         }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
         .drop-zone {
+            border: 2px dashed #cbd5e0;
             transition: all 0.3s ease;
         }
-        .drop-zone.dragover {
-            border-color: #8b5cf6;
-            background-color: #f5f3ff;
+        
+        .drop-zone.active {
+            border-color: #3498db;
+            background-color: #f0f9ff;
         }
-        .file-item {
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
             transition: all 0.3s ease;
         }
-        .file-item:hover {
+        
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 7px 14px rgba(52, 152, 219, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
         }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #2980b9 0%, #27ae60 100%);
+        }
+        
         .progress-bar {
-            transition: width 0.5s ease-in-out;
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
         }
-        .page-preview {
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .split-badge {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .page-thumbnail {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-        .page-preview:hover {
-            transform: scale(1.05);
+        
+        .page-thumbnail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
-        .page-preview.selected {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 0 2px #8b5cf6;
+        
+        .page-thumbnail.selected {
+            border: 2px solid #3498db;
         }
-        .split-option {
+        
+        .option-card {
             transition: all 0.3s ease;
         }
-        .split-option:hover {
-            background-color: #f5f3ff;
+        
+        .option-card:hover {
+            transform: scale(1.02);
         }
-        .split-option.active {
-            background-color: #ede9fe;
-            border-color: #8b5cf6;
+        
+        .option-card.selected {
+            border-color: #3498db;
+            background-color: #f0f9ff;
+        }
+        
+        .split-animation {
+            animation: split 2s ease-in-out infinite;
+        }
+        
+        @keyframes split {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+        
+        .page-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .page-indicator.active {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+            color: white;
+        }
+        
+        .page-indicator.selected {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+        }
+        
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .range-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .split-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .split-preview {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-purple-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-4">
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
-                        <i class="fas fa-file-pdf text-white text-lg"></i>
-                    </div>
-                    <h1 class="text-2xl font-bold text-dark">PDF Toolkit</h1>
+                    <i class="fas fa-cut text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Split PDF</h1>
                 </div>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Tools</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Pricing</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Help</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <button class="hidden md:block bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition duration-300">
-                        Sign In
-                    </button>
-                    <button class="md:hidden text-gray-600">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-blue-200 transition">Home</a>
+                    <a href="#" class="hover:text-blue-200 transition">Tools</a>
+                    <a href="#" class="hover:text-blue-200 transition">About</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- Hero Section -->
-        <section class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-dark mb-4">Split PDF Files</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Extract specific pages or split your PDF into multiple documents. Choose pages by range or select them individually.</p>
-        </section>
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Split PDF Files with Precision</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Extract specific pages or split large PDFs into multiple documents with our easy-to-use tool.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-50 transition">Split Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-blue-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
 
-        <!-- Tool Interface -->
-        <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div class="p-6 md:p-8">
-                <!-- Upload Area -->
-                <div id="dropZone" class="drop-zone border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer transition duration-300 hover:border-primary hover:bg-purple-50">
-                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Drag & Drop PDF File</h3>
-                    <p class="text-gray-500 mb-4">or click to browse your files</p>
-                    <button id="browseBtn" class="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-lg font-medium transition duration-300">
-                        Select File
-                    </button>
-                    <input type="file" id="fileInput" class="hidden" accept=".pdf">
-                </div>
-
-                <!-- File Info -->
-                <div id="fileInfo" class="mt-6 hidden">
-                    <div class="flex items-center justify-between bg-purple-50 p-4 rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
-                            <div>
-                                <h3 class="font-semibold text-gray-800" id="fileName">document.pdf</h3>
-                                <p class="text-sm text-gray-600" id="fileSize">0 KB • <span id="pageCount">0 pages</span></p>
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- PDF Splitting Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Split Your PDF</h3>
+                        <span class="ml-3 split-badge text-white text-xs font-semibold py-1 px-3 rounded-full">Multiple Methods</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop your PDF file here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf">
+                            <p class="text-gray-500 text-sm mt-4">Maximum file size: 50MB</p>
+                        </div>
+                        <div id="fileInfo" class="hidden mt-4 bg-blue-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileName">document.pdf</p>
+                                        <p class="text-sm text-gray-500" id="fileSize">3.2 MB • <span id="pageCount">12 pages</span></p>
+                                    </div>
+                                </div>
+                                <button id="removeFile" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
                         </div>
-                        <button id="changeFile" class="text-primary hover:text-secondary font-medium">
-                            Change File
-                        </button>
                     </div>
-                </div>
-
-                <!-- Split Options -->
-                <div id="splitOptions" class="mt-8 hidden">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Split Options</h3>
                     
-                    <!-- Option Selector -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="split-option border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-option="range">
-                            <i class="fas fa-sliders-h text-2xl text-primary mb-2"></i>
-                            <h4 class="font-medium text-gray-800">Split by Range</h4>
-                            <p class="text-sm text-gray-600 mt-1">Extract pages by page ranges</p>
-                        </div>
-                        <div class="split-option border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer active" data-option="pages">
-                            <i class="fas fa-mouse-pointer text-2xl text-primary mb-2"></i>
-                            <h4 class="font-medium text-gray-800">Select Pages</h4>
-                            <p class="text-sm text-gray-600 mt-1">Choose specific pages to extract</p>
-                        </div>
-                        <div class="split-option border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-option="every">
-                            <i class="fas fa-copy text-2xl text-primary mb-2"></i>
-                            <h4 class="font-medium text-gray-800">Split Every Page</h4>
-                            <p class="text-sm text-gray-600 mt-1">Create separate PDF for each page</p>
-                        </div>
-                    </div>
-
-                    <!-- Range Input (Hidden by default) -->
-                    <div id="rangeOption" class="hidden">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <label class="block text-gray-700 font-medium mb-2">Page Ranges</label>
-                            <p class="text-sm text-gray-600 mb-4">Enter page ranges separated by commas (e.g., 1-3, 5, 7-10)</p>
-                            <input type="text" id="pageRanges" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="1-3, 5, 7-10">
-                        </div>
-                    </div>
-
-                    <!-- Page Selection (Visible by default) -->
-                    <div id="pagesOption">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="flex justify-between items-center mb-4">
-                                <label class="block text-gray-700 font-medium">Select Pages</label>
-                                <div class="flex space-x-2">
-                                    <button id="selectAll" class="text-sm text-primary hover:text-secondary font-medium">Select All</button>
-                                    <button id="clearSelection" class="text-sm text-gray-600 hover:text-gray-800 font-medium">Clear</button>
+                    <!-- Split Options -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Split Method</h4>
+                        
+                        <!-- Method Selection -->
+                        <div class="mb-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="option-card border border-gray-200 rounded-lg p-4 text-center cursor-pointer selected" data-method="range">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-sliders-h"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Page Range</p>
+                                    <p class="text-xs text-gray-600">Select specific pages</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-method="every">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-copy"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Every N Pages</p>
+                                    <p class="text-xs text-gray-600">Split after every N pages</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-method="bookmarks">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-bookmark"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">By Bookmarks</p>
+                                    <p class="text-xs text-gray-600">Split at bookmarks</p>
                                 </div>
                             </div>
-                            <div id="pagePreviews" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                                <!-- Page previews will be generated here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Every Page Option (Hidden by default) -->
-                    <div id="everyOption" class="hidden">
-                        <div class="bg-gray-50 p-4 rounded-lg text-center">
-                            <i class="fas fa-info-circle text-primary text-xl mb-2"></i>
-                            <p class="text-gray-700">This will create a separate PDF file for each page in your document.</p>
-                        </div>
-                    </div>
-
-                    <!-- Output Options -->
-                    <div class="mt-6">
-                        <h4 class="text-md font-semibold text-gray-700 mb-3">Output Options</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2">File Name Pattern</label>
-                                <input type="text" id="fileNamePattern" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" value="document_{page}.pdf" placeholder="document_{page}.pdf">
-                                <p class="text-sm text-gray-500 mt-1">Use {page} for page numbers</p>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2">Compression</label>
-                                <select id="compressionLevel" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    <option value="none">No Compression</option>
-                                    <option value="medium" selected>Medium Compression</option>
-                                    <option value="high">High Compression</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Progress Bar -->
-                <div id="progressContainer" class="mt-8 hidden">
-                    <div class="flex justify-between text-sm text-gray-600 mb-2">
-                        <span>Processing...</span>
-                        <span id="progressPercent">0%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div id="progressBar" class="progress-bar bg-gradient-to-r from-primary to-accent h-2.5 rounded-full" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    <button id="splitBtn" class="flex-1 bg-primary hover:bg-secondary text-white py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
-                        <i class="fas fa-cut mr-2"></i> Split PDF
-                    </button>
-                    <button id="resetBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
-                        <i class="fas fa-redo mr-2"></i> Reset
-                    </button>
-                </div>
-
-                <!-- Download Section -->
-                <div id="downloadContainer" class="mt-8 hidden">
-                    <div class="bg-green-50 border border-green-200 rounded-lg p-6">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-check-circle text-green-500 text-2xl mr-3"></i>
-                            <h3 class="text-xl font-semibold text-green-800">PDF Successfully Split!</h3>
-                        </div>
-                        <p class="text-green-700 mb-4">Your PDF has been split into <span id="splitCount">0</span> separate files.</p>
-                        
-                        <div id="downloadButtons" class="space-y-3">
-                            <!-- Download buttons will be generated here -->
                         </div>
                         
-                        <div class="mt-4 pt-4 border-t border-green-200">
-                            <button id="downloadAll" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg font-medium transition duration-300 flex items-center justify-center w-full">
-                                <i class="fas fa-download mr-2"></i> Download All as ZIP
+                        <!-- Page Range Selection -->
+                        <div id="rangeSection" class="mb-6">
+                            <h5 class="font-medium mb-3">Select Page Range</h5>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2" for="startPage">From Page</label>
+                                        <input type="number" id="startPage" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="1" min="1" max="12">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2" for="endPage">To Page</label>
+                                        <input type="number" id="endPage" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="12" min="1" max="12">
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-600">Page Range: <span id="rangeDisplay">1-12</span></span>
+                                    <button id="selectAll" class="text-sm text-blue-600 font-medium hover:text-blue-800">
+                                        Select All Pages
+                                    </button>
+                                </div>
+                                <input type="range" id="rangeSlider" class="range-slider" min="1" max="12" value="12">
+                            </div>
+                        </div>
+                        
+                        <!-- Every N Pages -->
+                        <div id="everySection" class="hidden mb-6">
+                            <h5 class="font-medium mb-3">Split After Every N Pages</h5>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-1">
+                                        <label class="block text-sm font-medium text-gray-700 mb-2" for="splitEvery">Split after every</label>
+                                        <input type="number" id="splitEvery" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="1" min="1" max="12">
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm text-gray-600 mt-2">This will create <span id="splitCount">12</span> separate PDF files</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- By Bookmarks -->
+                        <div id="bookmarksSection" class="hidden mb-6">
+                            <h5 class="font-medium mb-3">Split by Bookmarks</h5>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-600 mb-4">Split the PDF at each bookmark to create separate documents.</p>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="includeBookmarks" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                                    <label for="includeBookmarks" class="ml-2 text-gray-700">Include bookmarks in output files</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Page Preview -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Page Preview</h4>
+                        
+                        <!-- Page Navigation -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="font-medium">Page Selection</h5>
+                            <div class="flex space-x-1">
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-sm text-gray-600 mx-2">Page 1 of 12</span>
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Page Indicators -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <div class="page-indicator active selected">1</div>
+                            <div class="page-indicator selected">2</div>
+                            <div class="page-indicator selected">3</div>
+                            <div class="page-indicator selected">4</div>
+                            <div class="page-indicator selected">5</div>
+                            <div class="page-indicator selected">6</div>
+                            <div class="page-indicator selected">7</div>
+                            <div class="page-indicator selected">8</div>
+                            <div class="page-indicator selected">9</div>
+                            <div class="page-indicator selected">10</div>
+                            <div class="page-indicator selected">11</div>
+                            <div class="page-indicator selected">12</div>
+                        </div>
+                        
+                        <!-- Page Thumbnails -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            <div class="page-thumbnail bg-white border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected">
+                                <div class="bg-gray-100 h-32 rounded-md flex items-center justify-center mb-2">
+                                    <span class="text-gray-500 font-medium">Page 1</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Page 1</span>
+                                    <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                                </div>
+                            </div>
+                            <div class="page-thumbnail bg-white border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected">
+                                <div class="bg-gray-100 h-32 rounded-md flex items-center justify-center mb-2">
+                                    <span class="text-gray-500 font-medium">Page 2</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Page 2</span>
+                                    <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                                </div>
+                            </div>
+                            <div class="page-thumbnail bg-white border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected">
+                                <div class="bg-gray-100 h-32 rounded-md flex items-center justify-center mb-2">
+                                    <span class="text-gray-500 font-medium">Page 3</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Page 3</span>
+                                    <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                                </div>
+                            </div>
+                            <div class="page-thumbnail bg-white border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected">
+                                <div class="bg-gray-100 h-32 rounded-md flex items-center justify-center mb-2">
+                                    <span class="text-gray-500 font-medium">Page 4</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Page 4</span>
+                                    <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" checked>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Split Preview -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Split Preview</h4>
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <div class="split-preview">
+                                <div class="bg-white p-4 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h6 class="font-medium text-sm">Document 1</h6>
+                                        <span class="text-xs text-gray-600">Pages 1-6</span>
+                                    </div>
+                                    <div class="bg-gray-100 h-full rounded-md flex items-center justify-center">
+                                        <div class="text-center">
+                                            <i class="fas fa-file-pdf text-3xl text-red-500 mb-2"></i>
+                                            <p class="text-sm font-medium">document-part1.pdf</p>
+                                            <p class="text-xs text-gray-600">6 pages • 1.2 MB</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h6 class="font-medium text-sm">Document 2</h6>
+                                        <span class="text-xs text-gray-600">Pages 7-12</span>
+                                    </div>
+                                    <div class="bg-gray-100 h-full rounded-md flex items-center justify-center">
+                                        <div class="text-center">
+                                            <i class="fas fa-file-pdf text-3xl text-red-500 mb-2"></i>
+                                            <p class="text-sm font-medium">document-part2.pdf</p>
+                                            <p class="text-xs text-gray-600">6 pages • 1.3 MB</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-center mt-4">
+                                <p class="text-sm text-gray-600"><i class="fas fa-info-circle mr-1"></i>Your PDF will be split into 2 separate files</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="splitBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-cut mr-2"></i>Split PDF
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">PDF Split Successfully!</h4>
+                        <p class="text-gray-600 mb-4">Your PDF has been split into multiple documents. Click below to download.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+                            <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                                <i class="fas fa-download mr-2"></i>Download All as ZIP
+                            </button>
+                            <button class="bg-white border border-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg hover:bg-gray-50 transition">
+                                <i class="fas fa-file-archive mr-2"></i>Download Separately
                             </button>
                         </div>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-file-pdf text-green-500 mr-2"></i>12 pages split into 2 documents • Total size: 2.5 MB</p>
+                        </div>
                     </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our PDF Splitter?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-sliders-h"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Flexible Splitting</h4>
+                            <p class="text-gray-600">Split by page ranges, every N pages, or by bookmarks to suit your needs.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Visual Preview</h4>
+                            <p class="text-gray-600">See exactly how your PDF will be split before processing.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Fast Processing</h4>
+                            <p class="text-gray-600">Split large PDF files quickly with our optimized processing engine.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How PDF Splitting Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload your PDF file that needs splitting</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Choose your preferred splitting method and select pages</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Preview how the PDF will be split and make adjustments</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Split the PDF and download the resulting documents</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Use Cases</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-file-contract text-blue-500 mr-2 mt-1"></i>
+                            <span>Extracting specific pages from contracts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-book text-blue-500 mr-2 mt-1"></i>
+                            <span>Splitting large eBooks into chapters</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-receipt text-blue-500 mr-2 mt-1"></i>
+                            <span>Separating invoices from statements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chart-bar text-blue-500 mr-2 mt-1"></i>
+                            <span>Dividing reports into sections</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-images text-blue-500 mr-2 mt-1"></i>
+                            <span>Extracting images from scanned documents</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <!-- Features Section -->
-        <section class="mt-16">
-            <h2 class="text-3xl font-bold text-dark text-center mb-10">Why Use Our PDF Splitter?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-xl shadow-md text-center">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-bolt text-primary text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-dark mb-3">Lightning Fast</h3>
-                    <p class="text-gray-600">Split PDFs in seconds with our optimized processing engine.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md text-center">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-shield-alt text-primary text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-dark mb-3">100% Secure</h3>
-                    <p class="text-gray-600">Your files never leave your device. All processing happens locally.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md text-center">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-magic text-primary text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-dark mb-3">Flexible Options</h3>
-                    <p class="text-gray-600">Split by page ranges, select specific pages, or extract every page.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="mt-16 max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold text-dark text-center mb-10">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-dark mb-2">Is there a limit to the file size I can split?</h3>
-                    <p class="text-gray-600">You can split PDF files up to 100MB in size. For larger files, consider using our desktop application.</p>
-                </div>
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-dark mb-2">Can I split password-protected PDFs?</h3>
-                    <p class="text-gray-600">Yes, but you'll need to unlock the PDF first using our Unlock PDF tool.</p>
-                </div>
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-dark mb-2">What happens to my files after splitting?</h3>
-                    <p class="text-gray-600">Your files are processed entirely in your browser and never uploaded to any server. They remain completely private.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white mt-16">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
                     <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
-                            <i class="fas fa-file-pdf text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold">PDF Toolkit</h3>
+                        <i class="fas fa-cut text-2xl"></i>
+                        <h2 class="text-2xl font-bold">Split PDF</h2>
                     </div>
-                    <p class="text-gray-300">Your all-in-one solution for PDF manipulation.</p>
+                    <p class="text-blue-200">Dividing your documents with precision and ease</p>
                 </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="#" class="hover:text-white transition">Merge PDF</a></li>
-                        <li><a href="#" class="hover:text-white transition">Split PDF</a></li>
-                        <li><a href="#" class="hover:text-white transition">Compress PDF</a></li>
-                        <li><a href="#" class="hover:text-white transition">PDF to Word</a></li>
-                    </ul>
+                <div class="text-center md:text-right">
+                    <p class="text-blue-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-blue-200 mt-2">© 2023 Split PDF. All rights reserved.</p>
                 </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Company</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
-                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
-                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope mr-2"></i> support@pdftoolkit.com
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone mr-2"></i> +1 (555) 123-4567
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-                <p>&copy; 2023 PDF Toolkit. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
             const dropZone = document.getElementById('dropZone');
             const fileInput = document.getElementById('fileInput');
-            const browseBtn = document.getElementById('browseBtn');
             const fileInfo = document.getElementById('fileInfo');
             const fileName = document.getElementById('fileName');
             const fileSize = document.getElementById('fileSize');
             const pageCount = document.getElementById('pageCount');
-            const changeFile = document.getElementById('changeFile');
-            const splitOptions = document.getElementById('splitOptions');
-            const splitOptionsElements = document.querySelectorAll('.split-option');
-            const rangeOption = document.getElementById('rangeOption');
-            const pagesOption = document.getElementById('pagesOption');
-            const everyOption = document.getElementById('everyOption');
-            const pageRanges = document.getElementById('pageRanges');
-            const pagePreviews = document.getElementById('pagePreviews');
-            const selectAll = document.getElementById('selectAll');
-            const clearSelection = document.getElementById('clearSelection');
+            const removeFile = document.getElementById('removeFile');
             const splitBtn = document.getElementById('splitBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const progressContainer = document.getElementById('progressContainer');
-            const progressBar = document.getElementById('progressBar');
-            const progressPercent = document.getElementById('progressPercent');
-            const downloadContainer = document.getElementById('downloadContainer');
-            const downloadButtons = document.getElementById('downloadButtons');
+            const downloadSection = document.getElementById('downloadSection');
+            const optionCards = document.querySelectorAll('.option-card');
+            const rangeSection = document.getElementById('rangeSection');
+            const everySection = document.getElementById('everySection');
+            const bookmarksSection = document.getElementById('bookmarksSection');
+            const startPage = document.getElementById('startPage');
+            const endPage = document.getElementById('endPage');
+            const rangeSlider = document.getElementById('rangeSlider');
+            const rangeDisplay = document.getElementById('rangeDisplay');
+            const splitEvery = document.getElementById('splitEvery');
             const splitCount = document.getElementById('splitCount');
-            const downloadAll = document.getElementById('downloadAll');
+            const selectAll = document.getElementById('selectAll');
+            const pageThumbnails = document.querySelectorAll('.page-thumbnail');
             
-            let uploadedFile = null;
-            let selectedPages = new Set();
-            let totalPages = 0;
-            let currentOption = 'pages';
+            // State variables
+            let selectedMethod = 'range';
+            let totalPages = 12;
             
-            // Event Listeners
-            browseBtn.addEventListener('click', () => fileInput.click());
-            changeFile.addEventListener('click', () => fileInput.click());
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
             
-            fileInput.addEventListener('change', handleFileSelect);
-            
-            // Drag and Drop Events
-            dropZone.addEventListener('dragover', (e) => {
+            function preventDefaults(e) {
                 e.preventDefault();
-                dropZone.classList.add('dragover');
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
             });
             
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('dragover');
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
             });
             
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                if (e.dataTransfer.files.length > 0) {
-                    handleFileSelect({ target: { files: e.dataTransfer.files } });
-                }
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
             });
             
-            // Split option selection
-            splitOptionsElements.forEach(option => {
-                option.addEventListener('click', function() {
-                    // Remove active class from all options
-                    splitOptionsElements.forEach(opt => opt.classList.remove('active'));
-                    // Add active class to clicked option
-                    this.classList.add('active');
-                    
-                    // Update current option
-                    currentOption = this.getAttribute('data-option');
-                    
-                    // Show/hide appropriate options
-                    rangeOption.classList.add('hidden');
-                    pagesOption.classList.add('hidden');
-                    everyOption.classList.add('hidden');
-                    
-                    if (currentOption === 'range') {
-                        rangeOption.classList.remove('hidden');
-                    } else if (currentOption === 'pages') {
-                        pagesOption.classList.remove('hidden');
-                    } else if (currentOption === 'every') {
-                        everyOption.classList.remove('hidden');
-                    }
-                });
-            });
-            
-            // Page selection
-            selectAll.addEventListener('click', function() {
-                selectedPages.clear();
-                for (let i = 1; i <= totalPages; i++) {
-                    selectedPages.add(i);
-                }
-                updatePagePreviews();
-            });
-            
-            clearSelection.addEventListener('click', function() {
-                selectedPages.clear();
-                updatePagePreviews();
-            });
-            
-            splitBtn.addEventListener('click', processSplit);
-            resetBtn.addEventListener('click', resetTool);
-            
-            // Functions
-            function handleFileSelect(e) {
-                if (e.target.files.length > 0) {
-                    const file = e.target.files[0];
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
                     if (file.type === 'application/pdf') {
-                        uploadedFile = file;
-                        displayFileInfo(file);
-                        // Simulate getting page count - in a real app, you would use a PDF library
-                        totalPages = Math.min(24, Math.floor(Math.random() * 20) + 5); // Random between 5-24 for demo
-                        generatePagePreviews(totalPages);
-                        showSplitOptions();
+                        fileName.textContent = file.name;
+                        fileSize.textContent = formatFileSize(file.size);
+                        
+                        // Simulate page count extraction
+                        totalPages = Math.min(Math.max(1, Math.floor(file.size / 50000)), 50);
+                        pageCount.textContent = `${totalPages} pages`;
+                        
+                        // Update UI elements with the new page count
+                        endPage.max = totalPages;
+                        endPage.value = totalPages;
+                        rangeSlider.max = totalPages;
+                        rangeSlider.value = totalPages;
+                        updateRangeDisplay();
+                        updateSplitCount();
+                        
+                        fileInfo.classList.remove('hidden');
+                        updateSplitButton();
                     } else {
                         alert('Please upload a PDF file.');
                     }
                 }
             }
             
-            function displayFileInfo(file) {
-                fileName.textContent = file.name;
-                fileSize.textContent = formatFileSize(file.size);
-                pageCount.textContent = `${totalPages} pages`;
-                fileInfo.classList.remove('hidden');
+            removeFile.addEventListener('click', function() {
+                fileInfo.classList.add('hidden');
+                fileInput.value = '';
+                updateSplitButton();
+            });
+            
+            // Split method selection
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    selectedMethod = this.dataset.method;
+                    
+                    // Update UI
+                    optionCards.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    
+                    // Show/hide relevant sections
+                    rangeSection.classList.add('hidden');
+                    everySection.classList.add('hidden');
+                    bookmarksSection.classList.add('hidden');
+                    
+                    if (selectedMethod === 'range') {
+                        rangeSection.classList.remove('hidden');
+                    } else if (selectedMethod === 'every') {
+                        everySection.classList.remove('hidden');
+                    } else if (selectedMethod === 'bookmarks') {
+                        bookmarksSection.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            // Range slider functionality
+            rangeSlider.addEventListener('input', function() {
+                endPage.value = this.value;
+                updateRangeDisplay();
+            });
+            
+            startPage.addEventListener('change', function() {
+                if (parseInt(this.value) > parseInt(endPage.value)) {
+                    this.value = endPage.value;
+                }
+                updateRangeDisplay();
+            });
+            
+            endPage.addEventListener('change', function() {
+                if (parseInt(this.value) < parseInt(startPage.value)) {
+                    this.value = startPage.value;
+                }
+                rangeSlider.value = this.value;
+                updateRangeDisplay();
+            });
+            
+            function updateRangeDisplay() {
+                rangeDisplay.textContent = `${startPage.value}-${endPage.value}`;
             }
             
+            // Every N pages functionality
+            splitEvery.addEventListener('change', function() {
+                updateSplitCount();
+            });
+            
+            function updateSplitCount() {
+                const everyValue = parseInt(splitEvery.value) || 1;
+                const count = Math.ceil(totalPages / everyValue);
+                splitCount.textContent = count;
+            }
+            
+            // Select all pages
+            selectAll.addEventListener('click', function() {
+                startPage.value = 1;
+                endPage.value = totalPages;
+                rangeSlider.value = totalPages;
+                updateRangeDisplay();
+            });
+            
+            // Page thumbnail selection
+            pageThumbnails.forEach(thumbnail => {
+                const checkbox = thumbnail.querySelector('input[type="checkbox"]');
+                
+                thumbnail.addEventListener('click', function(e) {
+                    if (e.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        if (checkbox.checked) {
+                            thumbnail.classList.add('selected');
+                        } else {
+                            thumbnail.classList.remove('selected');
+                        }
+                    }
+                });
+                
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        thumbnail.classList.add('selected');
+                    } else {
+                        thumbnail.classList.remove('selected');
+                    }
+                });
+            });
+            
+            // Update split button state
+            function updateSplitButton() {
+                const hasFile = !fileInfo.classList.contains('hidden');
+                splitBtn.disabled = !hasFile;
+            }
+            
+            // Split button click
+            splitBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show progress section
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Splitting PDF...';
+                    this.disabled = true;
+                    
+                    // Simulate splitting process
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        this.innerHTML = '<i class="fas fa-cut mr-2"></i>Split PDF';
+                        this.disabled = false;
+                        
+                        // Scroll to download section
+                        downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                }
+            });
+            
+            // Helper function to format file size
             function formatFileSize(bytes) {
                 if (bytes === 0) return '0 Bytes';
                 const k = 1024;
@@ -483,195 +824,9 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
             
-            function generatePagePreviews(count) {
-                pagePreviews.innerHTML = '';
-                selectedPages.clear();
-                
-                for (let i = 1; i <= count; i++) {
-                    const pageElement = document.createElement('div');
-                    pageElement.className = 'page-preview bg-white border-2 border-gray-200 rounded-lg p-3 text-center cursor-pointer';
-                    pageElement.innerHTML = `
-                        <div class="bg-gray-100 h-24 rounded-md flex items-center justify-center mb-2">
-                            <span class="text-gray-500 font-medium">Page ${i}</span>
-                        </div>
-                        <p class="text-sm font-medium text-gray-700">Page ${i}</p>
-                        <input type="checkbox" class="hidden" value="${i}">
-                    `;
-                    
-                    pageElement.addEventListener('click', function() {
-                        const pageNum = parseInt(this.querySelector('input').value);
-                        if (selectedPages.has(pageNum)) {
-                            selectedPages.delete(pageNum);
-                            this.classList.remove('selected');
-                        } else {
-                            selectedPages.add(pageNum);
-                            this.classList.add('selected');
-                        }
-                    });
-                    
-                    pagePreviews.appendChild(pageElement);
-                }
-            }
-            
-            function updatePagePreviews() {
-                const pageElements = pagePreviews.querySelectorAll('.page-preview');
-                pageElements.forEach((element, index) => {
-                    const pageNum = index + 1;
-                    if (selectedPages.has(pageNum)) {
-                        element.classList.add('selected');
-                    } else {
-                        element.classList.remove('selected');
-                    }
-                });
-            }
-            
-            function showSplitOptions() {
-                splitOptions.classList.remove('hidden');
-            }
-            
-            function processSplit() {
-                if (!uploadedFile) {
-                    alert('Please upload a PDF file first.');
-                    return;
-                }
-                
-                let pagesToSplit = [];
-                
-                if (currentOption === 'range') {
-                    const ranges = pageRanges.value.trim();
-                    if (!ranges) {
-                        alert('Please enter page ranges.');
-                        return;
-                    }
-                    pagesToSplit = parsePageRanges(ranges, totalPages);
-                    if (pagesToSplit.length === 0) {
-                        alert('No valid pages found in the specified ranges.');
-                        return;
-                    }
-                } else if (currentOption === 'pages') {
-                    if (selectedPages.size === 0) {
-                        alert('Please select at least one page to extract.');
-                        return;
-                    }
-                    pagesToSplit = Array.from(selectedPages).sort((a, b) => a - b);
-                } else if (currentOption === 'every') {
-                    for (let i = 1; i <= totalPages; i++) {
-                        pagesToSplit.push(i);
-                    }
-                }
-                
-                // Show progress container
-                progressContainer.classList.remove('hidden');
-                
-                // Simulate processing
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 5;
-                    progressBar.style.width = `${progress}%`;
-                    progressPercent.textContent = `${progress}%`;
-                    
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        
-                        // Show download container
-                        setTimeout(() => {
-                            progressContainer.classList.add('hidden');
-                            downloadContainer.classList.remove('hidden');
-                            generateDownloadButtons(pagesToSplit);
-                        }, 500);
-                    }
-                }, 100);
-            }
-            
-            function parsePageRanges(ranges, maxPage) {
-                const result = [];
-                const rangeParts = ranges.split(',');
-                
-                for (const part of rangeParts) {
-                    const trimmed = part.trim();
-                    if (trimmed.includes('-')) {
-                        const [start, end] = trimmed.split('-').map(num => parseInt(num.trim()));
-                        if (!isNaN(start) && !isNaN(end) && start <= end) {
-                            for (let i = Math.max(1, start); i <= Math.min(maxPage, end); i++) {
-                                result.push(i);
-                            }
-                        }
-                    } else {
-                        const page = parseInt(trimmed);
-                        if (!isNaN(page) && page >= 1 && page <= maxPage) {
-                            result.push(page);
-                        }
-                    }
-                }
-                
-                // Remove duplicates and sort
-                return [...new Set(result)].sort((a, b) => a - b);
-            }
-            
-            function generateDownloadButtons(pages) {
-                downloadButtons.innerHTML = '';
-                splitCount.textContent = pages.length;
-                
-                // In a real app, you would generate actual PDF files
-                // For this demo, we'll create dummy download buttons
-                pages.forEach(page => {
-                    const button = document.createElement('a');
-                    button.href = '#';
-                    button.className = 'block bg-white border border-gray-300 hover:border-primary rounded-lg p-3 text-center transition duration-300';
-                    button.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <i class="fas fa-file-pdf text-red-500 mr-3"></i>
-                                <span class="font-medium text-gray-800">document_${page}.pdf</span>
-                            </div>
-                            <i class="fas fa-download text-primary"></i>
-                        </div>
-                    `;
-                    
-                    // Create a dummy PDF file for download
-                    const dummyContent = `%PDF-1.4\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>\nendobj\n4 0 obj\n<< /Length 44 >>\nstream\nBT\n/F1 12 Tf\n72 720 Td\n(Page ${page}) Tj\nET\nendstream\nendobj\nxref\n0 5\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000115 00000 n \n0000000239 00000 n \ntrailer\n<< /Size 5 /Root 1 0 R >>\nstartxref\n307\n%%EOF`;
-                    const blob = new Blob([dummyContent], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    
-                    button.href = url;
-                    button.download = `document_${page}.pdf`;
-                    
-                    // Clean up after download
-                    button.addEventListener('click', function() {
-                        setTimeout(() => {
-                            URL.revokeObjectURL(url);
-                        }, 100);
-                    });
-                    
-                    downloadButtons.appendChild(button);
-                });
-                
-                // Set up download all button
-                downloadAll.addEventListener('click', function() {
-                    alert('In a real application, this would download a ZIP file containing all the split PDFs.');
-                });
-            }
-            
-            function resetTool() {
-                uploadedFile = null;
-                selectedPages.clear();
-                totalPages = 0;
-                fileInput.value = '';
-                fileInfo.classList.add('hidden');
-                splitOptions.classList.add('hidden');
-                progressBar.style.width = '0%';
-                progressPercent.textContent = '0%';
-                progressContainer.classList.add('hidden');
-                downloadContainer.classList.add('hidden');
-                pageRanges.value = '';
-                
-                // Reset option to default
-                splitOptionsElements.forEach(opt => opt.classList.remove('active'));
-                document.querySelector('[data-option="pages"]').classList.add('active');
-                rangeOption.classList.add('hidden');
-                everyOption.classList.add('hidden');
-                pagesOption.classList.remove('hidden');
-            }
+            // Initialize
+            updateRangeDisplay();
+            updateSplitCount();
         });
     </script>
 </body>
