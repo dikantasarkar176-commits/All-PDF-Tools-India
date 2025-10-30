@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watermark PDF Tool | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #0da271 0%, #047852 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .file-drop-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .file-drop-area.active {
+            border-color: #10b981;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-icon {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-size: 1.75rem;
+        }
+        
+        .success-animation {
+            animation: successPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 10px); }
+            100% { transform: translate(0, -0px); }
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .watermark-tab {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .watermark-tab:hover {
+            border-color: #10b981;
+            background-color: #f0fdf9;
+        }
+        
+        .watermark-tab.selected {
+            border-color: #10b981;
+            background-color: #f0fdf9;
+        }
+        
+        .watermark-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1.5rem;
+            height: 600px;
+        }
+        
+        .toolbar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+        
+        .pdf-preview {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .pdf-page {
+            width: 100%;
+            height: 100%;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .pdf-page img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .page-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+        
+        .tool-options {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .option-group {
+            margin-bottom: 1rem;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .color-option.selected {
+            border-color: #10b981;
+        }
+        
+        .watermark-preview {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background: white;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .floating-toolbar {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .floating-toolbar button {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .floating-toolbar button:hover {
+            background: #10b981;
+            color: white;
+        }
+        
+        .watermark-overlay {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.5;
+        }
+        
+        .watermark-text {
+            font-size: 48px;
+            color: rgba(0, 0, 0, 0.3);
+            transform: rotate(-45deg);
+            white-space: nowrap;
+        }
+        
+        .watermark-image {
+            max-width: 80%;
+            max-height: 80%;
+            opacity: 0.3;
+        }
+        
+        @media (max-width: 1024px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .toolbar {
+                order: 2;
+            }
+            
+            .pdf-preview {
+                order: 1;
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-white font-bold mr-4 floating">
+                        <i class="fas fa-tint text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">Watermark PDF Tool</h1>
+                        <p class="text-sm text-green-100">By CEO Bikanta Sarkar</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-green-200 transition duration-300"><i class="fas fa-home mr-1"></i> Home</a>
+                    <a href="#" class="text-white hover:text-green-200 transition duration-300"><i class="fas fa-info-circle mr-1"></i> About</a>
+                    <a href="#" class="text-white hover:text-green-200 transition duration-300"><i class="fas fa-envelope mr-1"></i> Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Add Watermarks to PDF <span class="text-transparent bg-clip-text gradient-bg">Professionally</span></h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Protect your PDF documents by adding text or image watermarks. Customize appearance, position, and transparency.</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Document Protection</p>
+                        <p class="text-sm text-gray-600">Secure your intellectual property</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Fast Processing</p>
+                        <p class="text-sm text-gray-600">Watermark in seconds</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Customizable</p>
+                        <p class="text-sm text-gray-600">Full control over appearance</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Watermarking Section -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 mb-12 card-hover glow">
+            <div class="max-w-6xl mx-auto">
+                <!-- File Upload Area -->
+                <div id="upload-area" class="file-drop-area p-10 text-center cursor-pointer mb-8">
+                    <input type="file" id="file-input" class="hidden" accept=".pdf">
+                    <div class="mb-6">
+                        <div class="w-24 h-24 mx-auto gradient-bg rounded-full flex items-center justify-center text-white floating">
+                            <i class="fas fa-file-pdf text-3xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Drag & Drop PDF File Here</h3>
+                    <p class="text-gray-600 mb-5">or click to browse your computer</p>
+                    <div class="inline-block gradient-btn text-white font-medium py-2 px-6 rounded-full">
+                        <i class="fas fa-folder-open mr-2"></i> Choose File
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Supports: PDF (Max: 50MB)</p>
+                </div>
+
+                <!-- Editor Interface (Initially Hidden) -->
+                <div id="editor-interface" class="hidden">
+                    <div class="editor-container">
+                        <!-- Toolbar -->
+                        <div class="toolbar">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Watermark Options</h3>
+                            
+                            <div class="grid grid-cols-1 gap-4 mb-6">
+                                <div class="watermark-tab selected" onclick="selectWatermarkTab('text')">
+                                    <div class="watermark-icon">
+                                        <i class="fas fa-font"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Text Watermark</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Add custom text watermark</p>
+                                </div>
+                                
+                                <div class="watermark-tab" onclick="selectWatermarkTab('image')">
+                                    <div class="watermark-icon">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Image Watermark</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Add logo or image watermark</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Tool Options -->
+                            <div class="tool-options">
+                                <!-- Text Watermark Options -->
+                                <div id="text-tool-options" class="active-tool-options">
+                                    <h4 class="font-medium text-gray-800 mb-3">Text Watermark Settings</h4>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Watermark Text</label>
+                                        <input type="text" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Enter watermark text" id="watermark-text" value="CONFIDENTIAL">
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Font Family</label>
+                                        <select class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500" id="font-family">
+                                            <option value="Arial">Arial</option>
+                                            <option value="Helvetica">Helvetica</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Courier New">Courier New</option>
+                                            <option value="Verdana">Verdana</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                        <input type="range" min="10" max="100" value="48" class="w-full" id="font-size">
+                                        <div class="flex justify-between text-xs text-gray-500">
+                                            <span>Small</span>
+                                            <span id="font-size-value">48px</span>
+                                            <span>Large</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Text Color</label>
+                                        <div class="color-palette">
+                                            <div class="color-option selected" style="background-color: #000000;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #666666;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #10b981;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #3b82f6;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #ef4444;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #f59e0b;" onclick="selectColor(this)"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Opacity</label>
+                                        <input type="range" min="10" max="100" value="30" class="w-full" id="text-opacity">
+                                        <div class="flex justify-between text-xs text-gray-500">
+                                            <span>Faint</span>
+                                            <span id="text-opacity-value">30%</span>
+                                            <span>Opaque</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Rotation</label>
+                                        <input type="range" min="0" max="360" value="315" class="w-full" id="text-rotation">
+                                        <div class="flex justify-between text-xs text-gray-500">
+                                            <span>0°</span>
+                                            <span id="text-rotation-value">315°</span>
+                                            <span>360°</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Image Watermark Options -->
+                                <div id="image-tool-options" class="hidden">
+                                    <h4 class="font-medium text-gray-800 mb-3">Image Watermark Settings</h4>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Upload Watermark Image</label>
+                                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer" id="image-upload-area">
+                                            <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-3"></i>
+                                            <p class="text-sm text-gray-600">Click to upload watermark image</p>
+                                            <input type="file" class="hidden" accept="image/*" id="watermark-image">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Image Size</label>
+                                        <input type="range" min="10" max="100" value="50" class="w-full" id="image-size">
+                                        <div class="flex justify-between text-xs text-gray-500">
+                                            <span>Small</span>
+                                            <span id="image-size-value">50%</span>
+                                            <span>Large</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Opacity</label>
+                                        <input type="range" min="10" max="100" value="30" class="w-full" id="image-opacity">
+                                        <div class="flex justify-between text-xs text-gray-500">
+                                            <span>Faint</span>
+                                            <span id="image-opacity-value">30%</span>
+                                            <span>Opaque</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Rotation</label>
+                                        <input type="range" min="0" max="360" value="0" class="w-full" id="image-rotation">
+                                        <div class="flex justify-between text-xs text-gray-500">
+                                            <span>0°</span>
+                                            <span id="image-rotation-value">0°</span>
+                                            <span>360°</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Position Options -->
+                            <div class="mt-6">
+                                <h4 class="font-medium text-gray-800 mb-3">Watermark Position</h4>
+                                <div class="grid grid-cols-3 gap-2 mb-4">
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('top-left')">
+                                        <i class="fas fa-arrow-up-left text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('top-center')">
+                                        <i class="fas fa-arrow-up text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('top-right')">
+                                        <i class="fas fa-arrow-up-right text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('middle-left')">
+                                        <i class="fas fa-arrow-left text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('center')">
+                                        <i class="fas fa-crosshairs text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('middle-right')">
+                                        <i class="fas fa-arrow-right text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('bottom-left')">
+                                        <i class="fas fa-arrow-down-left text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('bottom-center')">
+                                        <i class="fas fa-arrow-down text-gray-600"></i>
+                                    </button>
+                                    <button class="p-3 border border-gray-300 rounded-lg text-center bg-white hover:bg-gray-50" onclick="setWatermarkPosition('bottom-right')">
+                                        <i class="fas fa-arrow-down-right text-gray-600"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="option-group">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Apply To</label>
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-center">
+                                            <input type="radio" id="all-pages" name="apply-to" class="h-4 w-4 text-green-600 focus:ring-green-500" checked>
+                                            <label for="all-pages" class="ml-2 block text-sm text-gray-700">All Pages</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="radio" id="first-page" name="apply-to" class="h-4 w-4 text-green-600 focus:ring-green-500">
+                                            <label for="first-page" class="ml-2 block text-sm text-gray-700">First Page</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="radio" id="custom-pages" name="apply-to" class="h-4 w-4 text-green-600 focus:ring-green-500">
+                                            <label for="custom-pages" class="ml-2 block text-sm text-gray-700">Custom</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="mt-6 space-y-3">
+                                <button class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300" onclick="resetWatermark()">
+                                    <i class="fas fa-undo mr-2"></i> Reset Watermark
+                                </button>
+                                <button class="w-full gradient-btn text-white font-medium py-2 px-4 rounded-lg transition duration-300" onclick="applyWatermark()">
+                                    <i class="fas fa-tint mr-2"></i> Apply Watermark to PDF
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- PDF Preview -->
+                        <div class="pdf-preview">
+                            <div class="floating-toolbar">
+                                <button title="Zoom In"><i class="fas fa-search-plus"></i></button>
+                                <button title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+                                <button title="Reset View"><i class="fas fa-sync-alt"></i></button>
+                                <button title="Download"><i class="fas fa-download"></i></button>
+                            </div>
+                            
+                            <div class="pdf-page" id="pdf-page">
+                                <img src="https://via.placeholder.com/600x800?text=PDF+Preview" alt="PDF Preview" id="pdf-preview-image">
+                                
+                                <!-- Watermark overlay -->
+                                <div class="watermark-overlay" id="watermark-overlay">
+                                    <div class="watermark-text" id="watermark-text-preview">CONFIDENTIAL</div>
+                                    <img src="" alt="Watermark Image" class="watermark-image hidden" id="watermark-image-preview">
+                                </div>
+                            </div>
+                            
+                            <div class="page-controls">
+                                <button class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center" onclick="changePage(-1)">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-gray-700">Page <span id="current-page">1</span> of 5</span>
+                                <button class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center" onclick="changePage(1)">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="download-section" class="mt-8 text-center hidden">
+                        <div class="bg-green-50 border border-green-200 rounded-xl p-8 mb-6 success-animation">
+                            <div class="flex items-center justify-center mb-4">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-4xl text-green-500"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-green-800 mb-2">Watermark Applied Successfully!</h3>
+                            <p class="text-green-700">Your PDF document has been watermarked and is ready for download.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button id="download-btn" class="download-btn text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-download mr-2"></i> Download Watermarked PDF
+                            </button>
+                            <button id="watermark-another-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-redo mr-2"></i> Watermark Another PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Professional Watermarking Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Document Protection</h3>
+                    <p class="text-gray-600 text-center">Protect your intellectual property and prevent unauthorized use of your PDF documents with visible watermarks.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Full Customization</h3>
+                    <p class="text-gray-600 text-center">Customize text, fonts, colors, opacity, rotation, and position to create the perfect watermark for your needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-image"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Text & Image Support</h3>
+                    <p class="text-gray-600 text-center">Add text watermarks or upload your own logo/image to use as a watermark on your PDF documents.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Upload PDF</h3>
+                    <p class="text-gray-600">Drag & drop or select your PDF file</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Customize Watermark</h3>
+                    <p class="text-gray-600">Set text, image, appearance and position</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Preview & Adjust</h3>
+                    <p class="text-gray-600">See how it looks and make adjustments</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Download</h3>
+                    <p class="text-gray-600">Save your watermarked PDF file</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AdSense Ad -->
+        <section class="mb-12">
+            <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <!-- Watermark PDF Tool Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-4431035899447961"
+                    data-ad-slot="4471207019"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Watermark PDF Tool</h3>
+                    <p class="text-gray-400">The most secure way to protect your PDF documents with professional watermarks.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Word</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Excel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to JPG</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Sign PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@bikantasarkar.com</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-globe mr-2"></i> www.bikantasarkar.com</li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 Watermark PDF Tool. All rights reserved. | Created by CEO Bikanta Sarkar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
+            const uploadArea = document.getElementById('upload-area');
+            const editorInterface = document.getElementById('editor-interface');
+            const downloadSection = document.getElementById('download-section');
+            const downloadBtn = document.getElementById('download-btn');
+            const watermarkAnotherBtn = document.getElementById('watermark-another-btn');
+            
+            // Initialize watermark settings
+            updateTextWatermarkPreview();
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('active');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('active');
+            }
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFile(files[0]);
+            }
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleFile(this.files[0]);
+                }
+            });
+            
+            function handleFile(file) {
+                if (file && file.type === 'application/pdf') {
+                    // Hide upload area and show editor
+                    uploadArea.classList.add('hidden');
+                    editorInterface.classList.remove('hidden');
+                    
+                    // In a real application, you would process the PDF file here
+                    // For this demo, we're just simulating the editor interface
+                } else {
+                    alert('Please select a valid PDF file.');
+                }
+            }
+            
+            // Download button functionality
+            downloadBtn.addEventListener('click', function() {
+                alert('In a real application, this would download your watermarked PDF file. This is a demo.');
+            });
+            
+            // Watermark another button functionality
+            watermarkAnotherBtn.addEventListener('click', function() {
+                // Reset the form
+                editorInterface.classList.add('hidden');
+                downloadSection.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            });
+            
+            // Set up image upload
+            const imageUploadArea = document.getElementById('image-upload-area');
+            const watermarkImageInput = document.getElementById('watermark-image');
+            
+            imageUploadArea.addEventListener('click', () => {
+                watermarkImageInput.click();
+            });
+            
+            watermarkImageInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const fileName = this.files[0].name;
+                    imageUploadArea.innerHTML = `<p class="text-sm text-gray-600">${fileName}</p>`;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('watermark-image-preview').src = e.target.result;
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            // Set up real-time preview updates for text watermark
+            document.getElementById('watermark-text').addEventListener('input', updateTextWatermarkPreview);
+            document.getElementById('font-family').addEventListener('change', updateTextWatermarkPreview);
+            document.getElementById('font-size').addEventListener('input', function() {
+                document.getElementById('font-size-value').textContent = this.value + 'px';
+                updateTextWatermarkPreview();
+            });
+            document.getElementById('text-opacity').addEventListener('input', function() {
+                document.getElementById('text-opacity-value').textContent = this.value + '%';
+                updateTextWatermarkPreview();
+            });
+            document.getElementById('text-rotation').addEventListener('input', function() {
+                document.getElementById('text-rotation-value').textContent = this.value + '°';
+                updateTextWatermarkPreview();
+            });
+            
+            // Set up real-time preview updates for image watermark
+            document.getElementById('image-size').addEventListener('input', function() {
+                document.getElementById('image-size-value').textContent = this.value + '%';
+                updateImageWatermarkPreview();
+            });
+            document.getElementById('image-opacity').addEventListener('input', function() {
+                document.getElementById('image-opacity-value').textContent = this.value + '%';
+                updateImageWatermarkPreview();
+            });
+            document.getElementById('image-rotation').addEventListener('input', function() {
+                document.getElementById('image-rotation-value').textContent = this.value + '°';
+                updateImageWatermarkPreview();
+            });
+        });
+        
+        function selectWatermarkTab(tab) {
+            // Remove selected class from all tabs
+            document.querySelectorAll('.watermark-tab').forEach(tab => {
+                tab.classList.remove('selected');
+            });
+            
+            // Add selected class to the clicked tab
+            event.currentTarget.classList.add('selected');
+            
+            // Hide all tool options
+            document.querySelectorAll('#text-tool-options, #image-tool-options').forEach(option => {
+                option.classList.add('hidden');
+                option.classList.remove('active-tool-options');
+            });
+            
+            // Show the selected tool options
+            document.getElementById(`${tab}-tool-options`).classList.remove('hidden');
+            document.getElementById(`${tab}-tool-options`).classList.add('active-tool-options');
+            
+            // Update preview based on selected tab
+            if (tab === 'text') {
+                document.getElementById('watermark-text-preview').classList.remove('hidden');
+                document.getElementById('watermark-image-preview').classList.add('hidden');
+            } else {
+                document.getElementById('watermark-text-preview').classList.add('hidden');
+                document.getElementById('watermark-image-preview').classList.remove('hidden');
+            }
+        }
+        
+        function selectColor(element) {
+            // Remove selected class from all color options
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to the clicked color option
+            element.classList.add('selected');
+            
+            // Update text color in preview
+            const color = element.style.backgroundColor;
+            document.getElementById('watermark-text-preview').style.color = color;
+        }
+        
+        function updateTextWatermarkPreview() {
+            const text = document.getElementById('watermark-text').value;
+            const fontFamily = document.getElementById('font-family').value;
+            const fontSize = document.getElementById('font-size').value;
+            const opacity = document.getElementById('text-opacity').value;
+            const rotation = document.getElementById('text-rotation').value;
+            
+            const watermarkText = document.getElementById('watermark-text-preview');
+            watermarkText.textContent = text;
+            watermarkText.style.fontFamily = fontFamily;
+            watermarkText.style.fontSize = fontSize + 'px';
+            watermarkText.style.opacity = opacity / 100;
+            watermarkText.style.transform = `rotate(${rotation}deg)`;
+        }
+        
+        function updateImageWatermarkPreview() {
+            const size = document.getElementById('image-size').value;
+            const opacity = document.getElementById('image-opacity').value;
+            const rotation = document.getElementById('image-rotation').value;
+            
+            const watermarkImage = document.getElementById('watermark-image-preview');
+            watermarkImage.style.width = size + '%';
+            watermarkImage.style.opacity = opacity / 100;
+            watermarkImage.style.transform = `rotate(${rotation}deg)`;
+        }
+        
+        function setWatermarkPosition(position) {
+            const watermarkOverlay = document.getElementById('watermark-overlay');
+            
+            // Reset all positions
+            watermarkOverlay.style.left = '';
+            watermarkOverlay.style.right = '';
+            watermarkOverlay.style.top = '';
+            watermarkOverlay.style.bottom = '';
+            watermarkOverlay.style.transform = '';
+            
+            switch(position) {
+                case 'top-left':
+                    watermarkOverlay.style.left = '10%';
+                    watermarkOverlay.style.top = '10%';
+                    break;
+                case 'top-center':
+                    watermarkOverlay.style.left = '50%';
+                    watermarkOverlay.style.top = '10%';
+                    watermarkOverlay.style.transform = 'translateX(-50%)';
+                    break;
+                case 'top-right':
+                    watermarkOverlay.style.right = '10%';
+                    watermarkOverlay.style.top = '10%';
+                    break;
+                case 'middle-left':
+                    watermarkOverlay.style.left = '10%';
+                    watermarkOverlay.style.top = '50%';
+                    watermarkOverlay.style.transform = 'translateY(-50%)';
+                    break;
+                case 'center':
+                    watermarkOverlay.style.left = '50%';
+                    watermarkOverlay.style.top = '50%';
+                    watermarkOverlay.style.transform = 'translate(-50%, -50%)';
+                    break;
+                case 'middle-right':
+                    watermarkOverlay.style.right = '10%';
+                    watermarkOverlay.style.top = '50%';
+                    watermarkOverlay.style.transform = 'translateY(-50%)';
+                    break;
+                case 'bottom-left':
+                    watermarkOverlay.style.left = '10%';
+                    watermarkOverlay.style.bottom = '10%';
+                    break;
+                case 'bottom-center':
+                    watermarkOverlay.style.left = '50%';
+                    watermarkOverlay.style.bottom = '10%';
+                    watermarkOverlay.style.transform = 'translateX(-50%)';
+                    break;
+                case 'bottom-right':
+                    watermarkOverlay.style.right = '10%';
+                    watermarkOverlay.style.bottom = '10%';
+                    break;
+            }
+        }
+        
+        function resetWatermark() {
+            // Reset text watermark
+            document.getElementById('watermark-text').value = 'CONFIDENTIAL';
+            document.getElementById('font-family').value = 'Arial';
+            document.getElementById('font-size').value = '48';
+            document.getElementById('font-size-value').textContent = '48px';
+            document.getElementById('text-opacity').value = '30';
+            document.getElementById('text-opacity-value').textContent = '30%';
+            document.getElementById('text-rotation').value = '315';
+            document.getElementById('text-rotation-value').textContent = '315°';
+            
+            // Reset image watermark
+            document.getElementById('image-size').value = '50';
+            document.getElementById('image-size-value').textContent = '50%';
+            document.getElementById('image-opacity').value = '30';
+            document.getElementById('image-opacity-value').textContent = '30%';
+            document.getElementById('image-rotation').value = '0';
+            document.getElementById('image-rotation-value').textContent = '0°';
+            
+            // Reset color selection
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelectorAll('.color-option')[0].classList.add('selected');
+            
+            // Reset position
+            setWatermarkPosition('center');
+            
+            // Update preview
+            updateTextWatermarkPreview();
+            updateImageWatermarkPreview();
+            
+            alert('Watermark settings have been reset to default.');
+        }
+        
+        function applyWatermark() {
+            const downloadSection = document.getElementById('download-section');
+            downloadSection.classList.remove('hidden');
+            
+            // Scroll to download section
+            downloadSection.scrollIntoView({ behavior: 'smooth' });
+            
+            alert('Watermark applied to PDF! In a real application, this would process the PDF with the watermark.');
+        }
+        
+        function changePage(direction) {
+            const currentPageElement = document.getElementById('current-page');
+            let currentPage = parseInt(currentPageElement.textContent);
+            currentPage += direction;
+            
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > 5) currentPage = 5;
+            
+            currentPageElement.textContent = currentPage;
+        }
+        
+        // Initialize with text tab selected
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be called after the editor is shown in a real app
+            // For demo purposes, we're simulating it here
+            setTimeout(() => {
+                if (document.querySelector('.watermark-tab')) {
+                    document.querySelector('.watermark-tab').click();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
