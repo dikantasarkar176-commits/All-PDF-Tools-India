@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan to PDF Converter | Digital Document Scanner | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a936f 0%, #88d498 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #1a936f;
+            background-color: #f0f9f4;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a936f 0%, #88d498 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(26, 147, 111, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #1a936f 0%, #88d498 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #0d7a5d 0%, #1a936f 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #1a936f 0%, #88d498 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .scan-badge {
+            background: linear-gradient(135deg, #1a936f 0%, #88d498 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .preview-image {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        
+        .option-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .option-card.selected {
+            border-color: #1a936f;
+            background-color: #f0f9f4;
+        }
+        
+        .scanner-animation {
+            animation: scanner 2s ease-in-out infinite;
+        }
+        
+        @keyframes scanner {
+            0% { transform: translateY(-10px); opacity: 0.7; }
+            50% { transform: translateY(10px); opacity: 1; }
+            100% { transform: translateY(-10px); opacity: 0.7; }
+        }
+        
+        .camera-preview {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .scan-line {
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #1a936f, transparent);
+            animation: scan 2s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-scanner text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Scan to PDF</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-green-200 transition">Home</a>
+                    <a href="#" class="hover:text-green-200 transition">Tools</a>
+                    <a href="#" class="hover:text-green-200 transition">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Digitize Documents with Scan to PDF</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Transform physical documents into high-quality PDFs using your camera or existing images.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-green-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-green-50 transition">Scan Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-green-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Scan to PDF Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Scan to PDF Converter</h3>
+                        <span class="ml-3 scan-badge text-white text-xs font-semibold py-1 px-3 rounded-full">Smart Detection</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop scanned images here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept="image/*" multiple>
+                            <p class="text-gray-500 text-sm mt-4">Supports JPG, PNG, TIFF • Maximum file size: 50MB</p>
+                        </div>
+                        <div id="fileInfo" class="hidden mt-4 bg-green-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-images text-green-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileName">3 images selected</p>
+                                        <p class="text-sm text-gray-500" id="fileSize">Total: 4.2 MB</p>
+                                    </div>
+                                </div>
+                                <button id="removeFile" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Camera Scanner -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Use Your Camera</h4>
+                        <div class="camera-preview p-6 rounded-xl text-center text-white mb-4">
+                            <div class="scanner-animation text-4xl mb-4">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <p class="mb-4">Click below to activate your camera and scan documents</p>
+                            <button id="cameraBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                                <i class="fas fa-camera mr-2"></i>Activate Camera
+                            </button>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h5 class="font-semibold mb-2 flex items-center">
+                                <i class="fas fa-lightbulb text-green-500 mr-2"></i>
+                                Tips for Best Results
+                            </h5>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Ensure good lighting and avoid shadows on the document</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Place document on a flat, contrasting surface</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Hold the camera steady and parallel to the document</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Scan Options -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Scan Settings</h4>
+                        
+                        <!-- Quality Selection -->
+                        <div class="mb-6">
+                            <h5 class="font-medium mb-3">Scan Quality</h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="option-card border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-quality="low">
+                                    <div class="text-lg font-bold mb-1">Low</div>
+                                    <p class="text-xs text-gray-600">Small file size</p>
+                                    <p class="text-xs text-gray-500 mt-1">72 DPI</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-4 text-center cursor-pointer selected" data-quality="medium">
+                                    <div class="text-lg font-bold mb-1">Medium</div>
+                                    <p class="text-xs text-gray-600">Balanced quality</p>
+                                    <p class="text-xs text-gray-500 mt-1">150 DPI</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-4 text-center cursor-pointer" data-quality="high">
+                                    <div class="text-lg font-bold mb-1">High</div>
+                                    <p class="text-xs text-gray-600">Best quality</p>
+                                    <p class="text-xs text-gray-500 mt-1">300 DPI</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-medium mb-3">Document Type</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="radio" name="docType" id="text" class="text-green-600 focus:ring-green-500" checked>
+                                        <label for="text" class="ml-2 text-gray-700">Text Document</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="docType" id="photo" class="text-green-600 focus:ring-green-500">
+                                        <label for="photo" class="ml-2 text-gray-700">Photo/Image</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="docType" id="mixed" class="text-green-600 focus:ring-green-500">
+                                        <label for="mixed" class="ml-2 text-gray-700">Mixed Content</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-medium mb-3">Enhancement Options</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="autoCrop" class="rounded border-gray-300 text-green-600 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" checked>
+                                        <label for="autoCrop" class="ml-2 text-gray-700">Auto-crop borders</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="deskew" class="rounded border-gray-300 text-green-600 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" checked>
+                                        <label for="deskew" class="ml-2 text-gray-700">Auto-straighten</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="enhance" class="rounded border-gray-300 text-green-600 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50">
+                                        <label for="enhance" class="ml-2 text-gray-700">Enhance text clarity</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Scan Preview -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Scan Preview</h4>
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <div class="flex flex-wrap justify-center gap-4">
+                                <div class="preview-image bg-white w-32 h-40 rounded shadow-md relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                        <i class="fas fa-file-image text-gray-400 text-2xl"></i>
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center">Page 1</div>
+                                </div>
+                                <div class="preview-image bg-white w-32 h-40 rounded shadow-md relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                        <i class="fas fa-file-image text-gray-400 text-2xl"></i>
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center">Page 2</div>
+                                </div>
+                                <div class="preview-image bg-white w-32 h-40 rounded shadow-md relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                        <i class="fas fa-plus text-gray-400 text-2xl"></i>
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center">Add Page</div>
+                                </div>
+                            </div>
+                            <div class="flex justify-center mt-4 space-x-2">
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-sm text-gray-600">2 pages scanned</span>
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="convertBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-file-pdf mr-2"></i>Convert to PDF
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">PDF Created Successfully!</h4>
+                        <p class="text-gray-600 mb-4">Your scanned documents have been converted to a PDF file. Click below to download.</p>
+                        <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg mb-4">
+                            <i class="fas fa-download mr-2"></i>Download PDF
+                        </button>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-file-pdf text-green-500 mr-2"></i>2 pages • 1.2 MB • High quality</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our Scan to PDF Converter?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Mobile-Friendly</h4>
+                            <p class="text-gray-600">Scan documents directly with your phone camera and convert them to PDF instantly.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Smart Enhancement</h4>
+                            <p class="text-gray-600">Automatic cropping, straightening, and quality enhancement for professional results.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Multi-Format Support</h4>
+                            <p class="text-gray-600">Works with JPG, PNG, and TIFF files from any scanner or camera.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How It Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload scanned images or use your camera to capture documents</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Adjust scan settings for optimal quality and file size</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Preview and arrange pages in your document</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Convert to PDF and download your digital document</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Use Cases</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-receipt text-green-500 mr-2 mt-1"></i>
+                            <span>Digitizing receipts and invoices</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file-contract text-green-500 mr-2 mt-1"></i>
+                            <span>Archiving important documents</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-book text-green-500 mr-2 mt-1"></i>
+                            <span>Creating digital copies of books and manuals</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-id-card text-green-500 mr-2 mt-1"></i>
+                            <span>Scanning IDs and certificates</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-sticky-note text-green-500 mr-2 mt-1"></i>
+                            <span>Converting handwritten notes to digital format</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-scanner text-2xl"></i>
+                        <h2 class="text-2xl font-bold">Scan to PDF</h2>
+                    </div>
+                    <p class="text-green-200">Digitizing your documents with precision and ease</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-green-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-green-200 mt-2">© 2023 Scan to PDF. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const removeFile = document.getElementById('removeFile');
+            const cameraBtn = document.getElementById('cameraBtn');
+            const convertBtn = document.getElementById('convertBtn');
+            const downloadSection = document.getElementById('downloadSection');
+            const optionCards = document.querySelectorAll('.option-card');
+            
+            // State variables
+            let selectedQuality = 'medium';
+            let scannedPages = 2;
+            
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const validTypes = ['image/jpeg', 'image/png', 'image/tiff'];
+                    let totalSize = 0;
+                    let validFiles = 0;
+                    
+                    for (let i = 0; i < files.length; i++) {
+                        if (validTypes.includes(files[i].type)) {
+                            totalSize += files[i].size;
+                            validFiles++;
+                        }
+                    }
+                    
+                    if (validFiles > 0) {
+                        fileName.textContent = `${validFiles} image${validFiles > 1 ? 's' : ''} selected`;
+                        fileSize.textContent = `Total: ${formatFileSize(totalSize)}`;
+                        fileInfo.classList.remove('hidden');
+                        scannedPages = validFiles;
+                        updateConvertButton();
+                    } else {
+                        alert('Please upload JPG, PNG, or TIFF image files.');
+                    }
+                }
+            }
+            
+            removeFile.addEventListener('click', function() {
+                fileInfo.classList.add('hidden');
+                fileInput.value = '';
+                updateConvertButton();
+            });
+            
+            // Camera button click
+            cameraBtn.addEventListener('click', function() {
+                // In a real implementation, this would activate the device camera
+                alert('Camera functionality would be activated here. In a real implementation, this would access your device camera.');
+            });
+            
+            // Quality selection
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    selectedQuality = this.dataset.quality;
+                    
+                    // Update UI
+                    optionCards.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Update convert button state
+            function updateConvertButton() {
+                const hasFiles = !fileInfo.classList.contains('hidden');
+                convertBtn.disabled = !hasFiles;
+            }
+            
+            // Convert button click
+            convertBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show progress section
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Converting...';
+                    this.disabled = true;
+                    
+                    // Simulate conversion process
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        this.innerHTML = '<i class="fas fa-file-pdf mr-2"></i>Convert to PDF';
+                        this.disabled = false;
+                        
+                        // Scroll to download section
+                        downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                }
+            });
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>
