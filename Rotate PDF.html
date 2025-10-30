@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotate PDF Tool | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fef7ff 0%, #f3e5f5 100%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #7c4de5 0%, #9747f0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .file-drop-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .file-drop-area.active {
+            border-color: #8B5CF6;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B5CF6 0%, #A855F7 100%);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-icon {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            color: white;
+            font-size: 1.75rem;
+        }
+        
+        .success-animation {
+            animation: successPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 10px); }
+            100% { transform: translate(0, -0px); }
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #0da271 0%, #047852 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .rotation-tab {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .rotation-tab:hover {
+            border-color: #8B5CF6;
+            background-color: #faf5ff;
+        }
+        
+        .rotation-tab.selected {
+            border-color: #8B5CF6;
+            background-color: #faf5ff;
+        }
+        
+        .rotation-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1.5rem;
+            height: 600px;
+        }
+        
+        .toolbar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+        
+        .pdf-preview {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .pdf-page {
+            width: 100%;
+            height: 100%;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .pdf-page img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .page-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+        
+        .tool-options {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .option-group {
+            margin-bottom: 1rem;
+        }
+        
+        .rotation-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .rotation-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .rotation-btn:hover {
+            border-color: #8B5CF6;
+            background-color: #faf5ff;
+        }
+        
+        .rotation-btn.selected {
+            border-color: #8B5CF6;
+            background-color: #faf5ff;
+        }
+        
+        .rotation-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #8B5CF6;
+        }
+        
+        .floating-toolbar {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .floating-toolbar button {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .floating-toolbar button:hover {
+            background: #8B5CF6;
+            color: white;
+        }
+        
+        .page-thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .page-thumbnail {
+            width: 80px;
+            height: 100px;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .page-thumbnail:hover {
+            border-color: #8B5CF6;
+        }
+        
+        .page-thumbnail.selected {
+            border-color: #8B5CF6;
+            background-color: #faf5ff;
+        }
+        
+        .page-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .toolbar {
+                order: 2;
+            }
+            
+            .pdf-preview {
+                order: 1;
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-white font-bold mr-4 floating">
+                        <i class="fas fa-sync-alt text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">Rotate PDF Tool</h1>
+                        <p class="text-sm text-purple-100">By CEO Bikanta Sarkar</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-home mr-1"></i> Home</a>
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-info-circle mr-1"></i> About</a>
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-envelope mr-1"></i> Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Rotate PDF Pages <span class="text-transparent bg-clip-text gradient-bg">with Ease</span></h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Fix incorrectly oriented PDF pages by rotating them clockwise, counterclockwise, or by custom angles.</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Secure Processing</p>
+                        <p class="text-sm text-gray-600">Files deleted after 1 hour</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Fast Processing</p>
+                        <p class="text-sm text-gray-600">Rotate in seconds</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Flexible Options</p>
+                        <p class="text-sm text-gray-600">Rotate all or specific pages</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rotate PDF Section -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 mb-12 card-hover glow">
+            <div class="max-w-6xl mx-auto">
+                <!-- File Upload Area -->
+                <div id="upload-area" class="file-drop-area p-10 text-center cursor-pointer mb-8">
+                    <input type="file" id="file-input" class="hidden" accept=".pdf">
+                    <div class="mb-6">
+                        <div class="w-24 h-24 mx-auto gradient-bg rounded-full flex items-center justify-center text-white floating">
+                            <i class="fas fa-file-pdf text-3xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Drag & Drop PDF File Here</h3>
+                    <p class="text-gray-600 mb-5">or click to browse your computer</p>
+                    <div class="inline-block gradient-btn text-white font-medium py-2 px-6 rounded-full">
+                        <i class="fas fa-folder-open mr-2"></i> Choose File
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Supports: PDF (Max: 50MB)</p>
+                </div>
+
+                <!-- Editor Interface (Initially Hidden) -->
+                <div id="editor-interface" class="hidden">
+                    <div class="editor-container">
+                        <!-- Toolbar -->
+                        <div class="toolbar">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Rotation Options</h3>
+                            
+                            <div class="grid grid-cols-1 gap-4 mb-6">
+                                <div class="rotation-tab selected" onclick="selectRotationTab('all')">
+                                    <div class="rotation-icon">
+                                        <i class="fas fa-layer-group"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Rotate All Pages</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Apply rotation to entire document</p>
+                                </div>
+                                
+                                <div class="rotation-tab" onclick="selectRotationTab('selected')">
+                                    <div class="rotation-icon">
+                                        <i class="fas fa-file"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Rotate Selected Pages</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Rotate specific pages only</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Tool Options -->
+                            <div class="tool-options">
+                                <!-- Rotation Controls -->
+                                <div id="rotation-controls" class="active-tool-options">
+                                    <h4 class="font-medium text-gray-800 mb-3">Rotation Direction</h4>
+                                    
+                                    <div class="rotation-controls">
+                                        <div class="rotation-btn" onclick="selectRotation(this, 90)">
+                                            <i class="fas fa-redo"></i>
+                                            <span class="text-sm">90° Clockwise</span>
+                                        </div>
+                                        <div class="rotation-btn" onclick="selectRotation(this, -90)">
+                                            <i class="fas fa-undo"></i>
+                                            <span class="text-sm">90° Counterclockwise</span>
+                                        </div>
+                                        <div class="rotation-btn" onclick="selectRotation(this, 180)">
+                                            <i class="fas fa-sync-alt"></i>
+                                            <span class="text-sm">180° Flip</span>
+                                        </div>
+                                        <div class="rotation-btn" onclick="selectRotation(this, 'custom')">
+                                            <i class="fas fa-cog"></i>
+                                            <span class="text-sm">Custom Angle</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Custom Angle Options -->
+                                    <div id="custom-angle-options" class="mt-4 hidden">
+                                        <div class="option-group">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Custom Angle (Degrees)</label>
+                                            <input type="range" min="0" max="360" value="90" class="w-full" id="custom-angle">
+                                            <div class="flex justify-between text-xs text-gray-500">
+                                                <span>0°</span>
+                                                <span id="custom-angle-value">90°</span>
+                                                <span>360°</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Page Selection Options -->
+                                    <div id="page-selection-options" class="mt-4 hidden">
+                                        <h4 class="font-medium text-gray-800 mb-3">Select Pages to Rotate</h4>
+                                        
+                                        <div class="option-group">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Page Range</label>
+                                            <div class="flex items-center space-x-2">
+                                                <input type="number" min="1" max="10" value="1" class="w-20 p-2 border border-gray-300 rounded-lg" id="page-range-start">
+                                                <span class="text-gray-600">to</span>
+                                                <input type="number" min="1" max="10" value="5" class="w-20 p-2 border border-gray-300 rounded-lg" id="page-range-end">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="option-group">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Or Select Specific Pages</label>
+                                            <input type="text" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="e.g., 1,3,5-7" id="specific-pages">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="mt-6 space-y-3">
+                                <button class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300" onclick="resetRotation()">
+                                    <i class="fas fa-undo mr-2"></i> Reset Rotation
+                                </button>
+                                <button class="w-full gradient-btn text-white font-medium py-2 px-4 rounded-lg transition duration-300" onclick="applyRotation()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Apply Rotation to PDF
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- PDF Preview -->
+                        <div class="pdf-preview">
+                            <div class="floating-toolbar">
+                                <button title="Zoom In"><i class="fas fa-search-plus"></i></button>
+                                <button title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+                                <button title="Reset View"><i class="fas fa-sync-alt"></i></button>
+                                <button title="Download"><i class="fas fa-download"></i></button>
+                            </div>
+                            
+                            <div class="pdf-page" id="pdf-page">
+                                <img src="https://via.placeholder.com/600x800?text=PDF+Preview" alt="PDF Preview" id="pdf-preview-image">
+                            </div>
+                            
+                            <div class="page-controls">
+                                <button class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center" onclick="changePage(-1)">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-gray-700">Page <span id="current-page">1</span> of 5</span>
+                                <button class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center" onclick="changePage(1)">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Page Thumbnails -->
+                            <div class="page-thumbnails">
+                                <!-- Thumbnails will be added dynamically -->
+                                <div class="page-thumbnail selected" onclick="selectPage(1)">
+                                    <img src="https://via.placeholder.com/80x100?text=1" alt="Page 1">
+                                    <div class="page-number">1</div>
+                                </div>
+                                <div class="page-thumbnail" onclick="selectPage(2)">
+                                    <img src="https://via.placeholder.com/80x100?text=2" alt="Page 2">
+                                    <div class="page-number">2</div>
+                                </div>
+                                <div class="page-thumbnail" onclick="selectPage(3)">
+                                    <img src="https://via.placeholder.com/80x100?text=3" alt="Page 3">
+                                    <div class="page-number">3</div>
+                                </div>
+                                <div class="page-thumbnail" onclick="selectPage(4)">
+                                    <img src="https://via.placeholder.com/80x100?text=4" alt="Page 4">
+                                    <div class="page-number">4</div>
+                                </div>
+                                <div class="page-thumbnail" onclick="selectPage(5)">
+                                    <img src="https://via.placeholder.com/80x100?text=5" alt="Page 5">
+                                    <div class="page-number">5</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="download-section" class="mt-8 text-center hidden">
+                        <div class="bg-green-50 border border-green-200 rounded-xl p-8 mb-6 success-animation">
+                            <div class="flex items-center justify-center mb-4">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-4xl text-green-500"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-green-800 mb-2">PDF Successfully Rotated!</h3>
+                            <p class="text-green-700">Your PDF document has been rotated and is ready for download.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button id="download-btn" class="download-btn text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-download mr-2"></i> Download Rotated PDF
+                            </button>
+                            <button id="rotate-another-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-redo mr-2"></i> Rotate Another PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Professional PDF Rotation Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Multiple Rotation Options</h3>
+                    <p class="text-gray-600 text-center">Rotate pages 90° clockwise, 90° counterclockwise, 180°, or by any custom angle you need.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Flexible Page Selection</h3>
+                    <p class="text-gray-600 text-center">Rotate all pages at once or select specific pages to rotate individually.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Live Preview</h3>
+                    <p class="text-gray-600 text-center">See exactly how your rotated pages will look before applying changes to the entire document.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Upload PDF</h3>
+                    <p class="text-gray-600">Drag & drop or select your PDF file</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Select Rotation</h3>
+                    <p class="text-gray-600">Choose rotation angle and pages</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Preview & Adjust</h3>
+                    <p class="text-gray-600">See how it looks and make adjustments</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Download</h3>
+                    <p class="text-gray-600">Save your rotated PDF file</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AdSense Ad -->
+        <section class="mb-12">
+            <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <!-- Rotate PDF Tool Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-4431035899447961"
+                    data-ad-slot="4471207019"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Rotate PDF Tool</h3>
+                    <p class="text-gray-400">The easiest way to fix incorrectly oriented PDF pages with professional rotation tools.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Word</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Excel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to JPG</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Watermark PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@bikantasarkar.com</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-globe mr-2"></i> www.bikantasarkar.com</li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 Rotate PDF Tool. All rights reserved. | Created by CEO Bikanta Sarkar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
+            const uploadArea = document.getElementById('upload-area');
+            const editorInterface = document.getElementById('editor-interface');
+            const downloadSection = document.getElementById('download-section');
+            const downloadBtn = document.getElementById('download-btn');
+            const rotateAnotherBtn = document.getElementById('rotate-another-btn');
+            
+            // Initialize rotation settings
+            let currentRotation = 0;
+            let selectedRotation = 90;
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('active');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('active');
+            }
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFile(files[0]);
+            }
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleFile(this.files[0]);
+                }
+            });
+            
+            function handleFile(file) {
+                if (file && file.type === 'application/pdf') {
+                    // Hide upload area and show editor
+                    uploadArea.classList.add('hidden');
+                    editorInterface.classList.remove('hidden');
+                    
+                    // In a real application, you would process the PDF file here
+                    // For this demo, we're just simulating the editor interface
+                } else {
+                    alert('Please select a valid PDF file.');
+                }
+            }
+            
+            // Download button functionality
+            downloadBtn.addEventListener('click', function() {
+                alert('In a real application, this would download your rotated PDF file. This is a demo.');
+            });
+            
+            // Rotate another button functionality
+            rotateAnotherBtn.addEventListener('click', function() {
+                // Reset the form
+                editorInterface.classList.add('hidden');
+                downloadSection.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+                resetRotation();
+            });
+            
+            // Set up custom angle slider
+            const customAngleSlider = document.getElementById('custom-angle');
+            const customAngleValue = document.getElementById('custom-angle-value');
+            
+            customAngleSlider.addEventListener('input', function() {
+                customAngleValue.textContent = this.value + '°';
+                selectedRotation = parseInt(this.value);
+                rotatePreviewImage(selectedRotation);
+            });
+        });
+        
+        function selectRotationTab(tab) {
+            // Remove selected class from all tabs
+            document.querySelectorAll('.rotation-tab').forEach(tab => {
+                tab.classList.remove('selected');
+            });
+            
+            // Add selected class to the clicked tab
+            event.currentTarget.classList.add('selected');
+            
+            // Show/hide page selection options
+            const pageSelectionOptions = document.getElementById('page-selection-options');
+            if (tab === 'selected') {
+                pageSelectionOptions.classList.remove('hidden');
+            } else {
+                pageSelectionOptions.classList.add('hidden');
+            }
+        }
+        
+        function selectRotation(element, angle) {
+            // Remove selected class from all rotation buttons
+            document.querySelectorAll('.rotation-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to the clicked button
+            element.classList.add('selected');
+            
+            // Show/hide custom angle options
+            const customAngleOptions = document.getElementById('custom-angle-options');
+            if (angle === 'custom') {
+                customAngleOptions.classList.remove('hidden');
+                // Use the current value of the custom angle slider
+                const customAngleSlider = document.getElementById('custom-angle');
+                selectedRotation = parseInt(customAngleSlider.value);
+            } else {
+                customAngleOptions.classList.add('hidden');
+                selectedRotation = angle;
+            }
+            
+            // Rotate the preview image
+            rotatePreviewImage(selectedRotation);
+        }
+        
+        function rotatePreviewImage(angle) {
+            const previewImage = document.getElementById('pdf-preview-image');
+            previewImage.style.transform = `rotate(${angle}deg)`;
+        }
+        
+        function resetRotation() {
+            // Reset rotation buttons
+            document.querySelectorAll('.rotation-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Reset custom angle slider
+            document.getElementById('custom-angle').value = 90;
+            document.getElementById('custom-angle-value').textContent = '90°';
+            document.getElementById('custom-angle-options').classList.add('hidden');
+            
+            // Reset page selection
+            document.getElementById('page-range-start').value = 1;
+            document.getElementById('page-range-end').value = 5;
+            document.getElementById('specific-pages').value = '';
+            
+            // Reset preview image rotation
+            rotatePreviewImage(0);
+            
+            alert('Rotation settings have been reset.');
+        }
+        
+        function applyRotation() {
+            const downloadSection = document.getElementById('download-section');
+            downloadSection.classList.remove('hidden');
+            
+            // Scroll to download section
+            downloadSection.scrollIntoView({ behavior: 'smooth' });
+            
+            alert(`PDF rotated by ${selectedRotation} degrees! In a real application, this would process the PDF with the rotation.`);
+        }
+        
+        function changePage(direction) {
+            const currentPageElement = document.getElementById('current-page');
+            let currentPage = parseInt(currentPageElement.textContent);
+            currentPage += direction;
+            
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > 5) currentPage = 5;
+            
+            currentPageElement.textContent = currentPage;
+            
+            // Update selected thumbnail
+            selectPage(currentPage);
+        }
+        
+        function selectPage(pageNumber) {
+            // Remove selected class from all thumbnails
+            document.querySelectorAll('.page-thumbnail').forEach(thumb => {
+                thumb.classList.remove('selected');
+            });
+            
+            // Add selected class to the clicked thumbnail
+            event.currentTarget.classList.add('selected');
+            
+            // Update current page display
+            document.getElementById('current-page').textContent = pageNumber;
+            
+            // In a real application, you would update the PDF preview to show the selected page
+        }
+        
+        // Initialize with first rotation button selected
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be called after the editor is shown in a real app
+            // For demo purposes, we're simulating it here
+            setTimeout(() => {
+                if (document.querySelector('.rotation-btn')) {
+                    document.querySelector('.rotation-btn').click();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
