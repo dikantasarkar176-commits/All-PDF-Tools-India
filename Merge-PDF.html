@@ -3,468 +3,760 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merge PDF | Combine Multiple PDFs into One</title>
+    <title>Merge PDF | Combine Multiple PDF Files | CEO Bikanta Sarkar</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#3b82f6',
-                        secondary: '#1e40af',
-                        accent: '#06b6d4',
-                        dark: '#1e293b',
-                        light: '#f8fafc'
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
         }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
         .drop-zone {
+            border: 2px dashed #cbd5e0;
             transition: all 0.3s ease;
         }
-        .drop-zone.dragover {
-            border-color: #3b82f6;
-            background-color: #eff6ff;
+        
+        .drop-zone.active {
+            border-color: #e74c3c;
+            background-color: #fff5f5;
         }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(231, 76, 60, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #c0392b 0%, #d35400 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .merge-badge {
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .file-card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        
+        .option-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .option-card.selected {
+            border-color: #e74c3c;
+            background-color: #fff5f5;
+        }
+        
+        .merge-animation {
+            animation: merge 2s ease-in-out infinite;
+        }
+        
+        @keyframes merge {
+            0% { transform: translateY(-5px); opacity: 0.7; }
+            50% { transform: translateY(5px); opacity: 1; }
+            100% { transform: translateY(-5px); opacity: 0.7; }
+        }
+        
+        .file-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
         .file-item {
             transition: all 0.3s ease;
         }
+        
         .file-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background-color: #f8f9fa;
         }
-        .progress-bar {
-            transition: width 0.5s ease-in-out;
+        
+        .file-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.98);
+        }
+        
+        .file-item.drag-over {
+            border: 2px dashed #e74c3c;
+            background-color: #fff5f5;
+        }
+        
+        .sortable-ghost {
+            opacity: 0.4;
+        }
+        
+        .page-count-badge {
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-4">
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
-                        <i class="fas fa-file-pdf text-white text-lg"></i>
-                    </div>
-                    <h1 class="text-2xl font-bold text-dark">PDF Toolkit</h1>
+                    <i class="fas fa-object-group text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Merge PDF</h1>
                 </div>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Tools</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Pricing</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Help</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <button class="hidden md:block bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition duration-300">
-                        Sign In
-                    </button>
-                    <button class="md:hidden text-gray-600">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-orange-200 transition">Home</a>
+                    <a href="#" class="hover:text-orange-200 transition">Tools</a>
+                    <a href="#" class="hover:text-orange-200 transition">About</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- Hero Section -->
-        <section class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-dark mb-4">Merge PDF Files</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Combine multiple PDF documents into one unified file. Reorder pages and optimize for smaller file size.</p>
-        </section>
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Merge Multiple PDF Files into One</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Combine PDF documents, reports, and presentations into a single file with our easy-to-use merger.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-orange-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-orange-50 transition">Merge Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-orange-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
 
-        <!-- Tool Interface -->
-        <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div class="p-6 md:p-8">
-                <!-- Upload Area -->
-                <div id="dropZone" class="drop-zone border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer transition duration-300 hover:border-primary hover:bg-blue-50">
-                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Drag & Drop PDF Files</h3>
-                    <p class="text-gray-500 mb-4">or click to browse your files</p>
-                    <button id="browseBtn" class="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-lg font-medium transition duration-300">
-                        Select Files
-                    </button>
-                    <input type="file" id="fileInput" class="hidden" multiple accept=".pdf">
-                </div>
-
-                <!-- File List -->
-                <div id="fileList" class="mt-6 space-y-4 hidden">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Selected Files</h3>
-                    <!-- Files will be dynamically added here -->
-                </div>
-
-                <!-- Options -->
-                <div class="mt-8">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Merge Options</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-gray-700 font-medium mb-2">Compression Level</label>
-                            <select id="compressionLevel" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                <option value="low">Low (Best Quality)</option>
-                                <option value="medium" selected>Medium (Recommended)</option>
-                                <option value="high">High (Smallest Size)</option>
-                            </select>
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- PDF Merger Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Merge Your PDFs</h3>
+                        <span class="ml-3 merge-badge text-white text-xs font-semibold py-1 px-3 rounded-full">Easy Reordering</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop your PDF files here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf" multiple>
+                            <p class="text-gray-500 text-sm mt-4">Maximum file size: 50MB each • Multiple files allowed</p>
                         </div>
-                        <div>
-                            <label class="block text-gray-700 font-medium mb-2">Image Quality</label>
-                            <select id="imageQuality" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                                <option value="high">High Quality</option>
-                                <option value="medium" selected>Balanced</option>
-                                <option value="low">Maximum Compression</option>
-                            </select>
+                        <div id="fileInfo" class="hidden mt-4 bg-orange-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-files text-orange-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileCount">3 PDF files selected</p>
+                                        <p class="text-sm text-gray-500" id="totalPages">Total: 42 pages</p>
+                                    </div>
+                                </div>
+                                <button id="removeAllFiles" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times-circle mr-1"></i>Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- File List -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">PDF Files to Merge</h4>
+                        
+                        <div id="fileList" class="file-list space-y-3">
+                            <!-- Files will be added here dynamically -->
+                            <div class="text-center py-8 text-gray-500" id="emptyState">
+                                <i class="fas fa-files text-4xl mb-3"></i>
+                                <p>No PDF files added yet</p>
+                                <p class="text-sm">Upload PDF files to get started</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="text-sm text-gray-600">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Drag files to reorder • Click to remove
+                            </div>
+                            <button id="addMoreFiles" class="text-sm text-orange-600 font-medium hover:text-orange-800">
+                                <i class="fas fa-plus mr-1"></i>Add More Files
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Merge Options -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Merge Options</h4>
+                        
+                        <!-- Output Settings -->
+                        <div class="mb-6">
+                            <h5 class="font-medium mb-3">Output Settings</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2" for="fileName">Output File Name</label>
+                                    <input type="text" id="fileName" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="merged-document.pdf" value="merged-document.pdf">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2" for="pageSize">Page Size</label>
+                                    <select id="pageSize" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                        <option value="auto">Auto (Keep original sizes)</option>
+                                        <option value="letter">US Letter (8.5" × 11")</option>
+                                        <option value="a4">A4 (210 × 297mm)</option>
+                                        <option value="legal">Legal (8.5" × 14")</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-medium mb-3">Merge Options</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="addBookmarks" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50" checked>
+                                        <label for="addBookmarks" class="ml-2 text-gray-700">Add bookmarks for each file</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="addPageNumbers" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50">
+                                        <label for="addPageNumbers" class="ml-2 text-gray-700">Add continuous page numbers</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="optimizeSize" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50" checked>
+                                        <label for="optimizeSize" class="ml-2 text-gray-700">Optimize file size</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-medium mb-3">Security Options</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="removeMetadata" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50">
+                                        <label for="removeMetadata" class="ml-2 text-gray-700">Remove metadata</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="passwordProtect" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50">
+                                        <label for="passwordProtect" class="ml-2 text-gray-700">Password protect merged PDF</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="passwordSection" class="hidden mt-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2" for="password">Password</label>
+                                    <input type="password" id="password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Enter password">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="mergeBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-object-group mr-2"></i>Merge PDFs
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">PDFs Merged Successfully!</h4>
+                        <p class="text-gray-600 mb-4">Your PDF files have been merged into a single document. Click below to download.</p>
+                        <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg mb-4">
+                            <i class="fas fa-download mr-2"></i>Download Merged PDF
+                        </button>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-file-pdf text-green-500 mr-2"></i>3 files merged • 42 total pages • 3.8 MB file size</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Progress Bar -->
-                <div id="progressContainer" class="mt-8 hidden">
-                    <div class="flex justify-between text-sm text-gray-600 mb-2">
-                        <span>Processing...</span>
-                        <span id="progressPercent">0%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div id="progressBar" class="progress-bar bg-gradient-to-r from-primary to-accent h-2.5 rounded-full" style="width: 0%"></div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our PDF Merger?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Easy Reordering</h4>
+                            <p class="text-gray-600">Drag and drop files to arrange them in the perfect order before merging.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Fast Processing</h4>
+                            <p class="text-gray-600">Merge multiple PDF files quickly with our optimized processing engine.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Customizable Output</h4>
+                            <p class="text-gray-600">Control file name, page size, and add bookmarks or page numbers.</p>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    <button id="mergeBtn" class="flex-1 bg-primary hover:bg-secondary text-white py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
-                        <i class="fas fa-object-group mr-2"></i> Merge PDF Files
-                    </button>
-                    <button id="resetBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
-                        <i class="fas fa-redo mr-2"></i> Reset
-                    </button>
-                </div>
-
-                <!-- Download Button -->
-                <div id="downloadContainer" class="mt-8 hidden">
-                    <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                        <i class="fas fa-check-circle text-green-500 text-3xl mb-3"></i>
-                        <h3 class="text-xl font-semibold text-green-800 mb-2">PDF Files Merged Successfully!</h3>
-                        <p class="text-green-700 mb-4">Your merged PDF is ready for download.</p>
-                        <a id="downloadBtn" href="#" class="inline-block bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-medium transition duration-300">
-                            <i class="fas fa-download mr-2"></i> Download Merged PDF
-                        </a>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
                     </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How PDF Merging Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload multiple PDF files using drag & drop or file browser</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Arrange files in the desired order using drag & drop</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Configure merge options and output settings</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Click merge and download your combined PDF file</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Use Cases</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-briefcase text-orange-500 mr-2 mt-1"></i>
+                            <span>Combining multiple reports into one document</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-graduation-cap text-orange-500 mr-2 mt-1"></i>
+                            <span>Merging research papers or thesis chapters</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file-invoice text-orange-500 mr-2 mt-1"></i>
+                            <span>Consolidating invoices and receipts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-book text-orange-500 mr-2 mt-1"></i>
+                            <span>Creating a single document from scanned pages</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-project-diagram text-orange-500 mr-2 mt-1"></i>
+                            <span>Building presentations from multiple sources</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <!-- Features Section -->
-        <section class="mt-16">
-            <h2 class="text-3xl font-bold text-dark text-center mb-10">Why Use Our PDF Merger?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-xl shadow-md text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-shield-alt text-primary text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-dark mb-3">Secure Processing</h3>
-                    <p class="text-gray-600">Your files are processed securely in your browser. No uploads to external servers.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-bolt text-primary text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-dark mb-3">Fast & Efficient</h3>
-                    <p class="text-gray-600">Merge PDFs quickly with our optimized processing algorithm.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-mobile-alt text-primary text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-dark mb-3">Works Everywhere</h3>
-                    <p class="text-gray-600">Use our tool on any device - desktop, tablet, or mobile.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="mt-16 max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold text-dark text-center mb-10">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-dark mb-2">How many PDFs can I merge at once?</h3>
-                    <p class="text-gray-600">You can merge up to 20 PDF files in a single operation. Each file can be up to 50MB in size.</p>
-                </div>
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-dark mb-2">Is there a limit to the file size?</h3>
-                    <p class="text-gray-600">Yes, each PDF file should be less than 50MB for optimal performance.</p>
-                </div>
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-dark mb-2">Are my files stored on your servers?</h3>
-                    <p class="text-gray-600">No, all processing happens directly in your browser. Your files never leave your device.</p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white mt-16">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
                     <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
-                            <i class="fas fa-file-pdf text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold">PDF Toolkit</h3>
+                        <i class="fas fa-object-group text-2xl"></i>
+                        <h2 class="text-2xl font-bold">Merge PDF</h2>
                     </div>
-                    <p class="text-gray-300">Your all-in-one solution for PDF manipulation.</p>
+                    <p class="text-orange-200">Combining your documents with ease and precision</p>
                 </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="#" class="hover:text-white transition">Merge PDF</a></li>
-                        <li><a href="#" class="hover:text-white transition">Split PDF</a></li>
-                        <li><a href="#" class="hover:text-white transition">Compress PDF</a></li>
-                        <li><a href="#" class="hover:text-white transition">PDF to Word</a></li>
-                    </ul>
+                <div class="text-center md:text-right">
+                    <p class="text-orange-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-orange-200 mt-2">© 2023 Merge PDF. All rights reserved.</p>
                 </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Company</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
-                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
-                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope mr-2"></i> support@pdftoolkit.com
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone mr-2"></i> +1 (555) 123-4567
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-                <p>&copy; 2023 PDF Toolkit. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
             const dropZone = document.getElementById('dropZone');
             const fileInput = document.getElementById('fileInput');
-            const browseBtn = document.getElementById('browseBtn');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileCount = document.getElementById('fileCount');
+            const totalPages = document.getElementById('totalPages');
+            const removeAllFiles = document.getElementById('removeAllFiles');
             const fileList = document.getElementById('fileList');
+            const emptyState = document.getElementById('emptyState');
+            const addMoreFiles = document.getElementById('addMoreFiles');
             const mergeBtn = document.getElementById('mergeBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const progressContainer = document.getElementById('progressContainer');
-            const progressBar = document.getElementById('progressBar');
-            const progressPercent = document.getElementById('progressPercent');
-            const downloadContainer = document.getElementById('downloadContainer');
-            const downloadBtn = document.getElementById('downloadBtn');
+            const downloadSection = document.getElementById('downloadSection');
+            const passwordProtect = document.getElementById('passwordProtect');
+            const passwordSection = document.getElementById('passwordSection');
             
+            // State variables
             let uploadedFiles = [];
+            let totalPageCount = 0;
             
-            // Event Listeners
-            browseBtn.addEventListener('click', () => fileInput.click());
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
             
-            fileInput.addEventListener('change', handleFileSelect);
-            
-            // Drag and Drop Events
-            dropZone.addEventListener('dragover', (e) => {
+            function preventDefaults(e) {
                 e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-            
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('dragover');
-            });
-            
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                handleFiles(e.dataTransfer.files);
-            });
-            
-            mergeBtn.addEventListener('click', processFiles);
-            
-            resetBtn.addEventListener('click', resetTool);
-            
-            // Functions
-            function handleFileSelect(e) {
-                handleFiles(e.target.files);
+                e.stopPropagation();
             }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
             
             function handleFiles(files) {
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    if (file.type === 'application/pdf') {
-                        uploadedFiles.push(file);
-                        addFileToList(file);
-                    } else {
-                        alert('Please upload only PDF files.');
+                if (files.length > 0) {
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        if (file.type === 'application/pdf') {
+                            // Generate a unique ID for the file
+                            const fileId = Date.now() + Math.random();
+                            
+                            // Simulate page count extraction
+                            const pageCount = Math.min(Math.max(1, Math.floor(file.size / 50000)), 50);
+                            
+                            uploadedFiles.push({
+                                id: fileId,
+                                file: file,
+                                name: file.name,
+                                size: file.size,
+                                pages: pageCount
+                            });
+                            
+                            totalPageCount += pageCount;
+                        } else {
+                            alert('Please upload PDF files only.');
+                        }
                     }
-                }
-                
-                if (uploadedFiles.length > 0) {
-                    fileList.classList.remove('hidden');
-                    mergeBtn.disabled = false;
-                }
-            }
-            
-            function addFileToList(file) {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item bg-gray-50 p-4 rounded-lg flex justify-between items-center';
-                fileItem.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-file-pdf text-red-500 text-xl mr-3"></i>
-                        <div>
-                            <p class="font-medium text-gray-800">${file.name}</p>
-                            <p class="text-sm text-gray-500">${formatFileSize(file.size)}</p>
-                        </div>
-                    </div>
-                    <div class="flex space-x-2">
-                        <button class="move-up text-gray-500 hover:text-primary">
-                            <i class="fas fa-arrow-up"></i>
-                        </button>
-                        <button class="move-down text-gray-500 hover:text-primary">
-                            <i class="fas fa-arrow-down"></i>
-                        </button>
-                        <button class="remove-file text-gray-500 hover:text-red-500" data-name="${file.name}">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-                
-                fileList.appendChild(fileItem);
-                
-                // Add event listeners to buttons
-                fileItem.querySelector('.remove-file').addEventListener('click', function() {
-                    const fileName = this.getAttribute('data-name');
-                    removeFile(fileName);
-                    fileItem.remove();
-                });
-                
-                fileItem.querySelector('.move-up').addEventListener('click', function() {
-                    moveFileUp(fileItem);
-                });
-                
-                fileItem.querySelector('.move-down').addEventListener('click', function() {
-                    moveFileDown(fileItem);
-                });
-            }
-            
-            function moveFileUp(fileItem) {
-                const prevItem = fileItem.previousElementSibling;
-                if (prevItem) {
-                    fileList.insertBefore(fileItem, prevItem);
-                    updateFileOrder();
+                    
+                    updateFileList();
+                    updateFileInfo();
+                    updateMergeButton();
                 }
             }
             
-            function moveFileDown(fileItem) {
-                const nextItem = fileItem.nextElementSibling;
-                if (nextItem) {
-                    fileList.insertBefore(nextItem, fileItem);
-                    updateFileOrder();
-                }
-            }
-            
-            function updateFileOrder() {
-                // In a real implementation, you would update the order in uploadedFiles array
-                // For this demo, we'll just update the visual order
-            }
-            
-            function removeFile(fileName) {
-                uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
-                
+            // Update file list display
+            function updateFileList() {
                 if (uploadedFiles.length === 0) {
-                    fileList.classList.add('hidden');
-                    mergeBtn.disabled = true;
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+                
+                emptyState.classList.add('hidden');
+                fileList.innerHTML = '';
+                
+                uploadedFiles.forEach((fileData, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between';
+                    fileItem.setAttribute('draggable', 'true');
+                    fileItem.dataset.id = fileData.id;
+                    
+                    fileItem.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="bg-red-100 text-red-500 rounded-lg p-2 mr-3">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-sm">${fileData.name}</p>
+                                <div class="flex items-center text-xs text-gray-500 mt-1">
+                                    <span>${formatFileSize(fileData.size)}</span>
+                                    <span class="mx-2">•</span>
+                                    <span class="page-count-badge text-white text-xs font-medium py-1 px-2 rounded-full">${fileData.pages} pages</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-gray-400 hover:text-gray-600 move-up" ${index === 0 ? 'disabled' : ''}>
+                                <i class="fas fa-arrow-up"></i>
+                            </button>
+                            <button class="text-gray-400 hover:text-gray-600 move-down" ${index === uploadedFiles.length - 1 ? 'disabled' : ''}>
+                                <i class="fas fa-arrow-down"></i>
+                            </button>
+                            <button class="text-red-400 hover:text-red-600 remove-file">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    fileList.appendChild(fileItem);
+                    
+                    // Add event listeners for the buttons
+                    const removeBtn = fileItem.querySelector('.remove-file');
+                    removeBtn.addEventListener('click', () => removeFile(fileData.id));
+                    
+                    const moveUpBtn = fileItem.querySelector('.move-up');
+                    moveUpBtn.addEventListener('click', () => moveFile(fileData.id, 'up'));
+                    
+                    const moveDownBtn = fileItem.querySelector('.move-down');
+                    moveDownBtn.addEventListener('click', () => moveFile(fileData.id, 'down'));
+                    
+                    // Add drag and drop functionality
+                    fileItem.addEventListener('dragstart', handleDragStart);
+                    fileItem.addEventListener('dragover', handleDragOver);
+                    fileItem.addEventListener('dragleave', handleDragLeave);
+                    fileItem.addEventListener('drop', handleDropItem);
+                    fileItem.addEventListener('dragend', handleDragEnd);
+                });
+                
+                // Initialize drag and drop
+                initDragAndDrop();
+            }
+            
+            // Remove a file
+            function removeFile(fileId) {
+                const fileIndex = uploadedFiles.findIndex(f => f.id === fileId);
+                if (fileIndex !== -1) {
+                    totalPageCount -= uploadedFiles[fileIndex].pages;
+                    uploadedFiles.splice(fileIndex, 1);
+                    updateFileList();
+                    updateFileInfo();
+                    updateMergeButton();
                 }
             }
             
+            // Move a file up or down
+            function moveFile(fileId, direction) {
+                const fileIndex = uploadedFiles.findIndex(f => f.id === fileId);
+                if (fileIndex === -1) return;
+                
+                if (direction === 'up' && fileIndex > 0) {
+                    // Swap with previous file
+                    [uploadedFiles[fileIndex - 1], uploadedFiles[fileIndex]] = [uploadedFiles[fileIndex], uploadedFiles[fileIndex - 1]];
+                    updateFileList();
+                } else if (direction === 'down' && fileIndex < uploadedFiles.length - 1) {
+                    // Swap with next file
+                    [uploadedFiles[fileIndex], uploadedFiles[fileIndex + 1]] = [uploadedFiles[fileIndex + 1], uploadedFiles[fileIndex]];
+                    updateFileList();
+                }
+            }
+            
+            // Update file info display
+            function updateFileInfo() {
+                if (uploadedFiles.length > 0) {
+                    fileCount.textContent = `${uploadedFiles.length} PDF file${uploadedFiles.length > 1 ? 's' : ''} selected`;
+                    totalPages.textContent = `Total: ${totalPageCount} pages`;
+                    fileInfo.classList.remove('hidden');
+                } else {
+                    fileInfo.classList.add('hidden');
+                }
+            }
+            
+            // Remove all files
+            removeAllFiles.addEventListener('click', function() {
+                uploadedFiles = [];
+                totalPageCount = 0;
+                updateFileList();
+                updateFileInfo();
+                updateMergeButton();
+            });
+            
+            // Add more files
+            addMoreFiles.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // Password protection toggle
+            passwordProtect.addEventListener('change', function() {
+                if (this.checked) {
+                    passwordSection.classList.remove('hidden');
+                } else {
+                    passwordSection.classList.add('hidden');
+                }
+            });
+            
+            // Update merge button state
+            function updateMergeButton() {
+                mergeBtn.disabled = uploadedFiles.length < 2;
+            }
+            
+            // Merge button click
+            mergeBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show progress section
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Merging PDFs...';
+                    this.disabled = true;
+                    
+                    // Simulate merging process
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        this.innerHTML = '<i class="fas fa-object-group mr-2"></i>Merge PDFs';
+                        this.disabled = false;
+                        
+                        // Scroll to download section
+                        downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                }
+            });
+            
+            // Drag and drop functionality for reordering
+            let draggedItem = null;
+            
+            function handleDragStart(e) {
+                draggedItem = this;
+                this.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+            }
+            
+            function handleDragOver(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+                return false;
+            }
+            
+            function handleDragLeave() {
+                this.classList.remove('drag-over');
+            }
+            
+            function handleDrop(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                if (draggedItem !== this) {
+                    const allItems = Array.from(fileList.children);
+                    const draggedIndex = allItems.indexOf(draggedItem);
+                    const targetIndex = allItems.indexOf(this);
+                    
+                    if (draggedIndex < targetIndex) {
+                        fileList.insertBefore(draggedItem, this.nextSibling);
+                    } else {
+                        fileList.insertBefore(draggedItem, this);
+                    }
+                    
+                    // Update the uploadedFiles array to match the new order
+                    const movedFile = uploadedFiles.splice(draggedIndex, 1)[0];
+                    uploadedFiles.splice(targetIndex, 0, movedFile);
+                }
+                
+                this.classList.remove('drag-over');
+                return false;
+            }
+            
+            function handleDragEnd() {
+                this.classList.remove('dragging');
+                const allItems = Array.from(fileList.children);
+                allItems.forEach(item => {
+                    item.classList.remove('drag-over');
+                });
+            }
+            
+            function initDragAndDrop() {
+                const items = fileList.querySelectorAll('.file-item');
+                items.forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragover', handleDragOver);
+                    item.addEventListener('dragleave', handleDragLeave);
+                    item.addEventListener('drop', handleDrop);
+                    item.addEventListener('dragend', handleDragEnd);
+                });
+            }
+            
+            // Helper function to format file size
             function formatFileSize(bytes) {
                 if (bytes === 0) return '0 Bytes';
                 const k = 1024;
                 const sizes = ['Bytes', 'KB', 'MB', 'GB'];
                 const i = Math.floor(Math.log(bytes) / Math.log(k));
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-            }
-            
-            function processFiles() {
-                if (uploadedFiles.length === 0) {
-                    alert('Please upload at least one PDF file.');
-                    return;
-                }
-                
-                if (uploadedFiles.length === 1) {
-                    alert('You need at least two PDF files to merge.');
-                    return;
-                }
-                
-                // Show progress container
-                progressContainer.classList.remove('hidden');
-                
-                // Simulate processing
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 5;
-                    progressBar.style.width = `${progress}%`;
-                    progressPercent.textContent = `${progress}%`;
-                    
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        
-                        // Show download container
-                        setTimeout(() => {
-                            progressContainer.classList.add('hidden');
-                            downloadContainer.classList.remove('hidden');
-                            
-                            // Create a dummy PDF file for download
-                            createDownloadFile();
-                        }, 500);
-                    }
-                }, 100);
-            }
-            
-            function createDownloadFile() {
-                // In a real implementation, this would be the actual merged PDF
-                // For this demo, we'll create a dummy file
-                const dummyContent = "%PDF-1.4\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>\nendobj\n4 0 obj\n<< /Length 44 >>\nstream\nBT\n/F1 12 Tf\n72 720 Td\n(Merged PDF File) Tj\nET\nendstream\nendobj\nxref\n0 5\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000115 00000 n \n0000000239 00000 n \ntrailer\n<< /Size 5 /Root 1 0 R >>\nstartxref\n307\n%%EOF";
-                const blob = new Blob([dummyContent], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                
-                // Set the download link
-                downloadBtn.href = url;
-                downloadBtn.download = 'merged-document.pdf';
-                
-                // Clean up after download
-                downloadBtn.addEventListener('click', function() {
-                    setTimeout(() => {
-                        URL.revokeObjectURL(url);
-                    }, 100);
-                });
-            }
-            
-            function resetTool() {
-                uploadedFiles = [];
-                fileList.innerHTML = '';
-                fileList.classList.add('hidden');
-                progressBar.style.width = '0%';
-                progressPercent.textContent = '0%';
-                progressContainer.classList.add('hidden');
-                downloadContainer.classList.add('hidden');
-                fileInput.value = '';
-                mergeBtn.disabled = false;
             }
         });
     </script>
