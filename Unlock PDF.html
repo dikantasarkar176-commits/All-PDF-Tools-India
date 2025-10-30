@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock PDF Tool | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fef7ff 0%, #f3e5f5 100%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #7c4de5 0%, #9747f0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .file-drop-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .file-drop-area.active {
+            border-color: #8B5CF6;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B5CF6 0%, #A855F7 100%);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-icon {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            color: white;
+            font-size: 1.75rem;
+        }
+        
+        .success-animation {
+            animation: successPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 10px); }
+            100% { transform: translate(0, -0px); }
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #0da271 0%, #047852 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .password-input {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+        }
+        
+        .security-level {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        .security-indicator {
+            height: 6px;
+            border-radius: 3px;
+            flex-grow: 1;
+            margin: 0 4px;
+            background-color: #e5e7eb;
+        }
+        
+        .security-indicator.active {
+            background-color: #10b981;
+        }
+        
+        .security-indicator.medium {
+            background-color: #f59e0b;
+        }
+        
+        .security-indicator.weak {
+            background-color: #ef4444;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #1f2937;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .password-strength {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .strength-text {
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .security-level {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .security-indicators {
+                display: flex;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-white font-bold mr-4 floating">
+                        <i class="fas fa-lock-open text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">Unlock PDF Tool</h1>
+                        <p class="text-sm text-purple-100">By CEO Bikanta Sarkar</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-home mr-1"></i> Home</a>
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-info-circle mr-1"></i> About</a>
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-envelope mr-1"></i> Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Unlock Protected PDFs <span class="text-transparent bg-clip-text gradient-bg">Instantly</span></h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Remove password protection from your PDF documents quickly and securely with our advanced unlocking tool.</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Secure Processing</p>
+                        <p class="text-sm text-gray-600">Files deleted after 1 hour</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Fast Unlocking</p>
+                        <p class="text-sm text-gray-600">Unlock in seconds</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Easy Upload</p>
+                        <p class="text-sm text-gray-600">Drag & drop files</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Unlock PDF Section -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 mb-12 card-hover glow">
+            <div class="max-w-4xl mx-auto">
+                <!-- File Upload Area -->
+                <div id="upload-area" class="file-drop-area p-10 text-center cursor-pointer mb-8">
+                    <input type="file" id="file-input" class="hidden" accept=".pdf">
+                    <div class="mb-6">
+                        <div class="w-24 h-24 mx-auto gradient-bg rounded-full flex items-center justify-center text-white floating">
+                            <i class="fas fa-file-pdf text-3xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Drag & Drop Protected PDF Here</h3>
+                    <p class="text-gray-600 mb-5">or click to browse your computer</p>
+                    <div class="inline-block gradient-btn text-white font-medium py-2 px-6 rounded-full">
+                        <i class="fas fa-folder-open mr-2"></i> Choose File
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Supports: Password-protected PDFs (Max: 50MB)</p>
+                </div>
+
+                <!-- File List -->
+                <div id="file-list" class="mb-8 hidden">
+                    <h3 class="text-xl font-medium text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-file-pdf mr-2 text-purple-500"></i> Selected PDF
+                    </h3>
+                    <div id="file-items" class="space-y-3">
+                        <!-- Files will be added here dynamically -->
+                    </div>
+                </div>
+
+                <!-- Password Input -->
+                <div id="password-section" class="mb-8 hidden">
+                    <h3 class="text-xl font-medium text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-key mr-2 text-purple-500"></i> Enter PDF Password
+                    </h3>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">PDF Password</label>
+                            <div class="password-input">
+                                <input type="password" id="pdf-password" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Enter the PDF password">
+                                <button type="button" class="password-toggle" id="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <span class="text-gray-500">Password strength:</span>
+                                <span class="strength-text text-green-600" id="password-strength-text">Not entered</span>
+                            </div>
+                            <div class="security-level">
+                                <span class="text-xs text-gray-500">Weak</span>
+                                <div class="security-indicators flex-1 mx-2">
+                                    <div class="security-indicator weak" id="strength-1"></div>
+                                    <div class="security-indicator" id="strength-2"></div>
+                                    <div class="security-indicator" id="strength-3"></div>
+                                    <div class="security-indicator" id="strength-4"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">Strong</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <input type="checkbox" id="remember-password" class="h-4 w-4 text-purple-600 focus:ring-purple-500 mt-1">
+                            <label for="remember-password" class="ml-2 block text-sm text-gray-700">
+                                Remember this password for future sessions
+                                <span class="tooltip ml-1">
+                                    <i class="fas fa-info-circle text-gray-400"></i>
+                                    <span class="tooltiptext">Your password is stored locally in your browser and is not sent to our servers</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Options -->
+                <div id="advanced-options" class="mb-8 hidden">
+                    <h3 class="text-xl font-medium text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-sliders-h mr-2 text-purple-500"></i> Advanced Options
+                    </h3>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Unlock Method</label>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <input type="radio" id="method-password" name="unlock-method" class="h-4 w-4 text-purple-600 focus:ring-purple-500" checked>
+                                        <label for="method-password" class="ml-2 block text-sm text-gray-700">Use Password</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" id="method-brute" name="unlock-method" class="h-4 w-4 text-purple-600 focus:ring-purple-500">
+                                        <label for="method-brute" class="ml-2 block text-sm text-gray-700">Brute Force (Advanced)</label>
+                                        <span class="tooltip ml-1">
+                                            <i class="fas fa-info-circle text-gray-400"></i>
+                                            <span class="tooltiptext">Try common passwords automatically. This may take longer.</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Output Options</label>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="remove-restrictions" class="h-4 w-4 text-purple-600 focus:ring-purple-500" checked>
+                                        <label for="remove-restrictions" class="ml-2 block text-sm text-gray-700">Remove all restrictions</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="preserve-metadata" class="h-4 w-4 text-purple-600 focus:ring-purple-500" checked>
+                                        <label for="preserve-metadata" class="ml-2 block text-sm text-gray-700">Preserve document metadata</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unlock Button -->
+                <div class="text-center">
+                    <button id="unlock-btn" class="gradient-btn text-white font-semibold py-4 px-12 rounded-xl text-lg transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-lock-open mr-2"></i> Unlock PDF
+                    </button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progress-section" class="mt-8 hidden">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-700">Unlocking Progress</span>
+                        <span id="progress-percent" class="text-sm font-medium text-gray-700">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <p class="text-center text-gray-600 mt-3" id="progress-message">Preparing to unlock your PDF...</p>
+                </div>
+
+                <!-- Download Section -->
+                <div id="download-section" class="mt-8 text-center hidden">
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-8 mb-6 success-animation">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check-circle text-4xl text-green-500"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-green-800 mb-2">PDF Successfully Unlocked!</h3>
+                        <p class="text-green-700">Your PDF document has been unlocked and all restrictions have been removed.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button id="download-btn" class="download-btn text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                            <i class="fas fa-download mr-2"></i> Download Unlocked PDF
+                        </button>
+                        <button id="unlock-another-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                            <i class="fas fa-redo mr-2"></i> Unlock Another PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Why Use Our PDF Unlocker?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Secure Processing</h3>
+                    <p class="text-gray-600 text-center">Your files are processed securely with end-to-end encryption. Files are automatically deleted after processing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Fast Unlocking</h3>
+                    <p class="text-gray-600 text-center">Our advanced algorithms unlock PDFs quickly, even those with strong encryption and restrictions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Remove Restrictions</h3>
+                    <p class="text-gray-600 text-center">Unlock printing, editing, copying, and other restrictions that may be placed on your PDF documents.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Upload PDF</h3>
+                    <p class="text-gray-600">Drag & drop or select your password-protected PDF file</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Enter Password</h3>
+                    <p class="text-gray-600">Provide the PDF password or use advanced unlocking methods</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Unlock</h3>
+                    <p class="text-gray-600">Click unlock and wait a few seconds for processing</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Download</h3>
+                    <p class="text-gray-600">Get your unlocked PDF file with all restrictions removed</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AdSense Ad -->
+        <section class="mb-12">
+            <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <!-- Unlock PDF Tool Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-4431035899447961"
+                    data-ad-slot="4471207019"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Unlock PDF Tool</h3>
+                    <p class="text-gray-400">The most secure and efficient way to remove password protection from your PDF documents.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Word</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Excel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to JPG</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Watermark PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@bikantasarkar.com</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-globe mr-2"></i> www.bikantasarkar.com</li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 Unlock PDF Tool. All rights reserved. | Created by CEO Bikanta Sarkar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
+            const uploadArea = document.getElementById('upload-area');
+            const fileList = document.getElementById('file-list');
+            const fileItems = document.getElementById('file-items');
+            const passwordSection = document.getElementById('password-section');
+            const advancedOptions = document.getElementById('advanced-options');
+            const unlockBtn = document.getElementById('unlock-btn');
+            const progressSection = document.getElementById('progress-section');
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressMessage = document.getElementById('progress-message');
+            const downloadSection = document.getElementById('download-section');
+            const downloadBtn = document.getElementById('download-btn');
+            const unlockAnotherBtn = document.getElementById('unlock-another-btn');
+            const passwordToggle = document.getElementById('password-toggle');
+            const pdfPassword = document.getElementById('pdf-password');
+            
+            let selectedFiles = [];
+            
+            // Password strength calculation
+            pdfPassword.addEventListener('input', function() {
+                updatePasswordStrength(this.value);
+            });
+            
+            // Password visibility toggle
+            passwordToggle.addEventListener('click', function() {
+                const type = pdfPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                pdfPassword.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('active');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('active');
+            }
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    selectedFiles = Array.from(files);
+                    updateFileList();
+                    fileList.classList.remove('hidden');
+                    passwordSection.classList.remove('hidden');
+                    advancedOptions.classList.remove('hidden');
+                }
+            }
+            
+            function updateFileList() {
+                fileItems.innerHTML = '';
+                
+                selectedFiles.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    
+                    const fileIcon = document.createElement('div');
+                    fileIcon.className = 'file-icon';
+                    fileIcon.innerHTML = '<i class="fas fa-file-pdf text-xl"></i>';
+                    
+                    const fileInfo = document.createElement('div');
+                    fileInfo.className = 'flex-1';
+                    
+                    const fileName = document.createElement('p');
+                    fileName.className = 'text-sm font-medium text-gray-800 truncate';
+                    fileName.textContent = file.name;
+                    
+                    const fileSize = document.createElement('p');
+                    fileSize.className = 'text-xs text-gray-500';
+                    fileSize.textContent = formatFileSize(file.size);
+                    
+                    fileInfo.appendChild(fileName);
+                    fileInfo.appendChild(fileSize);
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'text-red-500 hover:text-red-700 transition duration-300';
+                    removeBtn.innerHTML = '<i class="fas fa-times-circle text-xl"></i>';
+                    removeBtn.addEventListener('click', () => {
+                        selectedFiles.splice(index, 1);
+                        updateFileList();
+                        if (selectedFiles.length === 0) {
+                            fileList.classList.add('hidden');
+                            passwordSection.classList.add('hidden');
+                            advancedOptions.classList.add('hidden');
+                        }
+                    });
+                    
+                    fileItem.appendChild(fileIcon);
+                    fileItem.appendChild(fileInfo);
+                    fileItem.appendChild(removeBtn);
+                    
+                    fileItems.appendChild(fileItem);
+                });
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            function updatePasswordStrength(password) {
+                let strength = 0;
+                const strengthText = document.getElementById('password-strength-text');
+                const indicators = [
+                    document.getElementById('strength-1'),
+                    document.getElementById('strength-2'),
+                    document.getElementById('strength-3'),
+                    document.getElementById('strength-4')
+                ];
+                
+                // Reset indicators
+                indicators.forEach(indicator => {
+                    indicator.className = 'security-indicator';
+                });
+                
+                if (password.length === 0) {
+                    strengthText.textContent = 'Not entered';
+                    strengthText.className = 'strength-text text-gray-500';
+                    return;
+                }
+                
+                // Check password strength
+                if (password.length > 0) strength++;
+                if (password.length >= 8) strength++;
+                if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                
+                // Cap at 4
+                strength = Math.min(strength, 4);
+                
+                // Update indicators
+                for (let i = 0; i < strength; i++) {
+                    if (i < 2) {
+                        indicators[i].className = 'security-indicator weak';
+                    } else if (i < 3) {
+                        indicators[i].className = 'security-indicator medium';
+                    } else {
+                        indicators[i].className = 'security-indicator active';
+                    }
+                }
+                
+                // Update text
+                if (strength <= 1) {
+                    strengthText.textContent = 'Very Weak';
+                    strengthText.className = 'strength-text text-red-600';
+                } else if (strength === 2) {
+                    strengthText.textContent = 'Weak';
+                    strengthText.className = 'strength-text text-orange-500';
+                } else if (strength === 3) {
+                    strengthText.textContent = 'Good';
+                    strengthText.className = 'strength-text text-yellow-500';
+                } else {
+                    strengthText.textContent = 'Strong';
+                    strengthText.className = 'strength-text text-green-600';
+                }
+            }
+            
+            // Unlock simulation
+            unlockBtn.addEventListener('click', function() {
+                if (selectedFiles.length === 0) {
+                    alert('Please select a PDF file to unlock.');
+                    return;
+                }
+                
+                const password = pdfPassword.value;
+                if (!password) {
+                    alert('Please enter the PDF password.');
+                    return;
+                }
+                
+                // Hide sections and show progress
+                uploadArea.classList.add('hidden');
+                fileList.classList.add('hidden');
+                passwordSection.classList.add('hidden');
+                advancedOptions.classList.add('hidden');
+                unlockBtn.disabled = true;
+                progressSection.classList.remove('hidden');
+                
+                // Simulate unlocking progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    
+                    if (progress < 30) {
+                        progressMessage.textContent = 'Analyzing PDF encryption...';
+                    } else if (progress < 60) {
+                        progressMessage.textContent = 'Attempting to unlock with provided password...';
+                    } else if (progress < 90) {
+                        progressMessage.textContent = 'Removing restrictions...';
+                    } else {
+                        progressMessage.textContent = 'Finalizing unlocked PDF...';
+                    }
+                    
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        
+                        // Show download section after a short delay
+                        setTimeout(() => {
+                            progressSection.classList.add('hidden');
+                            downloadSection.classList.remove('hidden');
+                        }, 500);
+                    }
+                    
+                    progressFill.style.width = `${progress}%`;
+                    progressPercent.textContent = `${Math.round(progress)}%`;
+                }, 200);
+            });
+            
+            // Download button functionality
+            downloadBtn.addEventListener('click', function() {
+                alert('In a real application, this would download your unlocked PDF file. This is a demo.');
+            });
+            
+            // Unlock another button functionality
+            unlockAnotherBtn.addEventListener('click', function() {
+                // Reset the form
+                selectedFiles = [];
+                fileInput.value = '';
+                fileList.classList.add('hidden');
+                passwordSection.classList.add('hidden');
+                advancedOptions.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+                downloadSection.classList.add('hidden');
+                unlockBtn.disabled = false;
+                progressFill.style.width = '0%';
+                progressPercent.textContent = '0%';
+                pdfPassword.value = '';
+                updatePasswordStrength('');
+                
+                // Reset password visibility
+                pdfPassword.setAttribute('type', 'password');
+                passwordToggle.innerHTML = '<i class="fas fa-eye"></i>';
+            });
+        });
+    </script>
+</body>
+</html>
