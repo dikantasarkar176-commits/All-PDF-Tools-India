@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Numbers Converter | Format & Customize Page Numbers | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(102, 126, 234, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #5a67d8 0%, #4c51bf 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .numbering-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .preview-page {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-page:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .format-option {
+            transition: all 0.3s ease;
+        }
+        
+        .format-option:hover {
+            transform: scale(1.02);
+        }
+        
+        .format-option.selected {
+            border-color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 8px;
+        }
+        
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-sort-numeric-up text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Page Numbers Converter</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-purple-200 transition">Home</a>
+                    <a href="#" class="hover:text-purple-200 transition">Tools</a>
+                    <a href="#" class="hover:text-purple-200 transition">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Customize Page Numbers in Your Documents</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Add, format, or convert page numbers in PDFs and documents with complete control over style, position, and format.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-purple-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-purple-50 transition">Get Started</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-purple-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Page Numbers Converter Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Customize Page Numbers</h3>
+                        <span class="ml-3 numbering-badge text-white text-xs font-semibold py-1 px-3 rounded-full">Multiple Formats</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop your document here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf,.docx,.doc">
+                            <p class="text-gray-500 text-sm mt-4">Supports PDF, DOCX, DOC • Maximum file size: 50MB</p>
+                        </div>
+                        <div id="fileInfo" class="hidden mt-4 bg-blue-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file text-blue-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileName">document.pdf</p>
+                                        <p class="text-sm text-gray-500" id="fileSize">2.4 MB • <span id="pageCount">12 pages</span></p>
+                                    </div>
+                                </div>
+                                <button id="removeFile" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Page Numbering Options -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Numbering Options</h4>
+                        
+                        <!-- Format Selection -->
+                        <div class="mb-6">
+                            <h5 class="font-medium mb-3">Number Format</h5>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div class="format-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-format="numeric">
+                                    <div class="text-xl font-bold mb-1">1, 2, 3</div>
+                                    <p class="text-xs text-gray-600">Numeric</p>
+                                </div>
+                                <div class="format-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-format="roman">
+                                    <div class="text-xl font-bold mb-1">I, II, III</div>
+                                    <p class="text-xs text-gray-600">Roman</p>
+                                </div>
+                                <div class="format-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-format="alphabetic">
+                                    <div class="text-xl font-bold mb-1">A, B, C</div>
+                                    <p class="text-xs text-gray-600">Alphabetic</p>
+                                </div>
+                                <div class="format-option border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-format="custom">
+                                    <div class="text-xl font-bold mb-1">Custom</div>
+                                    <p class="text-xs text-gray-600">Define your own</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Custom Format Input (Hidden by default) -->
+                        <div id="customFormatSection" class="hidden mb-4">
+                            <label class="block text-gray-700 mb-2" for="customFormat">Custom Format</label>
+                            <div class="flex space-x-2">
+                                <input type="text" id="customFormat" class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Page - 1, Page - 2">
+                                <button class="bg-gray-100 text-gray-700 font-medium py-3 px-4 rounded-lg hover:bg-gray-200 transition">
+                                    <i class="fas fa-sync-alt mr-1"></i> Preview
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Use # to represent the page number (e.g., "Page #" becomes "Page 1", "Page 2")</p>
+                        </div>
+                        
+                        <!-- Position and Style -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-medium mb-3">Position</h5>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="border border-gray-200 rounded-lg p-3 text-center cursor-pointer position-option" data-position="top-left">
+                                        <i class="fas fa-arrow-up text-gray-400"></i>
+                                        <i class="fas fa-arrow-left text-gray-400"></i>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-lg p-3 text-center cursor-pointer position-option" data-position="top-center">
+                                        <i class="fas fa-arrow-up text-gray-400"></i>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-lg p-3 text-center cursor-pointer position-option" data-position="top-right">
+                                        <i class="fas fa-arrow-up text-gray-400"></i>
+                                        <i class="fas fa-arrow-right text-gray-400"></i>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-lg p-3 text-center cursor-pointer position-option" data-position="bottom-left">
+                                        <i class="fas fa-arrow-down text-gray-400"></i>
+                                        <i class="fas fa-arrow-left text-gray-400"></i>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-lg p-3 text-center cursor-pointer position-option selected" data-position="bottom-center">
+                                        <i class="fas fa-arrow-down text-gray-400"></i>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-lg p-3 text-center cursor-pointer position-option" data-position="bottom-right">
+                                        <i class="fas fa-arrow-down text-gray-400"></i>
+                                        <i class="fas fa-arrow-right text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-medium mb-3">Style & Appearance</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-gray-700">Font Size</label>
+                                        <div class="flex items-center space-x-2">
+                                            <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">-</button>
+                                            <span class="font-medium">12pt</span>
+                                            <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-gray-700">Color</label>
+                                        <input type="color" id="numberColor" value="#000000">
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-gray-700">Start From</label>
+                                        <input type="number" id="startNumber" class="w-20 p-2 border border-gray-300 rounded-lg text-center" value="1" min="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Live Preview -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Live Preview</h4>
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <div class="flex justify-center">
+                                <div class="preview-page bg-white w-48 h-64 rounded shadow-md relative">
+                                    <div class="absolute bottom-4 left-0 right-0 text-center">
+                                        <span id="previewNumber" class="text-gray-800 font-medium">1</span>
+                                    </div>
+                                    <div class="p-4 text-center text-gray-500">
+                                        <p>Document Content</p>
+                                        <p class="text-xs mt-2">Page number preview</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-center mt-4 space-x-2">
+                                <button id="prevPage" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-sm text-gray-600">Page <span id="currentPage">1</span> of 12</span>
+                                <button id="nextPage" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="convertBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-magic mr-2"></i>Apply Page Numbers
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">Page Numbers Applied Successfully!</h4>
+                        <p class="text-gray-600 mb-4">Your document has been updated with the new page numbering. Click below to download.</p>
+                        <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg mb-4">
+                            <i class="fas fa-download mr-2"></i>Download Document
+                        </button>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-file-alt text-green-500 mr-2"></i>Document formatted with professional page numbering</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our Page Numbers Converter?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Complete Customization</h4>
+                            <p class="text-gray-600">Control every aspect of your page numbers - format, position, style, and more.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Live Preview</h4>
+                            <p class="text-gray-600">See exactly how your page numbers will look before applying them to your document.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Multiple Formats</h4>
+                            <p class="text-gray-600">Support for numeric, Roman, alphabetic, and custom numbering formats.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How It Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload your document (PDF, DOCX, or DOC)</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Customize the page number format, position, and style</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Preview how the page numbers will look in your document</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Apply the changes and download your formatted document</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Use Cases</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-book text-purple-500 mr-2 mt-1"></i>
+                            <span>Theses, dissertations, and academic papers</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-briefcase text-purple-500 mr-2 mt-1"></i>
+                            <span>Business reports and proposals</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file-contract text-purple-500 mr-2 mt-1"></i>
+                            <span>Legal documents and contracts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-book-open text-purple-500 mr-2 mt-1"></i>
+                            <span>Books, manuals, and guides</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-print text-purple-500 mr-2 mt-1"></i>
+                            <span>Print-ready documents</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-sort-numeric-up text-2xl"></i>
+                        <h2 class="text-2xl font-bold">Page Numbers Converter</h2>
+                    </div>
+                    <p class="text-purple-200">Professional document formatting made simple</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-purple-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-purple-200 mt-2">© 2023 Page Numbers Converter. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const pageCount = document.getElementById('pageCount');
+            const removeFile = document.getElementById('removeFile');
+            const convertBtn = document.getElementById('convertBtn');
+            const downloadSection = document.getElementById('downloadSection');
+            const formatOptions = document.querySelectorAll('.format-option');
+            const positionOptions = document.querySelectorAll('.position-option');
+            const customFormatSection = document.getElementById('customFormatSection');
+            const previewNumber = document.getElementById('previewNumber');
+            const currentPage = document.getElementById('currentPage');
+            const prevPage = document.getElementById('prevPage');
+            const nextPage = document.getElementById('nextPage');
+            const numberColor = document.getElementById('numberColor');
+            const startNumber = document.getElementById('startNumber');
+            
+            // State variables
+            let selectedFormat = 'numeric';
+            let selectedPosition = 'bottom-center';
+            let currentPreviewPage = 1;
+            let totalPages = 12;
+            
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
+                    
+                    if (validTypes.includes(file.type)) {
+                        fileName.textContent = file.name;
+                        fileSize.textContent = formatFileSize(file.size);
+                        
+                        // Simulate page count extraction
+                        totalPages = Math.min(Math.max(1, Math.floor(file.size / 50000)), 50);
+                        pageCount.textContent = `${totalPages} pages`;
+                        
+                        fileInfo.classList.remove('hidden');
+                        updateConvertButton();
+                    } else {
+                        alert('Please upload a PDF, DOCX, or DOC file.');
+                    }
+                }
+            }
+            
+            removeFile.addEventListener('click', function() {
+                fileInfo.classList.add('hidden');
+                fileInput.value = '';
+                updateConvertButton();
+            });
+            
+            // Format selection
+            formatOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    selectedFormat = this.dataset.format;
+                    
+                    // Update UI
+                    formatOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    
+                    // Show/hide custom format section
+                    if (selectedFormat === 'custom') {
+                        customFormatSection.classList.remove('hidden');
+                    } else {
+                        customFormatSection.classList.add('hidden');
+                    }
+                    
+                    updatePreview();
+                });
+            });
+            
+            // Position selection
+            positionOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    selectedPosition = this.dataset.position;
+                    
+                    // Update UI
+                    positionOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    
+                    updatePreviewPosition();
+                });
+            });
+            
+            // Update preview position
+            function updatePreviewPosition() {
+                const previewPage = document.querySelector('.preview-page');
+                const numberElement = document.getElementById('previewNumber');
+                
+                // Remove all position classes
+                previewPage.classList.remove(
+                    'items-start', 'items-end', 'justify-start', 'justify-center', 'justify-end'
+                );
+                numberElement.parentElement.classList.remove(
+                    'bottom-4', 'top-4', 'left-0', 'right-0', 'text-left', 'text-center', 'text-right'
+                );
+                
+                // Apply new position classes
+                if (selectedPosition.includes('top')) {
+                    numberElement.parentElement.classList.add('top-4');
+                } else {
+                    numberElement.parentElement.classList.add('bottom-4');
+                }
+                
+                if (selectedPosition.includes('left')) {
+                    numberElement.parentElement.classList.add('text-left', 'left-4', 'right-auto');
+                } else if (selectedPosition.includes('right')) {
+                    numberElement.parentElement.classList.add('text-right', 'right-4', 'left-auto');
+                } else {
+                    numberElement.parentElement.classList.add('text-center', 'left-0', 'right-0');
+                }
+            }
+            
+            // Page navigation for preview
+            prevPage.addEventListener('click', function() {
+                if (currentPreviewPage > 1) {
+                    currentPreviewPage--;
+                    updatePreview();
+                }
+            });
+            
+            nextPage.addEventListener('click', function() {
+                if (currentPreviewPage < totalPages) {
+                    currentPreviewPage++;
+                    updatePreview();
+                }
+            });
+            
+            // Update preview number based on format
+            function updatePreview() {
+                let displayNumber;
+                const startNum = parseInt(startNumber.value) || 1;
+                const pageNum = currentPreviewPage + startNum - 1;
+                
+                switch(selectedFormat) {
+                    case 'numeric':
+                        displayNumber = pageNum;
+                        break;
+                    case 'roman':
+                        displayNumber = toRoman(pageNum);
+                        break;
+                    case 'alphabetic':
+                        displayNumber = toAlphabetic(pageNum);
+                        break;
+                    case 'custom':
+                        const customFormat = document.getElementById('customFormat').value || 'Page #';
+                        displayNumber = customFormat.replace('#', pageNum);
+                        break;
+                    default:
+                        displayNumber = pageNum;
+                }
+                
+                previewNumber.textContent = displayNumber;
+                currentPage.textContent = currentPreviewPage;
+                
+                // Update color
+                previewNumber.style.color = numberColor.value;
+            }
+            
+            // Convert number to Roman numeral
+            function toRoman(num) {
+                if (num < 1 || num > 3999) return num;
+                
+                const romanNumerals = [
+                    { value: 1000, numeral: 'M' },
+                    { value: 900, numeral: 'CM' },
+                    { value: 500, numeral: 'D' },
+                    { value: 400, numeral: 'CD' },
+                    { value: 100, numeral: 'C' },
+                    { value: 90, numeral: 'XC' },
+                    { value: 50, numeral: 'L' },
+                    { value: 40, numeral: 'XL' },
+                    { value: 10, numeral: 'X' },
+                    { value: 9, numeral: 'IX' },
+                    { value: 5, numeral: 'V' },
+                    { value: 4, numeral: 'IV' },
+                    { value: 1, numeral: 'I' }
+                ];
+                
+                let result = '';
+                for (const { value, numeral } of romanNumerals) {
+                    while (num >= value) {
+                        result += numeral;
+                        num -= value;
+                    }
+                }
+                return result;
+            }
+            
+            // Convert number to alphabetic (A, B, C, ... AA, AB, ...)
+            function toAlphabetic(num) {
+                if (num < 1) return num;
+                
+                let result = '';
+                while (num > 0) {
+                    num--;
+                    result = String.fromCharCode(65 + (num % 26)) + result;
+                    num = Math.floor(num / 26);
+                }
+                return result;
+            }
+            
+            // Update preview when color changes
+            numberColor.addEventListener('input', updatePreview);
+            
+            // Update preview when start number changes
+            startNumber.addEventListener('change', updatePreview);
+            
+            // Update convert button state
+            function updateConvertButton() {
+                const hasFile = !fileInfo.classList.contains('hidden');
+                convertBtn.disabled = !hasFile;
+            }
+            
+            // Convert button click
+            convertBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Simulate processing
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Applying Page Numbers...';
+                    this.disabled = true;
+                    
+                    // Simulate processing time
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        this.innerHTML = '<i class="fas fa-magic mr-2"></i>Apply Page Numbers';
+                        this.disabled = false;
+                        
+                        // Scroll to download section
+                        downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                }
+            });
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Initialize preview
+            updatePreview();
+            updatePreviewPosition();
+        });
+    </script>
+</body>
+</html>
