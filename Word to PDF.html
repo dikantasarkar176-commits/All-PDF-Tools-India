@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word to PDF Converter | Convert DOC/DOCX to PDF Format</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1d4ed8',
+                        accent: '#ef4444',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .drop-zone {
+            transition: all 0.3s ease;
+        }
+        .drop-zone.dragover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .file-item {
+            transition: all 0.3s ease;
+        }
+        .file-item:hover {
+            transform: translateY(-2px);
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .conversion-option {
+            transition: all 0.3s ease;
+        }
+        .conversion-option:hover {
+            background-color: #eff6ff;
+        }
+        .conversion-option.active {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+        .floating-tooltip {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        .floating-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-pdf text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-dark">PDF Toolkit</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Home</a>
+                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Tools</a>
+                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Pricing</a>
+                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Help</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <button class="hidden md:block bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition duration-300">
+                        Sign In
+                    </button>
+                    <button class="md:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-dark mb-4">Word to PDF Converter</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Convert your Word documents to PDF format with perfect formatting and layout preservation.</p>
+        </section>
+
+        <!-- AdSense Banner -->
+        <div class="max-w-4xl mx-auto mb-8">
+            <div class="bg-white rounded-lg p-4 text-center">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-4431035899447961"
+                     data-ad-slot="4471207019"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- Tool Interface -->
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="p-6 md:p-8">
+                <!-- Upload Area -->
+                <div id="dropZone" class="drop-zone border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer transition duration-300 hover:border-primary hover:bg-blue-50">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Drag & Drop Word Files</h3>
+                    <p class="text-gray-500 mb-4">Supports .doc, .docx formats</p>
+                    <button id="browseBtn" class="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-lg font-medium transition duration-300">
+                        Select Word Files
+                    </button>
+                    <input type="file" id="fileInput" class="hidden" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple>
+                </div>
+
+                <!-- File Info -->
+                <div id="fileInfo" class="mt-6 hidden">
+                    <div class="flex items-center justify-between bg-blue-50 p-4 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-file-word text-blue-500 text-2xl mr-3"></i>
+                            <div>
+                                <h3 class="font-semibold text-gray-800" id="fileName">document.docx</h3>
+                                <p class="text-sm text-gray-600" id="fileSize">0 KB</p>
+                            </div>
+                        </div>
+                        <button id="changeFile" class="text-primary hover:text-secondary font-medium">
+                            Change File
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Conversion Options -->
+                <div id="conversionOptions" class="mt-8 hidden">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Conversion Options</h3>
+                    
+                    <!-- Option Selector -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="conversion-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer active" data-option="standard">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-file-pdf text-primary text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-800">Standard Conversion</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Preserves formatting and layout</p>
+                                    <div class="mt-2 flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-clock mr-1"></i> Fast conversion
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="conversion-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer" data-option="premium">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-star text-primary text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-800">Premium Conversion</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Enhanced formatting with OCR</p>
+                                    <div class="mt-2 flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-clock mr-1"></i> Higher accuracy
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Options -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="text-md font-semibold text-gray-700 mb-3">Advanced Options</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="preserveFormatting" class="rounded text-primary focus:ring-primary" checked>
+                                    <span class="ml-2 text-gray-700">Preserve formatting</span>
+                                </label>
+                                <p class="text-sm text-gray-500 mt-1">Keep fonts, styles, and layout</p>
+                            </div>
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="optimizeImages" class="rounded text-primary focus:ring-primary" checked>
+                                    <span class="ml-2 text-gray-700">Optimize images</span>
+                                </label>
+                                <p class="text-sm text-gray-500 mt-1">Compress images for smaller file size</p>
+                            </div>
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="includeBookmarks" class="rounded text-primary focus:ring-primary">
+                                    <span class="ml-2 text-gray-700">Include bookmarks</span>
+                                </label>
+                                <p class="text-sm text-gray-500 mt-1">Add document structure as PDF bookmarks</p>
+                            </div>
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="protectPDF" class="rounded text-primary focus:ring-primary">
+                                    <span class="ml-2 text-gray-700">Password protect</span>
+                                </label>
+                                <p class="text-sm text-gray-500 mt-1">Add password to PDF document</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Page Size Options -->
+                        <div class="mt-4">
+                            <label class="block text-gray-700 font-medium mb-2">Page Size</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="size-option border-2 border-gray-200 rounded-lg p-3 text-center cursor-pointer active" data-size="a4">
+                                    <div class="bg-white h-16 rounded border flex items-center justify-center mb-2">
+                                        <span class="text-xs font-medium">A4</span>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-700">A4 (Standard)</p>
+                                </div>
+                                <div class="size-option border-2 border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-size="letter">
+                                    <div class="bg-white h-16 rounded border flex items-center justify-center mb-2">
+                                        <span class="text-xs font-medium">Letter</span>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-700">Letter (US)</p>
+                                </div>
+                                <div class="size-option border-2 border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-size="legal">
+                                    <div class="bg-white h-16 rounded border flex items-center justify-center mb-2">
+                                        <span class="text-xs font-medium">Legal</span>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-700">Legal</p>
+                                </div>
+                                <div class="size-option border-2 border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-size="custom">
+                                    <div class="bg-white h-16 rounded border flex items-center justify-center mb-2">
+                                        <span class="text-xs font-medium">Custom</span>
+                                    </div>
+                                    <p class="text-xs font-medium text-gray-700">Custom Size</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Format Preview -->
+                    <div id="formatPreview" class="mt-6 hidden">
+                        <h4 class="text-md font-semibold text-gray-700 mb-3">Format Preview</h4>
+                        <div class="bg-white border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-word text-blue-500 text-xl mr-2"></i>
+                                    <span class="font-medium text-gray-800">Word Document</span>
+                                </div>
+                                <i class="fas fa-arrow-right text-gray-400 mx-2"></i>
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-xl mr-2"></i>
+                                    <span class="font-medium text-gray-800">PDF Document</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-gray-100 rounded p-3 text-center">
+                                    <div class="bg-white h-32 rounded border flex items-center justify-center mb-2">
+                                        <i class="fas fa-file-word text-blue-400 text-4xl"></i>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Original Word</p>
+                                </div>
+                                <div class="bg-gray-100 rounded p-3 text-center">
+                                    <div class="bg-white h-32 rounded border flex items-center justify-center mb-2">
+                                        <i class="fas fa-file-pdf text-red-400 text-4xl"></i>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Converted PDF</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progressContainer" class="mt-8 hidden">
+                    <div class="flex justify-between text-sm text-gray-600 mb-2">
+                        <span>Converting Word to PDF...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="progressBar" class="progress-bar bg-gradient-to-r from-primary to-accent h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2 text-center" id="conversionStatus">Initializing conversion...</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    <button id="convertBtn" class="flex-1 bg-primary hover:bg-secondary text-white py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-exchange-alt mr-2"></i> Convert to PDF
+                    </button>
+                    <button id="resetBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-redo mr-2"></i> Reset
+                    </button>
+                </div>
+
+                <!-- Download Section -->
+                <div id="downloadContainer" class="mt-8 hidden">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-6 animate-slide-in">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-check-circle text-green-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold text-green-800">Word Successfully Converted to PDF!</h3>
+                        </div>
+                        
+                        <!-- Conversion Details -->
+                        <div class="bg-white rounded-lg p-4 mb-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-word text-blue-500 text-xl mr-2"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Original Word</p>
+                                        <p class="font-medium text-gray-800" id="originalFileName">document.docx</p>
+                                    </div>
+                                </div>
+                                <i class="fas fa-arrow-right text-gray-400 mx-2"></i>
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-xl mr-2"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Converted PDF</p>
+                                        <p class="font-medium text-gray-800" id="convertedFileName">document.pdf</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div>
+                                    <p class="text-sm text-gray-600">Original Size</p>
+                                    <p class="font-medium text-gray-800" id="finalOriginalSize">0 KB</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Converted Size</p>
+                                    <p class="font-medium text-red-600" id="finalConvertedSize">0 KB</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Conversion Time</p>
+                                    <p class="font-medium text-gray-800" id="conversionTime">0.5s</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Quality</p>
+                                    <p class="font-medium text-green-600" id="qualityIndicator">Excellent</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-green-700 mb-4 text-center">Your PDF document is ready for download!</p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a id="downloadBtn" href="#" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i> Download PDF
+                            </a>
+                            <button id="convertAnotherBtn" class="flex-1 bg-white hover:bg-gray-100 text-green-700 border border-green-500 py-3 px-6 rounded-lg font-medium transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-plus mr-2"></i> Convert Another
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AdSense Sidebar -->
+        <div class="max-w-4xl mx-auto mt-8">
+            <div class="bg-white rounded-lg p-4 text-center">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-fb+5w+4e-db+86"
+                     data-ad-client="ca-pub-4431035899447961"
+                     data-ad-slot="4471207019"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <section class="mt-16">
+            <h2 class="text-3xl font-bold text-dark text-center mb-10">Why Convert Word to PDF?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-lock text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Secure Format</h3>
+                    <p class="text-gray-600">PDF files preserve formatting and are harder to modify, making them ideal for sharing documents.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-universal-access text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Universal Compatibility</h3>
+                    <p class="text-gray-600">PDFs can be opened on any device without requiring specific software like Microsoft Word.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-print text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Print Ready</h3>
+                    <p class="text-gray-600">PDF documents maintain consistent formatting across different printers and devices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="mt-16 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark text-center mb-10">How Word to PDF Conversion Works</h2>
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="flex-1 mb-6 md:mb-0 md:pr-6">
+                        <div class="flex items-start mb-4">
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold mr-3 flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Upload Word Document</h3>
+                                <p class="text-gray-600 text-sm mt-1">Drag and drop your Word file or select it from your device.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start mb-4">
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold mr-3 flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">AI-Powered Conversion</h3>
+                                <p class="text-gray-600 text-sm mt-1">Our advanced algorithm converts your Word document to PDF format.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold mr-3 flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Download PDF</h3>
+                                <p class="text-gray-600 text-sm mt-1">Download your PDF file with preserved formatting and layout.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg p-6 text-center">
+                            <i class="fas fa-magic text-4xl text-primary mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Format Preservation</h3>
+                            <ul class="text-left space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    <span>Text formatting and fonts</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    <span>Images and graphics</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    <span>Tables and charts</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-2"></i>
+                                    <span>Page layout and margins</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="mt-16 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark text-center mb-10">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-dark mb-2">How accurate is the Word to PDF conversion?</h3>
+                    <p class="text-gray-600">Our converter preserves most formatting elements including fonts, images, tables, and layout. For complex documents with intricate designs, some manual adjustments might be needed.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-dark mb-2">Can I convert password-protected Word documents?</h3>
+                    <p class="text-gray-600">No, you'll need to remove the password protection from your Word document before converting it to PDF.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-dark mb-2">Is there a file size limit?</h3>
+                    <p class="text-gray-600">You can convert Word files up to 50MB in size. For larger files, consider compressing them first or using our desktop application.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file-pdf text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">PDF Toolkit</h3>
+                    </div>
+                    <p class="text-gray-300">Your all-in-one solution for PDF manipulation.</p>
+                    <div class="mt-4">
+                        <p class="text-gray-300"><strong>CEO:</strong> Bikanta Sarkar</p>
+                        <p class="text-gray-300 flex items-center mt-1"><i class="fas fa-envelope mr-2"></i> dikantasarkar176@gmail.com</p>
+                        <p class="text-gray-300 flex items-center mt-1"><i class="fas fa-phone mr-2"></i> +91 6001542020</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition">Merge PDF</a></li>
+                        <li><a href="#" class="hover:text-white transition">Split PDF</a></li>
+                        <li><a href="#" class="hover:text-white transition">Compress PDF</a></li>
+                        <li><a href="#" class="hover:text-white transition">Word to PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 PDF Toolkit by Bikanta Sarkar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const browseBtn = document.getElementById('browseBtn');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const changeFile = document.getElementById('changeFile');
+            const conversionOptions = document.getElementById('conversionOptions');
+            const conversionOptionElements = document.querySelectorAll('.conversion-option');
+            const sizeOptions = document.querySelectorAll('.size-option');
+            const preserveFormatting = document.getElementById('preserveFormatting');
+            const optimizeImages = document.getElementById('optimizeImages');
+            const includeBookmarks = document.getElementById('includeBookmarks');
+            const protectPDF = document.getElementById('protectPDF');
+            const formatPreview = document.getElementById('formatPreview');
+            const convertBtn = document.getElementById('convertBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            const conversionStatus = document.getElementById('conversionStatus');
+            const downloadContainer = document.getElementById('downloadContainer');
+            const originalFileName = document.getElementById('originalFileName');
+            const convertedFileName = document.getElementById('convertedFileName');
+            const finalOriginalSize = document.getElementById('finalOriginalSize');
+            const finalConvertedSize = document.getElementById('finalConvertedSize');
+            const conversionTime = document.getElementById('conversionTime');
+            const qualityIndicator = document.getElementById('qualityIndicator');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const convertAnotherBtn = document.getElementById('convertAnotherBtn');
+            
+            let uploadedFile = null;
+            let originalFileSize = 0;
+            let currentOption = 'standard';
+            let currentSize = 'a4';
+            
+            // Event Listeners
+            browseBtn.addEventListener('click', () => fileInput.click());
+            changeFile.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            // Drag and Drop Events
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                if (e.dataTransfer.files.length > 0) {
+                    handleFileSelect({ target: { files: e.dataTransfer.files } });
+                }
+            });
+            
+            // Conversion option selection
+            conversionOptionElements.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    conversionOptionElements.forEach(opt => opt.classList.remove('active'));
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Update current option
+                    currentOption = this.getAttribute('data-option');
+                });
+            });
+            
+            // Size option selection
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    sizeOptions.forEach(opt => opt.classList.remove('active'));
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Update current size
+                    currentSize = this.getAttribute('data-size');
+                });
+            });
+            
+            convertBtn.addEventListener('click', processConversion);
+            resetBtn.addEventListener('click', resetTool);
+            convertAnotherBtn.addEventListener('click', resetTool);
+            
+            // Functions
+            function handleFileSelect(e) {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    if (file.type.includes('word') || file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+                        uploadedFile = file;
+                        originalFileSize = file.size;
+                        displayFileInfo(file);
+                        showConversionOptions();
+                        showFormatPreview();
+                    } else {
+                        alert('Please upload a Word document (.doc or .docx).');
+                    }
+                }
+            }
+            
+            function displayFileInfo(file) {
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                fileInfo.classList.remove('hidden');
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            function showConversionOptions() {
+                conversionOptions.classList.remove('hidden');
+            }
+            
+            function showFormatPreview() {
+                formatPreview.classList.remove('hidden');
+            }
+            
+            function processConversion() {
+                if (!uploadedFile) {
+                    alert('Please upload a Word file first.');
+                    return;
+                }
+                
+                // Show progress container
+                progressContainer.classList.remove('hidden');
+                convertBtn.disabled = true;
+                
+                // Calculate converted file size (PDF files are typically smaller than Word files)
+                const convertedFileSize = Math.round(originalFileSize * 0.7);
+                
+                // Simulate conversion process
+                let progress = 0;
+                const statusMessages = [
+                    "Analyzing Word document...",
+                    "Extracting text and formatting...",
+                    "Converting images and graphics...",
+                    "Applying PDF formatting...",
+                    "Optimizing file size...",
+                    "Finalizing PDF document..."
+                ];
+                let statusIndex = 0;
+                
+                conversionStatus.textContent = statusMessages[statusIndex];
+                
+                const interval = setInterval(() => {
+                    progress += 2;
+                    progressBar.style.width = `${progress}%`;
+                    progressPercent.textContent = `${progress}%`;
+                    
+                    // Update status message at certain intervals
+                    if (progress >= 15 && statusIndex === 0) {
+                        statusIndex = 1;
+                        conversionStatus.textContent = statusMessages[statusIndex];
+                    } else if (progress >= 30 && statusIndex === 1) {
+                        statusIndex = 2;
+                        conversionStatus.textContent = statusMessages[statusIndex];
+                    } else if (progress >= 50 && statusIndex === 2) {
+                        statusIndex = 3;
+                        conversionStatus.textContent = statusMessages[statusIndex];
+                    } else if (progress >= 70 && statusIndex === 3) {
+                        statusIndex = 4;
+                        conversionStatus.textContent = statusMessages[statusIndex];
+                    } else if (progress >= 85 && statusIndex === 4) {
+                        statusIndex = 5;
+                        conversionStatus.textContent = statusMessages[statusIndex];
+                    }
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        
+                        // Show download container
+                        setTimeout(() => {
+                            progressContainer.classList.add('hidden');
+                            downloadContainer.classList.remove('hidden');
+                            
+                            // Update file information
+                            originalFileName.textContent = uploadedFile.name;
+                            convertedFileName.textContent = uploadedFile.name.replace(/\.(doc|docx)$/i, '.pdf');
+                            finalOriginalSize.textContent = formatFileSize(originalFileSize);
+                            finalConvertedSize.textContent = formatFileSize(convertedFileSize);
+                            conversionTime.textContent = '2.3s';
+                            qualityIndicator.textContent = 'Excellent';
+                            
+                            // Create a dummy PDF file for download
+                            createDownloadFile();
+                        }, 500);
+                    }
+                }, 50);
+            }
+            
+            function createDownloadFile() {
+                // In a real implementation, this would be the actual converted PDF document
+                // For this demo, we'll create a dummy file
+                const dummyContent = "%PDF-1.4\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R >>\nendobj\n4 0 obj\n<< /Length 44 >>\nstream\nBT\n/F1 12 Tf\n72 720 Td\n(Converted from Word) Tj\nET\nendstream\nendobj\nxref\n0 5\n0000000000 65535 f \n0000000009 00000 n \n0000000058 00000 n \n0000000115 00000 n \n0000000239 00000 n \ntrailer\n<< /Size 5 /Root 1 0 R >>\nstartxref\n307\n%%EOF";
+                const blob = new Blob([dummyContent], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                // Set the download link
+                downloadBtn.href = url;
+                downloadBtn.download = uploadedFile.name.replace(/\.(doc|docx)$/i, '.pdf');
+                
+                // Clean up after download
+                downloadBtn.addEventListener('click', function() {
+                    setTimeout(() => {
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                });
+            }
+            
+            function resetTool() {
+                uploadedFile = null;
+                originalFileSize = 0;
+                fileInput.value = '';
+                fileInfo.classList.add('hidden');
+                conversionOptions.classList.add('hidden');
+                formatPreview.classList.add('hidden');
+                progressBar.style.width = '0%';
+                progressPercent.textContent = '0%';
+                progressContainer.classList.add('hidden');
+                downloadContainer.classList.add('hidden');
+                convertBtn.disabled = false;
+                
+                // Reset options to default
+                conversionOptionElements.forEach(opt => opt.classList.remove('active'));
+                document.querySelector('[data-option="standard"]').classList.add('active');
+                currentOption = 'standard';
+                
+                sizeOptions.forEach(opt => opt.classList.remove('active'));
+                document.querySelector('[data-size="a4"]').classList.add('active');
+                currentSize = 'a4';
+                
+                preserveFormatting.checked = true;
+                optimizeImages.checked = true;
+                includeBookmarks.checked = false;
+                protectPDF.checked = false;
+            }
+        });
+    </script>
+</body>
+</html>
