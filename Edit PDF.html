@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Editor | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .file-drop-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .file-drop-area.active {
+            border-color: #667eea;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-icon {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.75rem;
+        }
+        
+        .success-animation {
+            animation: successPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 10px); }
+            100% { transform: translate(0, -0px); }
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #00a087 0%, #87b536 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 176, 155, 0.3);
+        }
+        
+        .tool-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .tool-card:hover {
+            border-color: #667eea;
+            background-color: #f8faff;
+            transform: translateY(-5px);
+        }
+        
+        .tool-card.selected {
+            border-color: #667eea;
+            background-color: #f8faff;
+        }
+        
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1.5rem;
+            height: 600px;
+        }
+        
+        .toolbar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+        
+        .pdf-preview {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .pdf-page {
+            width: 100%;
+            height: 100%;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .pdf-page img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .page-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+        
+        .tool-options {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .option-group {
+            margin-bottom: 1rem;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .color-option.selected {
+            border-color: #667eea;
+        }
+        
+        .text-tool-options, .image-tool-options, .shape-tool-options {
+            display: none;
+        }
+        
+        .active-tool-options {
+            display: block;
+        }
+        
+        .floating-toolbar {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .floating-toolbar button {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .floating-toolbar button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        @media (max-width: 1024px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .toolbar {
+                order: 2;
+            }
+            
+            .pdf-preview {
+                order: 1;
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-white font-bold mr-4 floating">
+                        <i class="fas fa-edit text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">PDF Editor</h1>
+                        <p class="text-sm text-purple-100">By CEO Bikanta Sarkar</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-home mr-1"></i> Home</a>
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-info-circle mr-1"></i> About</a>
+                    <a href="#" class="text-white hover:text-purple-200 transition duration-300"><i class="fas fa-envelope mr-1"></i> Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Edit Your PDF Files <span class="text-transparent bg-clip-text gradient-bg">with Ease</span></h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Upload your PDF documents and edit them directly in your browser. No installation required.</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-pen"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Edit Text</p>
+                        <p class="text-sm text-gray-600">Add, modify or remove text</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Add Images</p>
+                        <p class="text-sm text-gray-600">Insert images into your PDF</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-shapes"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Draw Shapes</p>
+                        <p class="text-sm text-gray-600">Add shapes and annotations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Editor Section -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 mb-12 card-hover glow">
+            <div class="max-w-6xl mx-auto">
+                <!-- File Upload Area -->
+                <div id="upload-area" class="file-drop-area p-10 text-center cursor-pointer mb-8">
+                    <input type="file" id="file-input" class="hidden" accept=".pdf">
+                    <div class="mb-6">
+                        <div class="w-24 h-24 mx-auto gradient-bg rounded-full flex items-center justify-center text-white floating">
+                            <i class="fas fa-file-pdf text-3xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Drag & Drop PDF File Here</h3>
+                    <p class="text-gray-600 mb-5">or click to browse your computer</p>
+                    <div class="inline-block gradient-btn text-white font-medium py-2 px-6 rounded-full">
+                        <i class="fas fa-folder-open mr-2"></i> Choose File
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Supports: PDF (Max: 50MB)</p>
+                </div>
+
+                <!-- Editor Interface (Initially Hidden) -->
+                <div id="editor-interface" class="hidden">
+                    <div class="editor-container">
+                        <!-- Toolbar -->
+                        <div class="toolbar">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Editing Tools</h3>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="tool-card" onclick="selectTool('text')">
+                                    <div class="tool-icon">
+                                        <i class="fas fa-font"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Text</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Add & edit text</p>
+                                </div>
+                                
+                                <div class="tool-card" onclick="selectTool('image')">
+                                    <div class="tool-icon">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Image</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Insert images</p>
+                                </div>
+                                
+                                <div class="tool-card" onclick="selectTool('shape')">
+                                    <div class="tool-icon">
+                                        <i class="fas fa-square"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Shapes</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Draw shapes</p>
+                                </div>
+                                
+                                <div class="tool-card" onclick="selectTool('highlight')">
+                                    <div class="tool-icon">
+                                        <i class="fas fa-highlighter"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Highlight</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Highlight text</p>
+                                </div>
+                                
+                                <div class="tool-card" onclick="selectTool('sign')">
+                                    <div class="tool-icon">
+                                        <i class="fas fa-signature"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Signature</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Add signature</p>
+                                </div>
+                                
+                                <div class="tool-card" onclick="selectTool('watermark')">
+                                    <div class="tool-icon">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <h4 class="font-medium text-gray-800">Watermark</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Add watermark</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Tool Options -->
+                            <div class="tool-options">
+                                <!-- Text Tool Options -->
+                                <div id="text-tool-options" class="text-tool-options">
+                                    <h4 class="font-medium text-gray-800 mb-3">Text Options</h4>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Font Family</label>
+                                        <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                            <option>Arial</option>
+                                            <option>Times New Roman</option>
+                                            <option>Courier New</option>
+                                            <option>Verdana</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                        <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                            <option>10pt</option>
+                                            <option>12pt</option>
+                                            <option selected>14pt</option>
+                                            <option>16pt</option>
+                                            <option>18pt</option>
+                                            <option>24pt</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Text Color</label>
+                                        <div class="color-palette">
+                                            <div class="color-option selected" style="background-color: #000000;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #FF0000;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #0000FF;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #008000;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #FFFF00;" onclick="selectColor(this)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Image Tool Options -->
+                                <div id="image-tool-options" class="image-tool-options">
+                                    <h4 class="font-medium text-gray-800 mb-3">Image Options</h4>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+                                        <div class="border-2 border-dashed border-gray-300 rounded-md p-4 text-center cursor-pointer">
+                                            <i class="fas fa-cloud-upload-alt text-gray-400 text-xl mb-2"></i>
+                                            <p class="text-sm text-gray-600">Click to upload image</p>
+                                            <input type="file" class="hidden" accept="image/*">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Opacity</label>
+                                        <input type="range" min="0" max="100" value="100" class="w-full">
+                                    </div>
+                                </div>
+                                
+                                <!-- Shape Tool Options -->
+                                <div id="shape-tool-options" class="shape-tool-options">
+                                    <h4 class="font-medium text-gray-800 mb-3">Shape Options</h4>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Shape Type</label>
+                                        <div class="grid grid-cols-3 gap-2">
+                                            <button class="p-2 border border-gray-300 rounded-md text-center">
+                                                <i class="fas fa-square text-gray-600"></i>
+                                            </button>
+                                            <button class="p-2 border border-gray-300 rounded-md text-center">
+                                                <i class="fas fa-circle text-gray-600"></i>
+                                            </button>
+                                            <button class="p-2 border border-gray-300 rounded-md text-center">
+                                                <i class="fas fa-long-arrow-alt-right text-gray-600"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="option-group">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Fill Color</label>
+                                        <div class="color-palette">
+                                            <div class="color-option" style="background-color: #FF0000;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #0000FF;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #008000;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #FFFF00;" onclick="selectColor(this)"></div>
+                                            <div class="color-option" style="background-color: #FFA500;" onclick="selectColor(this)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="mt-6 space-y-3">
+                                <button class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                                    <i class="fas fa-undo mr-2"></i> Reset Changes
+                                </button>
+                                <button class="w-full gradient-btn text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                                    <i class="fas fa-save mr-2"></i> Save PDF
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- PDF Preview -->
+                        <div class="pdf-preview">
+                            <div class="floating-toolbar">
+                                <button title="Zoom In"><i class="fas fa-search-plus"></i></button>
+                                <button title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+                                <button title="Rotate"><i class="fas fa-redo"></i></button>
+                                <button title="Download"><i class="fas fa-download"></i></button>
+                            </div>
+                            
+                            <div class="pdf-page">
+                                <img src="https://via.placeholder.com/600x800?text=PDF+Preview" alt="PDF Preview">
+                            </div>
+                            
+                            <div class="page-controls">
+                                <button class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-gray-700">Page <span id="current-page">1</span> of 5</span>
+                                <button class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Powerful PDF Editing Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Edit Text & Images</h3>
+                    <p class="text-gray-600 text-center">Modify existing text, change fonts, colors, and sizes. Replace or add images to your PDF documents.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Add Signatures</h3>
+                    <p class="text-gray-600 text-center">Create and add digital signatures to your documents. Draw, type, or upload your signature.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Password Protection</h3>
+                    <p class="text-gray-600 text-center">Secure your PDF files with password protection to control access and editing permissions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Upload PDF</h3>
+                    <p class="text-gray-600">Drag & drop or select your PDF file</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Edit Content</h3>
+                    <p class="text-gray-600">Use tools to modify text, images, and more</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Review Changes</h3>
+                    <p class="text-gray-600">Preview your edited document</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Download</h3>
+                    <p class="text-gray-600">Save your edited PDF file</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AdSense Ad -->
+        <section class="mb-12">
+            <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <!-- PDF Editor Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-4431035899447961"
+                    data-ad-slot="4471207019"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">PDF Editor</h3>
+                    <p class="text-gray-400">The most powerful online PDF editor. Edit your PDF files directly in your browser.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Word</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Excel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to JPG</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF Compressor</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@bikantasarkar.com</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-globe mr-2"></i> www.bikantasarkar.com</li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 PDF Editor. All rights reserved. | Created by CEO Bikanta Sarkar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
+            const uploadArea = document.getElementById('upload-area');
+            const editorInterface = document.getElementById('editor-interface');
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('active');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('active');
+            }
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFile(files[0]);
+            }
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleFile(this.files[0]);
+                }
+            });
+            
+            function handleFile(file) {
+                if (file && file.type === 'application/pdf') {
+                    // Hide upload area and show editor
+                    uploadArea.classList.add('hidden');
+                    editorInterface.classList.remove('hidden');
+                    
+                    // In a real application, you would process the PDF file here
+                    // For this demo, we're just simulating the editor interface
+                } else {
+                    alert('Please select a valid PDF file.');
+                }
+            }
+        });
+        
+        function selectTool(tool) {
+            // Remove selected class from all tool cards
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to the clicked tool card
+            event.currentTarget.classList.add('selected');
+            
+            // Hide all tool options
+            document.querySelectorAll('.text-tool-options, .image-tool-options, .shape-tool-options').forEach(option => {
+                option.classList.remove('active-tool-options');
+            });
+            
+            // Show the selected tool options
+            document.getElementById(`${tool}-tool-options`).classList.add('active-tool-options');
+        }
+        
+        function selectColor(element) {
+            // Remove selected class from all color options
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to the clicked color option
+            element.classList.add('selected');
+        }
+        
+        // Initialize with text tool selected
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be called after the editor is shown in a real app
+            // For demo purposes, we're simulating it here
+            setTimeout(() => {
+                if (document.querySelector('.tool-card')) {
+                    document.querySelector('.tool-card').click();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
