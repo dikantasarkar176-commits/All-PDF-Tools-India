@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to PDF Converter | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #e55c5c 0%, #e57f4a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .file-drop-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .file-drop-area.active {
+            border-color: #FF6B6B;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.15);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B 0%, #FF8E53 100%);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-icon {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            font-size: 1.75rem;
+        }
+        
+        .success-animation {
+            animation: successPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 10px); }
+            100% { transform: translate(0, -0px); }
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #0da271 0%, #047852 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .conversion-tab {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .conversion-tab:hover {
+            border-color: #FF6B6B;
+            background-color: #fff5f5;
+        }
+        
+        .conversion-tab.selected {
+            border-color: #FF6B6B;
+            background-color: #fff5f5;
+        }
+        
+        .conversion-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            height: 600px;
+        }
+        
+        .toolbar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+        
+        .html-preview {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .html-editor {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            background: #f9fafb;
+        }
+        
+        .html-preview-area {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f9fafb;
+        }
+        
+        .tool-options {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .option-group {
+            margin-bottom: 1rem;
+        }
+        
+        .floating-toolbar {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .floating-toolbar button {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .floating-toolbar button:hover {
+            background: #FF6B6B;
+            color: white;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            color: #FF6B6B;
+            border-bottom-color: #FF6B6B;
+        }
+        
+        .preview-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @media (max-width: 1024px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .toolbar {
+                order: 2;
+            }
+            
+            .html-preview {
+                order: 1;
+                height: 500px;
+            }
+        }
+        
+        .code-editor {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .sample-html {
+            background: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .sample-html h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .sample-html pre {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-white font-bold mr-4 floating">
+                        <i class="fas fa-code text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">HTML to PDF Converter</h1>
+                        <p class="text-sm text-orange-100">By CEO Bikanta Sarkar</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-orange-200 transition duration-300"><i class="fas fa-home mr-1"></i> Home</a>
+                    <a href="#" class="text-white hover:text-orange-200 transition duration-300"><i class="fas fa-info-circle mr-1"></i> About</a>
+                    <a href="#" class="text-white hover:text-orange-200 transition duration-300"><i class="fas fa-envelope mr-1"></i> Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Convert HTML to PDF <span class="text-transparent bg-clip-text gradient-bg">Instantly</span></h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Transform your HTML code, files, or web pages into professional PDF documents with our fast and easy-to-use converter.</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Secure Conversion</p>
+                        <p class="text-sm text-gray-600">Files deleted after 1 hour</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Fast Processing</p>
+                        <p class="text-sm text-gray-600">Convert in seconds</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-4 flex items-center card-hover">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white mr-3">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-800">Multiple Input Methods</p>
+                        <p class="text-sm text-gray-600">Upload, paste, or enter URL</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Converter Section -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 mb-12 card-hover glow">
+            <div class="max-w-6xl mx-auto">
+                <!-- Input Method Selection -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-medium text-gray-800 mb-4">Choose Input Method</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="conversion-tab selected" onclick="selectConversionTab('upload')">
+                            <div class="conversion-icon">
+                                <i class="fas fa-file-upload"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800">Upload HTML File</h4>
+                            <p class="text-xs text-gray-600 mt-1">Upload .html or .htm files</p>
+                        </div>
+                        
+                        <div class="conversion-tab" onclick="selectConversionTab('paste')">
+                            <div class="conversion-icon">
+                                <i class="fas fa-paste"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800">Paste HTML Code</h4>
+                            <p class="text-xs text-gray-600 mt-1">Paste your HTML code directly</p>
+                        </div>
+                        
+                        <div class="conversion-tab" onclick="selectConversionTab('url')">
+                            <div class="conversion-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800">Webpage URL</h4>
+                            <p class="text-xs text-gray-600 mt-1">Convert a webpage to PDF</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload Area -->
+                <div id="upload-area" class="file-drop-area p-10 text-center cursor-pointer mb-8">
+                    <input type="file" id="file-input" class="hidden" accept=".html,.htm">
+                    <div class="mb-6">
+                        <div class="w-24 h-24 mx-auto gradient-bg rounded-full flex items-center justify-center text-white floating">
+                            <i class="fas fa-file-code text-3xl"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Drag & Drop HTML File Here</h3>
+                    <p class="text-gray-600 mb-5">or click to browse your computer</p>
+                    <div class="inline-block gradient-btn text-white font-medium py-2 px-6 rounded-full">
+                        <i class="fas fa-folder-open mr-2"></i> Choose File
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Supports: HTML, HTM (Max: 10MB)</p>
+                </div>
+
+                <!-- Paste HTML Area -->
+                <div id="paste-area" class="hidden">
+                    <div class="editor-container">
+                        <div class="code-editor">
+                            <div class="editor-header">
+                                <h3 class="text-lg font-semibold text-gray-800">HTML Code Editor</h3>
+                                <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-300" onclick="loadSampleHTML()">
+                                    <i class="fas fa-code mr-2"></i> Load Sample
+                                </button>
+                            </div>
+                            <textarea id="html-editor" class="html-editor" placeholder="Paste your HTML code here..."></textarea>
+                            
+                            <div class="sample-html">
+                                <h4>Sample HTML Code</h4>
+                                <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Document&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: Arial; margin: 40px; }
+        h1 { color: #FF6B6B; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+    &lt;p&gt;This is a sample HTML document.&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;Item 1&lt;/li&gt;
+        &lt;li&gt;Item 2&lt;/li&gt;
+        &lt;li&gt;Item 3&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-container">
+                            <div class="editor-header">
+                                <h3 class="text-lg font-semibold text-gray-800">Live Preview</h3>
+                                <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-300" onclick="updatePreview()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Refresh
+                                </button>
+                            </div>
+                            <div id="html-preview-area" class="html-preview-area">
+                                <p class="text-gray-500 text-center py-8">Preview will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL Input Area -->
+                <div id="url-area" class="hidden">
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Convert Webpage to PDF</h3>
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <input type="url" id="webpage-url" class="flex-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="https://example.com">
+                            <button class="gradient-btn text-white font-medium py-3 px-6 rounded-xl transition duration-300" onclick="loadWebpage()">
+                                <i class="fas fa-download mr-2"></i> Fetch Webpage
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-3">Enter a valid URL to convert the webpage to PDF format.</p>
+                    </div>
+                </div>
+
+                <!-- Conversion Options -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-medium text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-cog mr-2 text-red-500"></i> Conversion Options
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Page Size</label>
+                            <div class="relative">
+                                <select class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 appearance-none bg-white">
+                                    <option>Letter (8.5" x 11")</option>
+                                    <option selected>A4 (8.27" x 11.69")</option>
+                                    <option>Legal (8.5" x 14")</option>
+                                    <option>Tabloid (11" x 17")</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Orientation</label>
+                            <div class="relative">
+                                <select class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 appearance-none bg-white">
+                                    <option selected>Portrait</option>
+                                    <option>Landscape</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Margins</label>
+                            <div class="relative">
+                                <select class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 appearance-none bg-white">
+                                    <option>Small (0.5")</option>
+                                    <option selected>Medium (1")</option>
+                                    <option>Large (1.5")</option>
+                                    <option>Custom</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quality</label>
+                            <div class="relative">
+                                <select class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 appearance-none bg-white">
+                                    <option>Standard</option>
+                                    <option selected>High</option>
+                                    <option>Maximum</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="include-background" class="h-4 w-4 text-red-600 focus:ring-red-500" checked>
+                            <label for="include-background" class="ml-2 block text-sm text-gray-700">Include background graphics and colors</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Convert Button -->
+                <div class="text-center mt-8">
+                    <button id="convert-btn" class="gradient-btn text-white font-semibold py-4 px-12 rounded-xl text-lg transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-sync-alt mr-2"></i> Convert to PDF
+                    </button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progress-section" class="mt-8 hidden">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-700">Conversion Progress</span>
+                        <span id="progress-percent" class="text-sm font-medium text-gray-700">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <p class="text-center text-gray-600 mt-3">Processing your HTML... Please wait</p>
+                </div>
+
+                <!-- Download Section -->
+                <div id="download-section" class="mt-8 text-center hidden">
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-8 mb-6 success-animation">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check-circle text-4xl text-green-500"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-green-800 mb-2">Conversion Complete!</h3>
+                        <p class="text-green-700">Your HTML has been successfully converted to PDF format.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button id="download-btn" class="download-btn text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                            <i class="fas fa-download mr-2"></i> Download PDF
+                        </button>
+                        <button id="convert-another-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                            <i class="fas fa-redo mr-2"></i> Convert Another
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Why Convert HTML to PDF?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Universal Compatibility</h3>
+                    <p class="text-gray-600 text-center">PDF files can be opened on any device without requiring special software or browsers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Print-Ready Documents</h3>
+                    <p class="text-gray-600 text-center">Create print-ready documents with consistent formatting across all platforms and printers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Document Security</h3>
+                    <p class="text-gray-600 text-center">PDF files maintain formatting and are less susceptible to accidental modification than HTML.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Provide HTML</h3>
+                    <p class="text-gray-600">Upload file, paste code, or enter URL</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Customize Options</h3>
+                    <p class="text-gray-600">Set page size, orientation, and quality</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Convert</h3>
+                    <p class="text-gray-600">Click convert and wait a few seconds</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Download</h3>
+                    <p class="text-gray-600">Get your PDF file instantly</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AdSense Ad -->
+        <section class="mb-12">
+            <div class="text-center bg-white rounded-xl p-6 shadow-md">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+                <!-- HTML to PDF Converter Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-4431035899447961"
+                    data-ad-slot="4471207019"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">HTML to PDF Converter</h3>
+                    <p class="text-gray-400">The fastest and most secure way to convert your HTML to PDF format.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to HTML</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Word</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF to Excel</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">PDF Compressor</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2"></i> support@bikantasarkar.com</li>
+                        <li class="flex items-center text-gray-400"><i class="fas fa-globe mr-2"></i> www.bikantasarkar.com</li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-500 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2023 HTML to PDF Converter. All rights reserved. | Created by CEO Bikanta Sarkar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-input');
+            const uploadArea = document.getElementById('upload-area');
+            const pasteArea = document.getElementById('paste-area');
+            const urlArea = document.getElementById('url-area');
+            const convertBtn = document.getElementById('convert-btn');
+            const progressSection = document.getElementById('progress-section');
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercent = document.getElementById('progress-percent');
+            const downloadSection = document.getElementById('download-section');
+            const downloadBtn = document.getElementById('download-btn');
+            const convertAnotherBtn = document.getElementById('convert-another-btn');
+            const htmlEditor = document.getElementById('html-editor');
+            const htmlPreviewArea = document.getElementById('html-preview-area');
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('active');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('active');
+            }
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFile(files[0]);
+            }
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleFile(this.files[0]);
+                }
+            });
+            
+            function handleFile(file) {
+                if (file && (file.type === 'text/html' || file.name.endsWith('.html') || file.name.endsWith('.htm'))) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        htmlEditor.value = e.target.result;
+                        updatePreview();
+                    };
+                    reader.readAsText(file);
+                    
+                    // Switch to paste tab to show the content
+                    selectConversionTab('paste');
+                } else {
+                    alert('Please select a valid HTML file.');
+                }
+            }
+            
+            // Conversion simulation
+            convertBtn.addEventListener('click', function() {
+                let hasContent = false;
+                
+                // Check which input method is active and if it has content
+                if (uploadArea.classList.contains('active-method')) {
+                    if (fileInput.files.length > 0) {
+                        hasContent = true;
+                    } else {
+                        alert('Please upload an HTML file first.');
+                        return;
+                    }
+                } else if (pasteArea.classList.contains('active-method')) {
+                    if (htmlEditor.value.trim() !== '') {
+                        hasContent = true;
+                    } else {
+                        alert('Please enter or paste some HTML code first.');
+                        return;
+                    }
+                } else if (urlArea.classList.contains('active-method')) {
+                    const url = document.getElementById('webpage-url').value;
+                    if (url.trim() !== '') {
+                        hasContent = true;
+                    } else {
+                        alert('Please enter a valid URL first.');
+                        return;
+                    }
+                }
+                
+                if (!hasContent) {
+                    alert('Please provide HTML content to convert.');
+                    return;
+                }
+                
+                // Show progress section
+                progressSection.classList.remove('hidden');
+                
+                // Simulate conversion progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        
+                        // Show download section after a short delay
+                        setTimeout(() => {
+                            progressSection.classList.add('hidden');
+                            downloadSection.classList.remove('hidden');
+                        }, 500);
+                    }
+                    
+                    progressFill.style.width = `${progress}%`;
+                    progressPercent.textContent = `${Math.round(progress)}%`;
+                }, 200);
+            });
+            
+            // Download button functionality
+            downloadBtn.addEventListener('click', function() {
+                alert('In a real application, this would download your converted PDF file. This is a demo.');
+            });
+            
+            // Convert another button functionality
+            convertAnotherBtn.addEventListener('click', function() {
+                // Reset the form
+                downloadSection.classList.add('hidden');
+                progressFill.style.width = '0%';
+                progressPercent.textContent = '0%';
+                
+                // Reset file input
+                fileInput.value = '';
+                
+                // Reset URL input
+                document.getElementById('webpage-url').value = '';
+                
+                // Reset to upload tab
+                selectConversionTab('upload');
+            });
+            
+            // Update HTML preview
+            function updatePreview() {
+                const htmlContent = htmlEditor.value;
+                if (htmlContent.trim() === '') {
+                    htmlPreviewArea.innerHTML = '<p class="text-gray-500 text-center py-8">Preview will appear here</p>';
+                    return;
+                }
+                
+                // Create a sandboxed iframe to preview the HTML
+                htmlPreviewArea.innerHTML = '';
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+                htmlPreviewArea.appendChild(iframe);
+                
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                iframeDoc.open();
+                iframeDoc.write(htmlContent);
+                iframeDoc.close();
+            }
+            
+            // Load sample HTML
+            function loadSampleHTML() {
+                htmlEditor.value = `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Document</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        h1 { color: #FF6B6B; }
+        ul { margin-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>This is a sample HTML document converted to PDF.</p>
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+    <p>You can edit this code and see the live preview update.</p>
+</body>
+</html>`;
+                updatePreview();
+            }
+            
+            // Load webpage (simulated)
+            function loadWebpage() {
+                const url = document.getElementById('webpage-url').value;
+                if (url.trim() === '') {
+                    alert('Please enter a valid URL.');
+                    return;
+                }
+                
+                // In a real application, you would fetch the webpage content here
+                // For this demo, we'll simulate loading a webpage
+                alert('In a real application, this would fetch the webpage content. For this demo, we\'re switching to the code editor with sample content.');
+                
+                // Switch to paste tab and load sample content
+                selectConversionTab('paste');
+                loadSampleHTML();
+            }
+        });
+        
+        function selectConversionTab(tab) {
+            // Remove selected class from all tabs
+            document.querySelectorAll('.conversion-tab').forEach(tab => {
+                tab.classList.remove('selected');
+            });
+            
+            // Remove active-method class from all areas
+            document.getElementById('upload-area').classList.remove('active-method');
+            document.getElementById('paste-area').classList.remove('active-method');
+            document.getElementById('url-area').classList.remove('active-method');
+            
+            // Add selected class to the clicked tab
+            event.currentTarget.classList.add('selected');
+            
+            // Show the selected area and hide others
+            if (tab === 'upload') {
+                document.getElementById('upload-area').classList.remove('hidden');
+                document.getElementById('upload-area').classList.add('active-method');
+                document.getElementById('paste-area').classList.add('hidden');
+                document.getElementById('url-area').classList.add('hidden');
+            } else if (tab === 'paste') {
+                document.getElementById('upload-area').classList.add('hidden');
+                document.getElementById('paste-area').classList.remove('hidden');
+                document.getElementById('paste-area').classList.add('active-method');
+                document.getElementById('url-area').classList.add('hidden');
+            } else if (tab === 'url') {
+                document.getElementById('upload-area').classList.add('hidden');
+                document.getElementById('paste-area').classList.add('hidden');
+                document.getElementById('url-area').classList.remove('hidden');
+                document.getElementById('url-area').classList.add('active-method');
+            }
+        }
+        
+        // Initialize with upload tab selected
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set upload area as active method
+            document.getElementById('upload-area').classList.add('active-method');
+        });
+    </script>
+</body>
+</html>
