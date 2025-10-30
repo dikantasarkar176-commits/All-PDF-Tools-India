@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR PDF Converter | Extract Text from Scanned PDFs | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #6a11cb;
+            background-color: #f8f7ff;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(106, 17, 203, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #5a0cb3 0%, #1c68e3 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .ocr-badge {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .preview-card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        
+        .option-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .option-card.selected {
+            border-color: #6a11cb;
+            background-color: #f8f7ff;
+        }
+        
+        .ocr-animation {
+            animation: ocr 2s ease-in-out infinite;
+        }
+        
+        @keyframes ocr {
+            0% { transform: translateX(-5px); opacity: 0.7; }
+            50% { transform: translateX(5px); opacity: 1; }
+            100% { transform: translateX(-5px); opacity: 0.7; }
+        }
+        
+        .text-preview {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f9fafb;
+        }
+        
+        .language-flag {
+            width: 24px;
+            height: 16px;
+            display: inline-block;
+            margin-right: 8px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .accuracy-meter {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .accuracy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-text-height text-2xl"></i>
+                    <h1 class="text-2xl font-bold">OCR PDF Converter</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-purple-200 transition">Home</a>
+                    <a href="#" class="hover:text-purple-200 transition">Tools</a>
+                    <a href="#" class="hover:text-purple-200 transition">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Extract Text from Scanned PDFs</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Convert scanned documents and images into searchable, editable PDFs with advanced OCR technology.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-purple-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-purple-50 transition">Convert Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-purple-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- OCR Converter Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">OCR PDF Converter</h3>
+                        <span class="ml-3 ocr-badge text-white text-xs font-semibold py-1 px-3 rounded-full">AI-Powered</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop your scanned PDF or image here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf,image/*">
+                            <p class="text-gray-500 text-sm mt-4">Supports PDF, JPG, PNG, TIFF • Maximum file size: 50MB</p>
+                        </div>
+                        <div id="fileInfo" class="hidden mt-4 bg-purple-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileName">scanned-document.pdf</p>
+                                        <p class="text-sm text-gray-500" id="fileSize">3.7 MB • <span id="pageCount">8 pages</span></p>
+                                    </div>
+                                </div>
+                                <button id="removeFile" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- OCR Options -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">OCR Settings</h4>
+                        
+                        <!-- Language Selection -->
+                        <div class="mb-6">
+                            <h5 class="font-medium mb-3">Recognition Language</h5>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected" data-lang="eng">
+                                    <div class="flex items-center justify-center mb-1">
+                                        <span class="language-flag bg-gradient-to-r from-red-600 to-blue-600"></span>
+                                        <span class="font-medium">English</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600">High accuracy</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-lang="spa">
+                                    <div class="flex items-center justify-center mb-1">
+                                        <span class="language-flag bg-gradient-to-r from-red-600 to-yellow-600"></span>
+                                        <span class="font-medium">Spanish</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600">High accuracy</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-lang="fra">
+                                    <div class="flex items-center justify-center mb-1">
+                                        <span class="language-flag bg-gradient-to-r from-blue-600 to-white to-red-600"></span>
+                                        <span class="font-medium">French</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600">High accuracy</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-lang="deu">
+                                    <div class="flex items-center justify-center mb-1">
+                                        <span class="language-flag bg-gradient-to-r from-black to-red-600 to-yellow-600"></span>
+                                        <span class="font-medium">German</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600">High accuracy</p>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <button class="text-sm text-purple-600 font-medium hover:text-purple-800">
+                                    <i class="fas fa-plus mr-1"></i> More languages available
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Output Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-medium mb-3">Output Format</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="radio" name="outputFormat" id="searchable-pdf" class="text-purple-600 focus:ring-purple-500" checked>
+                                        <label for="searchable-pdf" class="ml-2 text-gray-700">Searchable PDF</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="outputFormat" id="text-file" class="text-purple-600 focus:ring-purple-500">
+                                        <label for="text-file" class="ml-2 text-gray-700">Text File (.txt)</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="outputFormat" id="word-doc" class="text-purple-600 focus:ring-purple-500">
+                                        <label for="word-doc" class="ml-2 text-gray-700">Word Document</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-medium mb-3">Enhancement Options</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="deskew" class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50" checked>
+                                        <label for="deskew" class="ml-2 text-gray-700">Auto-straighten text</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="cleanup" class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50" checked>
+                                        <label for="cleanup" class="ml-2 text-gray-700">Remove background noise</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="preserve-layout" class="rounded border-gray-300 text-purple-600 shadow-sm focus:border-purple-300 focus:ring focus:ring-purple-200 focus:ring-opacity-50">
+                                        <label for="preserve-layout" class="ml-2 text-gray-700">Preserve original layout</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- OCR Preview -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Text Preview</h4>
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-sm font-medium">Extracted Text (Page 1)</span>
+                                <div class="flex items-center">
+                                    <span class="text-xs text-gray-600 mr-2">Confidence:</span>
+                                    <div class="accuracy-meter w-24">
+                                        <div class="accuracy-fill" style="width: 94%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-600 ml-2">94%</span>
+                                </div>
+                            </div>
+                            <div class="text-preview p-4 text-sm text-gray-700">
+                                <p id="previewText">This is a preview of the text that will be extracted from your document. The OCR engine will analyze the scanned image and convert it to editable, searchable text.</p>
+                                <p class="mt-2">You'll be able to copy, edit, and search through this text once the conversion is complete.</p>
+                            </div>
+                            <div class="flex justify-center mt-4 space-x-2">
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-sm text-gray-600">Page <span id="currentPage">1</span> of 8</span>
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="convertBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-text-height mr-2"></i>Extract Text with OCR
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">OCR Conversion Successful!</h4>
+                        <p class="text-gray-600 mb-4">Your document has been processed with OCR. The text is now searchable and editable.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+                            <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </button>
+                            <button class="bg-white border border-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg hover:bg-gray-50 transition">
+                                <i class="fas fa-copy mr-2"></i>Copy Text
+                            </button>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-file-alt text-green-500 mr-2"></i>8 pages processed • 94% accuracy • Searchable PDF</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our OCR PDF Converter?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Searchable Text</h4>
+                            <p class="text-gray-600">Find information instantly in your documents with fully searchable text.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Editable Content</h4>
+                            <p class="text-gray-600">Copy, edit, and reuse text from scanned documents with ease.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">AI-Powered Accuracy</h4>
+                            <p class="text-gray-600">Advanced OCR technology with high accuracy for various fonts and layouts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How OCR Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload your scanned PDF or image file</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Our AI analyzes the text characters in your document</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Text is extracted with high accuracy and converted to editable format</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Download your searchable PDF or text file</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Use Cases</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-archive text-purple-500 mr-2 mt-1"></i>
+                            <span>Digitizing old documents and archives</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-receipt text-purple-500 mr-2 mt-1"></i>
+                            <span>Processing invoices and receipts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-book text-purple-500 mr-2 mt-1"></i>
+                            <span>Converting scanned books to editable text</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-file-contract text-purple-500 mr-2 mt-1"></i>
+                            <span>Making legal documents searchable</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-passport text-purple-500 mr-2 mt-1"></i>
+                            <span>Extracting text from IDs and forms</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-text-height text-2xl"></i>
+                        <h2 class="text-2xl font-bold">OCR PDF Converter</h2>
+                    </div>
+                    <p class="text-purple-200">Transforming scanned documents into editable text</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-purple-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-purple-200 mt-2">© 2023 OCR PDF Converter. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const pageCount = document.getElementById('pageCount');
+            const removeFile = document.getElementById('removeFile');
+            const convertBtn = document.getElementById('convertBtn');
+            const downloadSection = document.getElementById('downloadSection');
+            const optionCards = document.querySelectorAll('.option-card');
+            const previewText = document.getElementById('previewText');
+            const currentPage = document.getElementById('currentPage');
+            
+            // State variables
+            let selectedLanguage = 'eng';
+            let totalPages = 8;
+            let currentPreviewPage = 1;
+            
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/tiff'];
+                    
+                    if (validTypes.includes(file.type)) {
+                        fileName.textContent = file.name;
+                        fileSize.textContent = formatFileSize(file.size);
+                        
+                        // Simulate page count extraction
+                        totalPages = Math.min(Math.max(1, Math.floor(file.size / 50000)), 50);
+                        pageCount.textContent = `${totalPages} pages`;
+                        
+                        fileInfo.classList.remove('hidden');
+                        updateConvertButton();
+                        
+                        // Update preview text based on file type
+                        if (file.type === 'application/pdf') {
+                            previewText.textContent = "This scanned PDF contains text that will be extracted using OCR technology. The conversion process will analyze each page and convert the image-based text into editable, searchable content that you can copy, edit, and reuse.";
+                        } else {
+                            previewText.textContent = "This image contains text that will be extracted using OCR technology. The conversion process will analyze the image and convert the visual text into editable, searchable content that you can copy, edit, and reuse in any application.";
+                        }
+                    } else {
+                        alert('Please upload a PDF, JPG, PNG, or TIFF file.');
+                    }
+                }
+            }
+            
+            removeFile.addEventListener('click', function() {
+                fileInfo.classList.add('hidden');
+                fileInput.value = '';
+                updateConvertButton();
+            });
+            
+            // Language selection
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    selectedLanguage = this.dataset.lang;
+                    
+                    // Update UI
+                    optionCards.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Update convert button state
+            function updateConvertButton() {
+                const hasFile = !fileInfo.classList.contains('hidden');
+                convertBtn.disabled = !hasFile;
+            }
+            
+            // Convert button click
+            convertBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show progress section
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing with OCR...';
+                    this.disabled = true;
+                    
+                    // Simulate OCR process with progress updates
+                    simulateOCRProcess();
+                }
+            });
+            
+            // Simulate OCR processing with progress updates
+            function simulateOCRProcess() {
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(progressInterval);
+                        
+                        // Show download section after completion
+                        setTimeout(() => {
+                            downloadSection.classList.remove('hidden');
+                            convertBtn.innerHTML = '<i class="fas fa-text-height mr-2"></i>Extract Text with OCR';
+                            convertBtn.disabled = false;
+                            
+                            // Scroll to download section
+                            downloadSection.scrollIntoView({ behavior: 'smooth' });
+                        }, 500);
+                    }
+                }, 300);
+            }
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>
