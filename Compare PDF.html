@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare PDF Files | Find Differences Between Documents | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa36b 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #ff6b6b;
+            background-color: #fff5f5;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa36b 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(255, 107, 107, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa36b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa36b 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .compare-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa36b 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .preview-card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .preview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        
+        .option-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .option-card.selected {
+            border-color: #ff6b6b;
+            background-color: #fff5f5;
+        }
+        
+        .comparison-animation {
+            animation: comparison 2s ease-in-out infinite;
+        }
+        
+        @keyframes comparison {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+        
+        .diff-highlight {
+            background-color: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .diff-removed {
+            background-color: #ffcdd2;
+            text-decoration: line-through;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .diff-added {
+            background-color: #c8e6c9;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .page-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .page-indicator.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa36b 100%);
+            color: white;
+        }
+        
+        .page-indicator.has-differences {
+            background: #ffeb3b;
+            color: #333;
+        }
+        
+        .comparison-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-view {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-code-compare text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Compare PDF</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-orange-200 transition">Home</a>
+                    <a href="#" class="hover:text-orange-200 transition">Tools</a>
+                    <a href="#" class="hover:text-orange-200 transition">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Compare PDF Files & Find Differences</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Identify changes between two PDF documents with our advanced comparison technology.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-orange-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-orange-50 transition">Compare Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-orange-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- PDF Comparison Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Compare PDF Files</h3>
+                        <span class="ml-3 compare-badge text-white text-xs font-semibold py-1 px-3 rounded-full">Smart Detection</span>
+                    </div>
+                    
+                    <!-- Upload Areas -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <!-- First PDF -->
+                        <div>
+                            <h4 class="text-lg font-semibold mb-3">First PDF</h4>
+                            <div id="dropZone1" class="drop-zone border-2 border-dashed rounded-xl p-6 text-center cursor-pointer h-40 flex flex-col items-center justify-center">
+                                <i class="fas fa-file-pdf text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-sm font-medium mb-1">Drag & Drop PDF 1</p>
+                                <p class="text-gray-500 text-xs">or</p>
+                                <label for="fileInput1" class="text-orange-600 text-sm font-medium mt-1 cursor-pointer">
+                                    Browse Files
+                                </label>
+                                <input type="file" id="fileInput1" class="hidden" accept=".pdf">
+                            </div>
+                            <div id="fileInfo1" class="hidden mt-3 bg-orange-50 p-3 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-file-pdf text-red-500 text-xl mr-2"></i>
+                                        <div>
+                                            <p class="font-medium text-sm" id="fileName1">document-v1.pdf</p>
+                                            <p class="text-xs text-gray-500" id="fileSize1">2.4 MB • 12 pages</p>
+                                        </div>
+                                    </div>
+                                    <button id="removeFile1" class="text-red-500 hover:text-red-700 text-sm">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Second PDF -->
+                        <div>
+                            <h4 class="text-lg font-semibold mb-3">Second PDF</h4>
+                            <div id="dropZone2" class="drop-zone border-2 border-dashed rounded-xl p-6 text-center cursor-pointer h-40 flex flex-col items-center justify-center">
+                                <i class="fas fa-file-pdf text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-sm font-medium mb-1">Drag & Drop PDF 2</p>
+                                <p class="text-gray-500 text-xs">or</p>
+                                <label for="fileInput2" class="text-orange-600 text-sm font-medium mt-1 cursor-pointer">
+                                    Browse Files
+                                </label>
+                                <input type="file" id="fileInput2" class="hidden" accept=".pdf">
+                            </div>
+                            <div id="fileInfo2" class="hidden mt-3 bg-orange-50 p-3 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-file-pdf text-red-500 text-xl mr-2"></i>
+                                        <div>
+                                            <p class="font-medium text-sm" id="fileName2">document-v2.pdf</p>
+                                            <p class="text-xs text-gray-500" id="fileSize2">2.6 MB • 12 pages</p>
+                                        </div>
+                                    </div>
+                                    <button id="removeFile2" class="text-red-500 hover:text-red-700 text-sm">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Comparison Options -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Comparison Settings</h4>
+                        
+                        <!-- Comparison Type -->
+                        <div class="mb-6">
+                            <h5 class="font-medium mb-3">Comparison Type</h5>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer selected" data-type="text">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-font"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Text Content</p>
+                                    <p class="text-xs text-gray-600">Compare text differences</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-type="layout">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-th"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Layout</p>
+                                    <p class="text-xs text-gray-600">Compare visual layout</p>
+                                </div>
+                                <div class="option-card border border-gray-200 rounded-lg p-3 text-center cursor-pointer" data-type="both">
+                                    <div class="text-lg font-bold mb-1">
+                                        <i class="fas fa-layer-group"></i>
+                                    </div>
+                                    <p class="text-sm font-medium">Both</p>
+                                    <p class="text-xs text-gray-600">Text and layout</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h5 class="font-medium mb-3">Display Options</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="highlightChanges" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50" checked>
+                                        <label for="highlightChanges" class="ml-2 text-gray-700">Highlight differences</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="showSideBySide" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50" checked>
+                                        <label for="showSideBySide" class="ml-2 text-gray-700">Side-by-side view</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="ignoreFormatting" class="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50">
+                                        <label for="ignoreFormatting" class="ml-2 text-gray-700">Ignore formatting</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h5 class="font-medium mb-3">Comparison Scope</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="radio" name="scope" id="full-doc" class="text-orange-600 focus:ring-orange-500" checked>
+                                        <label for="full-doc" class="ml-2 text-gray-700">Full document</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="scope" id="page-range" class="text-orange-600 focus:ring-orange-500">
+                                        <label for="page-range" class="ml-2 text-gray-700">Page range</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="scope" id="specific-pages" class="text-orange-600 focus:ring-orange-500">
+                                        <label for="specific-pages" class="ml-2 text-gray-700">Specific pages</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Comparison Results -->
+                    <div id="comparisonResults" class="hidden mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Comparison Results</h4>
+                        
+                        <!-- Summary -->
+                        <div class="bg-gray-50 p-4 rounded-xl mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <h5 class="font-medium">Comparison Summary</h5>
+                                <span class="text-sm text-gray-600">12 pages compared</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="bg-white p-3 rounded-lg">
+                                    <div class="text-xl font-bold text-orange-600">6</div>
+                                    <div class="text-xs text-gray-600">Pages with differences</div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg">
+                                    <div class="text-xl font-bold text-green-600">42</div>
+                                    <div class="text-xs text-gray-600">Text changes</div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg">
+                                    <div class="text-xl font-bold text-blue-600">3</div>
+                                    <div class="text-xs text-gray-600">Layout changes</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Page Navigation -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="font-medium">Page Navigation</h5>
+                            <div class="flex space-x-1">
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="text-sm text-gray-600 mx-2">Page 1 of 12</span>
+                                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Page Indicators -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <div class="page-indicator active">1</div>
+                            <div class="page-indicator has-differences">2</div>
+                            <div class="page-indicator">3</div>
+                            <div class="page-indicator has-differences">4</div>
+                            <div class="page-indicator">5</div>
+                            <div class="page-indicator">6</div>
+                            <div class="page-indicator has-differences">7</div>
+                            <div class="page-indicator">8</div>
+                            <div class="page-indicator">9</div>
+                            <div class="page-indicator has-differences">10</div>
+                            <div class="page-indicator has-differences">11</div>
+                            <div class="page-indicator">12</div>
+                        </div>
+                        
+                        <!-- Comparison View -->
+                        <div class="comparison-view mb-4">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h6 class="font-medium text-sm">Document 1</h6>
+                                    <span class="text-xs text-gray-600">Page 1</span>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg h-full overflow-y-auto">
+                                    <p class="text-sm">This is the original document content. It contains some text that will be compared with the second document.</p>
+                                    <p class="text-sm mt-2">Some unchanged content that appears in both documents.</p>
+                                    <p class="text-sm mt-2"><span class="diff-removed">This text was removed in the second document.</span></p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h6 class="font-medium text-sm">Document 2</h6>
+                                    <span class="text-xs text-gray-600">Page 1</span>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg h-full overflow-y-auto">
+                                    <p class="text-sm">This is the original document content. It contains some text that will be compared with the second document.</p>
+                                    <p class="text-sm mt-2">Some unchanged content that appears in both documents.</p>
+                                    <p class="text-sm mt-2"><span class="diff-added">This is new text added in the second document.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Difference Details -->
+                        <div class="bg-white border border-gray-200 rounded-xl p-4">
+                            <h5 class="font-medium mb-2">Difference Details</h5>
+                            <div class="space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
+                                    <div class="text-sm">
+                                        <span class="font-medium">Removed:</span> 
+                                        <span class="diff-removed">This text was removed in the second document.</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div class="text-sm">
+                                        <span class="font-medium">Added:</span> 
+                                        <span class="diff-added">This is new text added in the second document.</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-edit text-blue-500 mt-1 mr-2"></i>
+                                    <div class="text-sm">
+                                        <span class="font-medium">Modified:</span> 
+                                        <span class="diff-highlight">This text was modified in the second document.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="compareBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-code-compare mr-2"></i>Compare PDFs
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">Comparison Complete!</h4>
+                        <p class="text-gray-600 mb-4">Your PDF files have been compared. Download the comparison report or view the differences online.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+                            <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                                <i class="fas fa-download mr-2"></i>Download Report
+                            </button>
+                            <button class="bg-white border border-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg hover:bg-gray-50 transition">
+                                <i class="fas fa-file-pdf mr-2"></i>Export as PDF
+                            </button>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-chart-bar text-green-500 mr-2"></i>6 pages with differences • 42 text changes • 3 layout changes</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Why Use Our PDF Comparison Tool?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Fast & Accurate</h4>
+                            <p class="text-gray-600">Quickly identify even the smallest differences between documents with high precision.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Visual Highlights</h4>
+                            <p class="text-gray-600">Clear visual indicators show exactly what has been added, removed, or modified.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow text-center">
+                            <div class="feature-icon text-4xl mb-4">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold mb-2">Detailed Reports</h4>
+                            <p class="text-gray-600">Get comprehensive comparison reports with statistics and detailed change logs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How It Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload two PDF files you want to compare</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Configure comparison settings and options</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Our tool analyzes and highlights all differences</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Review results and download comparison report</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Common Use Cases</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-file-contract text-orange-500 mr-2 mt-1"></i>
+                            <span>Comparing contract versions</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-gavel text-orange-500 mr-2 mt-1"></i>
+                            <span>Legal document review</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-book text-orange-500 mr-2 mt-1"></i>
+                            <span>Academic paper revisions</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-code-branch text-orange-500 mr-2 mt-1"></i>
+                            <span>Technical documentation updates</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chart-line text-orange-500 mr-2 mt-1"></i>
+                            <span>Financial report comparisons</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-code-compare text-2xl"></i>
+                        <h2 class="text-2xl font-bold">Compare PDF</h2>
+                    </div>
+                    <p class="text-orange-200">Identifying differences between documents with precision</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-orange-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-orange-200 mt-2">© 2023 Compare PDF. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropZone1 = document.getElementById('dropZone1');
+            const dropZone2 = document.getElementById('dropZone2');
+            const fileInput1 = document.getElementById('fileInput1');
+            const fileInput2 = document.getElementById('fileInput2');
+            const fileInfo1 = document.getElementById('fileInfo1');
+            const fileInfo2 = document.getElementById('fileInfo2');
+            const fileName1 = document.getElementById('fileName1');
+            const fileName2 = document.getElementById('fileName2');
+            const fileSize1 = document.getElementById('fileSize1');
+            const fileSize2 = document.getElementById('fileSize2');
+            const removeFile1 = document.getElementById('removeFile1');
+            const removeFile2 = document.getElementById('removeFile2');
+            const compareBtn = document.getElementById('compareBtn');
+            const comparisonResults = document.getElementById('comparisonResults');
+            const downloadSection = document.getElementById('downloadSection');
+            const optionCards = document.querySelectorAll('.option-card');
+            
+            // State variables
+            let selectedComparisonType = 'text';
+            let hasFile1 = false;
+            let hasFile2 = false;
+            
+            // File upload handling for first PDF
+            setupFileUpload(dropZone1, fileInput1, fileInfo1, fileName1, fileSize1, () => {
+                hasFile1 = true;
+                updateCompareButton();
+            }, () => {
+                hasFile1 = false;
+                updateCompareButton();
+            });
+            
+            // File upload handling for second PDF
+            setupFileUpload(dropZone2, fileInput2, fileInfo2, fileName2, fileSize2, () => {
+                hasFile2 = true;
+                updateCompareButton();
+            }, () => {
+                hasFile2 = false;
+                updateCompareButton();
+            });
+            
+            // Setup file upload functionality
+            function setupFileUpload(dropZone, fileInput, fileInfo, fileName, fileSize, onSuccess, onRemove) {
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, highlight, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, unhighlight, false);
+                });
+                
+                function highlight() {
+                    dropZone.classList.add('active');
+                }
+                
+                function unhighlight() {
+                    dropZone.classList.remove('active');
+                }
+                
+                dropZone.addEventListener('drop', handleDrop, false);
+                
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    handleFiles(files);
+                }
+                
+                fileInput.addEventListener('change', function() {
+                    handleFiles(this.files);
+                });
+                
+                function handleFiles(files) {
+                    if (files.length > 0) {
+                        const file = files[0];
+                        if (file.type === 'application/pdf') {
+                            fileName.textContent = file.name;
+                            fileSize.textContent = `${formatFileSize(file.size)} • ${Math.min(Math.max(1, Math.floor(file.size / 50000)), 50)} pages`;
+                            fileInfo.classList.remove('hidden');
+                            onSuccess();
+                        } else {
+                            alert('Please upload a PDF file.');
+                        }
+                    }
+                }
+                
+                // Remove file button
+                const removeBtn = fileInfo.querySelector('button');
+                removeBtn.addEventListener('click', function() {
+                    fileInfo.classList.add('hidden');
+                    fileInput.value = '';
+                    onRemove();
+                });
+            }
+            
+            // Comparison type selection
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    selectedComparisonType = this.dataset.type;
+                    
+                    // Update UI
+                    optionCards.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Update compare button state
+            function updateCompareButton() {
+                compareBtn.disabled = !(hasFile1 && hasFile2);
+            }
+            
+            // Compare button click
+            compareBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show comparison results
+                    comparisonResults.classList.remove('hidden');
+                    downloadSection.classList.add('hidden');
+                    
+                    // Simulate comparison process
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Comparing...';
+                    this.disabled = true;
+                    
+                    // Simulate processing time
+                    setTimeout(() => {
+                        downloadSection.classList.remove('hidden');
+                        this.innerHTML = '<i class="fas fa-code-compare mr-2"></i>Compare PDFs';
+                        this.disabled = false;
+                        
+                        // Scroll to download section
+                        downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                }
+            });
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>
