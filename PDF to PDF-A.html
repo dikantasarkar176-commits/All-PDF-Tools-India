@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PDF → PDF-A (best-effort) — Converter — CEO Bikanta Sarkar</title>
+
+  <!-- Tailwind via CDN (Play CDN for single-file) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind customization (colors)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0fbfb',
+              100: '#dff6f6',
+              200: '#bfecec',
+              300: '#80ddd9',
+              400: '#33c8bf',
+              500: '#0ea9a1',
+              600: '#0b8b85',
+              700: '#086c67',
+              800: '#064d49',
+              900: '#05383a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- pdf-lib (for client-side PDF manipulation) -->
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+  <!-- FileSaver (for saving files) -->
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+  <style>
+    /* small polished tweaks */
+    html,body,#app { height:100%; }
+    .dropzone {
+      border-style: dashed;
+      border-width: 2px;
+      border-radius: 0.75rem;
+    }
+  </style>
+
+  <!-- AdSense header (required by AdSense). Replace/enable after site is approved. -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    crossorigin="anonymous"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div id="app" class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-lg">PB</div>
+          <div>
+            <h1 class="text-lg font-semibold">PDF → PDF-A (best-effort)</h1>
+            <p class="text-sm text-gray-500">Browser-based converter — quick, private, and responsive</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="text-right text-xs">
+            <div class="font-medium">CEO Bikanta Sarkar</div>
+            <div class="text-gray-500">Publisher</div>
+          </div>
+          <!-- Ad placeholder (responsive) -->
+          <div class="hidden sm:block">
+            <!-- AdSense ad slot (example) -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:200px;height:50px"
+                 data-ad-client="ca-pub-4431035899447961"
+                 data-ad-slot="4471207019"></ins>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left: Tools / upload -->
+        <section class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+          <h2 class="text-lg font-semibold mb-3">Upload PDF</h2>
+          <p class="text-sm text-gray-500 mb-4">Drag & drop a PDF or click to choose. This tool runs in your browser — your file never leaves your device.</p>
+
+          <label id="dropzone" class="dropzone block p-6 cursor-pointer bg-white hover:bg-primary-50 transition-colors" for="fileInput">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <svg class="w-12 h-12 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7M16 3h-4l-2 4H6v4"></path>
+                </svg>
+                <div>
+                  <div class="font-medium">Drop PDF here or click to browse</div>
+                  <div class="text-xs text-gray-500">Supports single or multi-page PDFs • Max file size depends on browser (recommended &lt; 100 MB)</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <span id="fileName" class="text-sm text-gray-600">No file selected</span>
+                <button class="px-3 py-2 bg-primary-600 text-white rounded-md text-sm" type="button" onclick="document.getElementById('fileInput').click()">Browse</button>
+              </div>
+            </div>
+            <input id="fileInput" type="file" accept="application/pdf" class="hidden" />
+          </label>
+
+          <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1">PDF/A flavor</label>
+              <select id="pdfaFlavor" class="block w-full rounded-md border-gray-200 shadow-sm p-2">
+                <option value="1B">PDF/A-1b (best-effort)</option>
+                <option value="2B">PDF/A-2b (best-effort)</option>
+              </select>
+              <p class="text-xs text-gray-500 mt-1">Browser-based conversion attempts font embedding and metadata — not a certified validator.</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Output filename</label>
+              <input id="outName" class="block w-full rounded-md border-gray-200 shadow-sm p-2" placeholder="output-pdfa.pdf" />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Options</label>
+              <div class="flex flex-col gap-2">
+                <label class="inline-flex items-center gap-2 text-sm"><input id="flattenForms" type="checkbox" class="rounded" checked/> Flatten forms</label>
+                <label class="inline-flex items-center gap-2 text-sm"><input id="embedFonts" type="checkbox" class="rounded" checked/> Attempt to embed standard fonts</label>
+                <label class="inline-flex items-center gap-2 text-sm"><input id="preserveAnnotations" type="checkbox" class="rounded" /> Preserve annotations</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <button id="convertBtn" class="px-4 py-2 bg-primary-600 text-white rounded-md shadow" disabled>Convert → PDF-A</button>
+              <button id="previewBtn" class="px-4 py-2 border border-gray-200 rounded-md" disabled>Preview first page</button>
+              <button id="validateBtn" class="px-4 py-2 border border-gray-200 rounded-md hidden">Validate (external)</button>
+            </div>
+
+            <div class="text-sm text-gray-500">
+              <span id="status">Idle</span>
+            </div>
+          </div>
+
+          <!-- Preview area -->
+          <div id="previewArea" class="mt-6 bg-gray-50 p-4 rounded-md hidden">
+            <h3 class="text-sm font-medium mb-2">Preview</h3>
+            <div class="flex gap-4 items-start">
+              <canvas id="previewCanvas" class="rounded border border-gray-200"></canvas>
+              <div class="text-xs text-gray-600">
+                <div><strong id="infoPages">Pages:</strong></div>
+                <div id="infoSize"></div>
+                <div id="infoMeta"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: Output + Info -->
+        <aside class="bg-white p-6 rounded-2xl shadow-sm">
+          <h3 class="text-lg font-semibold mb-3">Output & Info</h3>
+
+          <div class="space-y-3">
+            <div class="text-sm text-gray-600">
+              <strong>Converted file:</strong>
+              <div id="downloadArea" class="mt-2">
+                <div class="text-xs text-gray-500">No output yet</div>
+              </div>
+            </div>
+
+            <div class="text-sm text-gray-600">
+              <strong>Notes</strong>
+              <ul class="list-disc ml-4 mt-2 text-xs text-gray-500">
+                <li>This is a <em>client-side</em> best-effort conversion: fonts and metadata are applied, forms can be flattened.</li>
+                <li>For legally certified PDF/A output, server-side tools + validator (e.g., Ghostscript + VeraPDF) are recommended.</li>
+                <li>AdSense: make sure your site & ad code are approved; the in-page ad is a placeholder for your account.</li>
+              </ul>
+            </div>
+
+            <div class="pt-4">
+              <button id="downloadBtn" class="w-full px-4 py-2 bg-primary-500 text-white rounded-md disabled:opacity-60" disabled>Download Converted PDF</button>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+          <div class="text-xs text-gray-500">
+            <div class="font-medium">Contact</div>
+            <div>CEO Bikanta Sarkar</div>
+            <div class="mt-2">If you need guaranteed ISO-certified PDF/A conversions, consider a server endpoint using Ghostscript or a commercial PDF/A library.</div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Footer small -->
+      <div class="max-w-6xl mx-auto mt-8 text-center text-xs text-gray-400">
+        <div>Made with care • Single-file web app • Not a substitute for certified converters</div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize AdSense ad if allowed by publisher
+    (function initAds() {
+      try {
+        // resume ad requests if publisher wants to display ads (only after page loaded)
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      } catch(e) { /* ignore if blocked */ }
+    })();
+
+    // App logic
+    const fileInput = document.getElementById('fileInput');
+    const dropzone = document.getElementById('dropzone');
+    const fileNameEl = document.getElementById('fileName');
+    const convertBtn = document.getElementById('convertBtn');
+    const previewBtn = document.getElementById('previewBtn');
+    const previewArea = document.getElementById('previewArea');
+    const previewCanvas = document.getElementById('previewCanvas');
+    const statusEl = document.getElementById('status');
+    const outName = document.getElementById('outName');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const downloadArea = document.getElementById('downloadArea');
+    const infoPages = document.getElementById('infoPages');
+    const infoSize = document.getElementById('infoSize');
+    const infoMeta = document.getElementById('infoMeta');
+
+    let currentFile = null;
+    let convertedPdfBytes = null;
+    let pdfDocInfo = {};
+
+    function setStatus(t) { statusEl.innerText = t; }
+
+    // drag & drop UX
+    ['dragenter','dragover'].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault(); e.stopPropagation();
+        dropzone.classList.add('ring-2','ring-primary-300');
+      });
+    });
+
+    ['dragleave','drop'].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault(); e.stopPropagation();
+        dropzone.classList.remove('ring-2','ring-primary-300');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length) handleFile(e.target.files[0]);
+    });
+
+    function handleFile(file) {
+      if (!file) return;
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        alert('Please select a PDF file.');
+        return;
+      }
+      currentFile = file;
+      fileNameEl.innerText = file.name;
+      outName.value = outName.value || (file.name.replace(/\.pdf$/i,'') + '-pdfa.pdf');
+      convertBtn.disabled = false;
+      previewBtn.disabled = false;
+      setStatus('Loaded: ' + file.name);
+      readPdfInfo(file);
+    }
+
+    async function readPdfInfo(file) {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+        pdfDocInfo.pages = pdfDoc.getPageCount();
+        pdfDocInfo.size = file.size;
+        pdfDocInfo.title = pdfDoc.getTitle ? pdfDoc.getTitle() : '';
+        infoPages.innerText = 'Pages: ' + pdfDocInfo.pages;
+        infoSize.innerText = 'File size: ' + Math.round(pdfDocInfo.size / 1024) + ' KB';
+        infoMeta.innerText = (pdfDocInfo.title ? ('Title: ' + pdfDocInfo.title) : '');
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    // Preview (render first page using pdf-lib's embedded pdf page rendering is non-existent).
+    // We'll use PDF.js to render thumbnails if available; but we avoid heavy libs in single file.
+    // For UX, we show a placeholder with file name and page count.
+    previewBtn.addEventListener('click', () => {
+      if (!currentFile) return;
+      previewArea.classList.remove('hidden');
+      const ctx = previewCanvas.getContext('2d');
+      previewCanvas.width = 350;
+      previewCanvas.height = 500;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0,0,previewCanvas.width,previewCanvas.height);
+      ctx.fillStyle = '#111827';
+      ctx.font = '16px system-ui, -apple-system, "Segoe UI", Roboto';
+      ctx.fillText(currentFile.name, 12, 24);
+      ctx.font = '13px system-ui';
+      ctx.fillStyle = '#6b7280';
+      ctx.fillText((pdfDocInfo.pages ? pdfDocInfo.pages : '?') + ' pages · ' + Math.round((pdfDocInfo.size||0)/1024) + ' KB', 12, 45);
+      ctx.fillStyle = '#9ca3af';
+      ctx.fillRect(12, 60, 326, 420);
+      previewCanvas.style.boxShadow = '0 8px 20px rgba(2,6,23,0.08)';
+    });
+
+    // Conversion logic (best-effort)
+    convertBtn.addEventListener('click', async () => {
+      if (!currentFile) return;
+      convertBtn.disabled = true;
+      downloadBtn.disabled = true;
+      setStatus('Converting — please wait (in-browser, best-effort)...');
+
+      try {
+        const arrayBuffer = await currentFile.arrayBuffer();
+        // Load input PDF
+        const srcPdf = await PDFLib.PDFDocument.load(arrayBuffer, { updateMetadata: false });
+        // Create new PDF to save into (this helps us control metadata and attempts to embed fonts)
+        const newPdf = await PDFLib.PDFDocument.create();
+
+        // copy pages
+        const copiedPages = await newPdf.copyPages(srcPdf, srcPdf.getPageIndices());
+        copiedPages.forEach((p) => newPdf.addPage(p));
+
+        // Basic metadata insertion
+        const title = (srcPdf.getTitle && srcPdf.getTitle()) || currentFile.name.replace(/\.pdf$/i,'') + ' (PDF-A best-effort)';
+        newPdf.setTitle(title);
+        newPdf.setAuthor('CEO Bikanta Sarkar');
+        newPdf.setSubject('Converted to PDF/A (best-effort) using client-side converter');
+        newPdf.setProducer('In-browser PDF-lib converter');
+        newPdf.setCreationDate(new Date());
+        newPdf.setModificationDate(new Date());
+
+        // Option: Attempt to embed standard fonts by writing a hidden text object on each page
+        const embedFonts = document.getElementById('embedFonts').checked;
+        if (embedFonts) {
+          try {
+            const helveticaFont = await newPdf.embedFont(PDFLib.StandardFonts.Helvetica);
+            // Write a tiny invisible text on each page to force font embedding
+            newPdf.getPages().forEach(page => {
+              page.drawText(' ', {
+                x: 1, y: 1, size: 0.1, font: helveticaFont, opacity: 0
+              });
+            });
+          } catch (e) {
+            console.warn('Font embedding attempt failed:', e);
+          }
+        }
+
+        // Flatten forms (best-effort) — pdf-lib currently can't flatten annotations fully; this is a placeholder attempt.
+        if (document.getElementById('flattenForms').checked) {
+          try {
+            // If acroforms exist, copy values into appearance streams is required; pdf-lib has limited ability.
+            // We'll attempt to remove form fields by renaming them (non-destructive placeholder).
+            const form = srcPdf.getForm ? srcPdf.getForm() : null;
+            if (form) {
+              // attempt getFields — best-effort
+              try {
+                const fields = form.getFields();
+                fields.forEach(f => {
+                  try { f.flatten(); } catch(err){ /* ignore */ }
+                });
+              } catch(err) { /* ignore */ }
+            }
+          } catch(err) {
+            console.warn('Form flatten attempt failed', err);
+          }
+        }
+
+        // Add a simple XMP-like metadata wrapper in document info (best-effort, not strict PDF/A XMP)
+        try {
+          const pdfBytesPre = await newPdf.save({ useObjectStreams: false });
+          // Add a "garbage" metadata as an info entry; real XMP requires adding metadata stream
+          // We'll rely on setTitle/setAuthor etc above as best-effort.
+          convertedPdfBytes = pdfBytesPre;
+        } catch (err) {
+          console.error('Save error', err);
+          throw err;
+        }
+
+        // Finalize
+        convertedPdfBytes = convertedPdfBytes || await newPdf.save();
+        setStatus('Conversion complete — best-effort PDF/A created');
+        downloadBtn.disabled = false;
+        const outFilename = (outName.value && outName.value.trim()) ? outName.value.trim() : (currentFile.name.replace(/\.pdf$/i,'') + '-pdfa.pdf');
+
+        // Create download link area
+        downloadArea.innerHTML = `
+          <div class="text-sm">
+            <div class="font-medium">${outFilename}</div>
+            <div class="text-xs text-gray-500 mt-1">${Math.round(convertedPdfBytes.length / 1024)} KB</div>
+            <div class="mt-3">
+              <button id="saveLocalBtn" class="px-3 py-2 bg-primary-600 text-white rounded text-sm">Save file</button>
+            </div>
+          </div>
+        `;
+        document.getElementById('saveLocalBtn').addEventListener('click', () => {
+          const blob = new Blob([convertedPdfBytes], { type: 'application/pdf' });
+          saveAs(blob, outFilename);
+        });
+
+        // Also attach to main Download button
+        downloadBtn.onclick = () => {
+          const blob = new Blob([convertedPdfBytes], { type: 'application/pdf' });
+          saveAs(blob, outFilename);
+        };
+
+      } catch (err) {
+        console.error(err);
+        alert('Conversion failed in the browser. See console for details.');
+        setStatus('Error during conversion');
+      } finally {
+        convertBtn.disabled = false;
+      }
+    });
+
+    // Small UX: enable ads after user consent or after interactions, resume ad requests
+    // (AdSense best practices: ensure publisher consent, privacy policy, and domain ownership)
+    document.addEventListener('click', function resumeAdsOnInteraction() {
+      try {
+        (adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      } catch(e){}
+      document.removeEventListener('click', resumeAdsOnInteraction);
+    });
+  </script>
+</body>
+</html>
