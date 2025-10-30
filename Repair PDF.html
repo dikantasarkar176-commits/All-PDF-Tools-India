@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Repair Tool | Fix Corrupted PDF Files | CEO Bikanta Sarkar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.active {
+            border-color: #ff7e5f;
+            background-color: #fff5f5;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(255, 126, 95, 0.2), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-bg {
+            background: linear-gradient(135deg, #e74c3c 0%, #e67e22 100%);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .problem-tag {
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .scan-animation {
+            animation: scan 2s ease-in-out infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(-10px); opacity: 0.7; }
+            50% { transform: translateY(10px); opacity: 1; }
+            100% { transform: translateY(-10px); opacity: 0.7; }
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 126, 95, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 126, 95, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 126, 95, 0); }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header Section -->
+    <header class="gradient-bg text-white relative overflow-hidden">
+        <div class="floating-shape w-64 h-64 -top-32 -left-32 bg-white"></div>
+        <div class="floating-shape w-48 h-48 -bottom-24 -right-24 bg-white"></div>
+        <div class="container mx-auto px-4 py-6 relative z-10">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-tools text-2xl"></i>
+                    <h1 class="text-2xl font-bold">PDF Repair</h1>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-orange-200 transition">Home</a>
+                    <a href="#" class="hover:text-orange-200 transition">Tools</a>
+                    <a href="#" class="hover:text-orange-200 transition">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16 relative overflow-hidden">
+        <div class="floating-shape w-80 h-80 -top-40 -right-40 bg-white"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Repair Corrupted PDF Files</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Fix damaged, unreadable, or corrupted PDF documents with our advanced repair technology.</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-orange-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-orange-50 transition">Repair Now</button>
+                <button class="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-orange-600 transition">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- PDF Repair Section -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-2xl card-shadow p-6 relative z-10">
+                    <div class="flex items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Repair Your PDF</h3>
+                        <span class="ml-3 problem-tag text-white text-xs font-semibold py-1 px-3 rounded-full">Advanced Recovery</span>
+                    </div>
+                    
+                    <!-- Upload Area -->
+                    <div class="mb-8">
+                        <div id="dropZone" class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-lg font-medium mb-2">Drag & Drop your corrupted PDF file here</p>
+                            <p class="text-gray-500 mb-4">or</p>
+                            <label for="fileInput" class="btn-primary text-white font-medium py-3 px-6 rounded-lg inline-block cursor-pointer">
+                                <i class="fas fa-folder-open mr-2"></i>Browse Files
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf">
+                            <p class="text-gray-500 text-sm mt-4">Maximum file size: 50MB</p>
+                        </div>
+                        <div id="fileInfo" class="hidden mt-4 bg-orange-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                                    <div>
+                                        <p class="font-medium" id="fileName">document.pdf</p>
+                                        <p class="text-sm text-gray-500" id="fileSize">2.4 MB</p>
+                                        <div id="fileStatus" class="flex items-center mt-1">
+                                            <span class="pulse-dot w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                                            <span class="text-xs text-red-500 font-medium">File appears to be corrupted</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="removeFile" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Repair Options -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Repair Options</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="border border-gray-200 rounded-lg p-4 hover:border-orange-300 transition cursor-pointer option-card" data-option="quick-repair">
+                                <div class="flex items-center mb-2">
+                                    <input type="radio" name="repair-type" id="quick-repair" class="text-orange-600 focus:ring-orange-500" checked>
+                                    <label for="quick-repair" class="ml-2 font-medium">Quick Repair</label>
+                                </div>
+                                <p class="text-sm text-gray-600">Fixes common issues like formatting errors and metadata corruption</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4 hover:border-orange-300 transition cursor-pointer option-card" data-option="deep-repair">
+                                <div class="flex items-center mb-2">
+                                    <input type="radio" name="repair-type" id="deep-repair" class="text-orange-600 focus:ring-orange-500">
+                                    <label for="deep-repair" class="ml-2 font-medium">Deep Repair</label>
+                                </div>
+                                <p class="text-sm text-gray-600">Advanced recovery for severely damaged files (takes longer)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h5 class="font-semibold mb-2 flex items-center">
+                                <i class="fas fa-search text-orange-500 mr-2"></i>
+                                Common Issues We Fix
+                            </h5>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Corrupted file headers and structure</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Missing or damaged fonts</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Broken images and graphics</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Damaged cross-reference tables</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Repair Progress -->
+                    <div id="progressSection" class="hidden mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Repair Progress</span>
+                            <span id="progressPercent" class="text-sm font-medium">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="flex items-center mt-4">
+                            <div class="scan-animation text-orange-500 mr-3">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <p id="progressText" class="text-sm text-gray-600">Scanning file for issues...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button id="repairBtn" class="btn-primary text-white font-medium py-3 px-6 rounded-lg flex-1 text-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-tools mr-2"></i>Repair PDF
+                        </button>
+                        <button class="bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg flex-1 text-center hover:bg-gray-200 transition">
+                            <i class="fas fa-redo mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Download Section -->
+                    <div id="downloadSection" class="hidden mt-8 bg-green-50 p-6 rounded-xl text-center">
+                        <i class="fas fa-check-circle text-green-500 text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">PDF Repaired Successfully!</h4>
+                        <p class="text-gray-600 mb-4">Your PDF file has been repaired and is now accessible. Click below to download.</p>
+                        <button class="btn-primary text-white font-medium py-3 px-6 rounded-lg mb-4">
+                            <i class="fas fa-download mr-2"></i>Download Repaired PDF
+                        </button>
+                        <div class="bg-white p-4 rounded-lg inline-block">
+                            <p class="text-sm text-gray-600"><i class="fas fa-heartbeat text-green-500 mr-2"></i>File integrity restored - All issues resolved</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Common Problems Section -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Common PDF Problems We Fix</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl card-shadow">
+                            <div class="flex items-start">
+                                <div class="feature-icon text-2xl mr-4">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Error Messages</h4>
+                                    <p class="text-gray-600">Fix "File is damaged and cannot be opened" or "There was an error opening this document" messages.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow">
+                            <div class="flex items-start">
+                                <div class="feature-icon text-2xl mr-4">
+                                    <i class="fas fa-file-image"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Missing Content</h4>
+                                    <p class="text-gray-600">Recover missing text, images, or pages that don't display properly in your PDF viewer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow">
+                            <div class="flex items-start">
+                                <div class="feature-icon text-2xl mr-4">
+                                    <i class="fas fa-font"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Font Issues</h4>
+                                    <p class="text-gray-600">Resolve problems with garbled text, missing characters, or incorrect font rendering.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow">
+                            <div class="flex items-start">
+                                <div class="feature-icon text-2xl mr-4">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-2">Download Corruption</h4>
+                                    <p class="text-gray-600">Repair files that became corrupted during download or transfer between devices.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <!-- AdSense Unit -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Sponsored</h4>
+                    <div class="bg-gray-100 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                        <p class="text-gray-500">Google AdSense Ad</p>
+                        <!-- In a real implementation, you would place the AdSense code here -->
+                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4431035899447961" crossorigin="anonymous"></script> -->
+                        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4431035899447961" data-ad-slot="4471207019" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+                        <!-- <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script> -->
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h4 class="text-lg font-semibold mb-4">How PDF Repair Works</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">1</div>
+                            <p class="text-gray-600">Upload your corrupted PDF file</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">2</div>
+                            <p class="text-gray-600">Our tool scans and analyzes the file structure</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">3</div>
+                            <p class="text-gray-600">Identifies and repairs corrupted elements</p>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-orange-100 text-orange-600 rounded-full w-8 h-8 flex items-center justify-center font-semibold mr-3 flex-shrink-0">4</div>
+                            <p class="text-gray-600">Rebuilds a clean, functional PDF file</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prevention Tips -->
+                <div class="bg-white rounded-2xl card-shadow p-6 mt-8">
+                    <h4 class="text-lg font-semibold mb-4">Preventing PDF Corruption</h4>
+                    <ul class="text-gray-600 space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-shield-alt text-orange-500 mr-2 mt-1"></i>
+                            <span>Always safely eject storage devices before removal</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-plug text-orange-500 mr-2 mt-1"></i>
+                            <span>Ensure stable internet connection during downloads</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-battery-three-quarters text-orange-500 mr-2 mt-1"></i>
+                            <span>Avoid interrupting PDF saving or conversion processes</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-sync text-orange-500 mr-2 mt-1"></i>
+                            <span>Regularly update your PDF software and viewers</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-tools text-2xl"></i>
+                        <h2 class="text-2xl font-bold">PDF Repair</h2>
+                    </div>
+                    <p class="text-orange-200">Restoring your important documents with advanced technology</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-orange-200">Developed by <span class="font-semibold">CEO Bikanta Sarkar</span></p>
+                    <p class="text-orange-200 mt-2">© 2023 PDF Repair. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const fileStatus = document.getElementById('fileStatus');
+            const removeFile = document.getElementById('removeFile');
+            const repairBtn = document.getElementById('repairBtn');
+            const progressSection = document.getElementById('progressSection');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            const progressText = document.getElementById('progressText');
+            const downloadSection = document.getElementById('downloadSection');
+            const optionCards = document.querySelectorAll('.option-card');
+            
+            // File upload handling
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('active');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.type === 'application/pdf') {
+                        fileName.textContent = file.name;
+                        fileSize.textContent = formatFileSize(file.size);
+                        fileInfo.classList.remove('hidden');
+                        
+                        // Simulate file analysis
+                        setTimeout(() => {
+                            const isCorrupted = Math.random() > 0.3; // 70% chance file is "corrupted"
+                            if (isCorrupted) {
+                                fileStatus.innerHTML = `
+                                    <span class="pulse-dot w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                                    <span class="text-xs text-red-500 font-medium">File appears to be corrupted - ${getRandomIssue()}</span>
+                                `;
+                            } else {
+                                fileStatus.innerHTML = `
+                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                    <span class="text-xs text-green-500 font-medium">File structure appears normal</span>
+                                `;
+                            }
+                        }, 1000);
+                        
+                        updateRepairButton();
+                    } else {
+                        alert('Please upload a PDF file.');
+                    }
+                }
+            }
+            
+            function getRandomIssue() {
+                const issues = [
+                    "Damaged file header",
+                    "Corrupted cross-reference table",
+                    "Missing font data",
+                    "Invalid page structure"
+                ];
+                return issues[Math.floor(Math.random() * issues.length)];
+            }
+            
+            removeFile.addEventListener('click', function() {
+                fileInfo.classList.add('hidden');
+                fileInput.value = '';
+                updateRepairButton();
+            });
+            
+            // Option card selection
+            optionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    
+                    // Update card appearance
+                    optionCards.forEach(c => {
+                        c.classList.remove('border-orange-500', 'bg-orange-50');
+                    });
+                    this.classList.add('border-orange-500', 'bg-orange-50');
+                });
+            });
+            
+            // Initialize first option as selected
+            optionCards[0].classList.add('border-orange-500', 'bg-orange-50');
+            
+            // Update repair button state
+            function updateRepairButton() {
+                const hasFile = !fileInfo.classList.contains('hidden');
+                repairBtn.disabled = !hasFile;
+            }
+            
+            // Repair button click
+            repairBtn.addEventListener('click', function() {
+                if (!this.disabled) {
+                    // Show progress section
+                    progressSection.classList.remove('hidden');
+                    downloadSection.classList.add('hidden');
+                    
+                    // Simulate repair process
+                    simulateRepair();
+                }
+            });
+            
+            // Simulate repair with progress updates
+            function simulateRepair() {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 8;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        
+                        // Update progress UI
+                        progressFill.style.width = `${progress}%`;
+                        progressPercent.textContent = `${progress}%`;
+                        progressText.textContent = 'Repair complete!';
+                        
+                        // Show download section after a brief delay
+                        setTimeout(() => {
+                            progressSection.classList.add('hidden');
+                            downloadSection.classList.remove('hidden');
+                            
+                            // Scroll to download section
+                            downloadSection.scrollIntoView({ behavior: 'smooth' });
+                        }, 800);
+                    } else {
+                        // Update progress UI
+                        progressFill.style.width = `${progress}%`;
+                        progressPercent.textContent = `${Math.round(progress)}%`;
+                        
+                        // Update progress text based on progress
+                        if (progress < 25) {
+                            progressText.textContent = 'Scanning file structure...';
+                        } else if (progress < 50) {
+                            progressText.textContent = 'Identifying corrupted elements...';
+                        } else if (progress < 75) {
+                            progressText.textContent = 'Rebuilding PDF components...';
+                        } else {
+                            progressText.textContent = 'Finalizing repaired file...';
+                        }
+                    }
+                }, 300);
+            }
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>
